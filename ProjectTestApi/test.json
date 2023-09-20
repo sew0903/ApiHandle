@@ -1,0 +1,45 @@
+﻿{
+  "id": "37172",
+  "loaitin": "thuong",
+  "url": "10-nam-kinh-nghiem-quan-ly-nhan-su",
+  "tieude": "10 năm kinh nghiệm quản lý nhân sự",
+  "hinhdaidien": "/mediaroot/media/userfiles/useruploads/151/image/logo-khachhang/1398066357_SAVAME_300x300.png",
+  "loai": [
+    {
+      "tengoi": "NV chính thức",
+      "url": "NV-chinh-thuc"
+    }
+  ],
+  "nganh": [
+    {
+      "tengoi": "Tiếp thị / Marketing",
+      "url": "Tiep-thi-Marketing"
+    },
+    {
+      "tengoi": "Luật / Pháp lý",
+      "url": "Luat-Phap-ly"
+    }
+  ],
+  "tinh": [
+    {
+      "tengoi": "Thành phố Hồ Chí Minh",
+      "url": "Thanh-pho-Ho-Chi-Minh"
+    },
+    {
+      "huyen": "Quận Tân Phú",
+      "url": "Quan-Tan-Phu"
+    },
+    {
+      "tengoi": "Phường Tân Sơn Nhì",
+      "url": "Phuong-Tan-Son-Nhi"
+    }
+  ],
+  "gia": [
+    {
+      "sotien": "15000000",
+      "viet": "15 triệu",
+      "donvi": ""
+    }
+  ],
+  "tenND": "Phạm Quốc Đạt"
+}

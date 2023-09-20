@@ -1,0 +1,62 @@
+﻿@model List<RecruitmentModel>
+@{
+    ViewData["Title"] = "Recruitment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<nav style="background-color:#e9ecef;height:100%">
+    <ol class="breadcrumb" itemtype="https://schema.org/BreadcrumList">
+        <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="htpp://schema.org/ListItem">
+            <a href="/">@TempData["ControllerName"]</a>
+        </li>
+        <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="htpp://schema.org/ListItem">
+            <a href="@Url.Action(TempData["ActionName"].ToString())">@TempData["ActionName"]</a>
+        </li>
+    </ol>
+</nav>
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">CompanyName</th>
+                <th scope="col">MoneyValue</th>
+                <th scope="col">Money</th>
+                <th scope="col">Career</th>
+                <th scope="col">Map</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th scope="row">@item.tieude</th>
+                    <td>@item.tenND</td>
+                    <td>@item.gia[0].sotien</td>
+                    <td>@item.gia[0].viet</td>
+                    <td>
+                        <ol class="breadcrumb" itemtype="https://schema.org/BreadcrumList">
+                            @{
+                                foreach (var x in item.nganh)
+                                {
+                                    <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="htpp://schema.org/ListItem">
+                                        <a href="/">@x.tengoi</a>
+                                    </li>
+                                }
+                            }
+                        </ol>                      
+                    </td>
+                    <td>@item.diachimap[0].tengoi</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="jumbotron jumbotron-fluid" style="margin-bottom:5%">
+    <div class="container">
+        <h1 class="display-4">JSON</h1>
+        <p class="lead" style="font-size:15px">@ViewBag.DataJson</p>
+    </div>
+</div>

@@ -1,0 +1,45 @@
+﻿@model List<NewsModel>
+@{
+    ViewData["Title"] = "News";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<nav style="background-color:#e9ecef;height:100%">
+    <ol class="breadcrumb" itemtype="https://schema.org/BreadcrumList">
+        <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="htpp://schema.org/ListItem">
+            <a href="/">@TempData["ControllerName"]</a>
+        <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="htpp://schema.org/ListItem">
+            <a href="@Url.Action(TempData["ActionName"].ToString())">@TempData["ActionName"]</a>
+        </li>
+        </li>
+    </ol>
+</nav>
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">DateTime</th>
+                <th scope="col">Title</th>
+                <th scope="col">Content</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var item in Model)
+            {
+                <tr>
+                    <th scope="row">@item.ngaydang</th>
+                    <td>@item.tieude</td>
+                    <td>@item.noidungtomtat</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="jumbotron jumbotron-fluid" style="margin-bottom:5%">
+    <div class="container">
+        <h1 class="display-4">JSON</h1>
+        <p class="lead" style="font-size:15px">@ViewBag.DataJson</p>
+    </div>
+</div>
