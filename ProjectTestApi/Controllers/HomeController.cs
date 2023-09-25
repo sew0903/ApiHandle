@@ -1,30 +1,42 @@
-﻿using Microsoft.AspNetCore.Http.Features;
+﻿using Microsoft.AspNetCore.DataProtection.KeyManagement;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using ProjectTestApi.Models;
+using ProjectTestApi.Models.API;
 using System.Diagnostics;
 using System.Net;
+using System.Reflection.PortableExecutable;
 using System.Text.Json;
 
 namespace ProjectTestApi.Controllers
 {
     public class HomeController : Controller
     {
+
         private readonly ILogger<HomeController> _logger;
         public const string _url = "http://api.tuyendung.choixanh.net/";
         string notice = "";
 
         public HomeController(ILogger<HomeController> logger)
         {
-            _logger = logger;          
-        }
-        [Route("/")]
-        [Route("/%2F")]
-        public async Task<IActionResult> Index()
-        {
-            return View();
+            _logger = logger;
+            ServicePointManager.Expect100Continue = true;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
         }
 
-        [Route("tin-tuc")]
+        public async Task<IActionResult> Index()
+        {
+            try {
+                var json = (new WebClient()).DownloadString("http://api.tuyendung.choixanh.net/web.trangchu.module.content.asp");
+                var list = JsonSerializer.Deserialize<List<ApiModel>>(json);
+                return View(list);
+            }
+            catch
+            {
+                return Json("Not Found");
+            }
+        }
+
         [Route("Home/tin-tuc")]
         public async Task<IActionResult> News()
         {
@@ -32,7 +44,7 @@ namespace ProjectTestApi.Controllers
             string data = "";
             try
             {
-                var obj = _listNewsModels(idpart,ref data);
+                var obj = _listNewsModels(idpart);
 
                 TempData["ControllerName"] = this.ControllerContext.RouteData.Values["controller"].ToString();
                 TempData["ActionName"] = this.ControllerContext.RouteData.Values["action"].ToString();
@@ -46,20 +58,21 @@ namespace ProjectTestApi.Controllers
             }
         }
 
-        public async Task<IActionResult> News(int IdPart)
+        [Route("/{url}")]
+        public async Task<IActionResult> News(string url)
         {
             const int idpart = 35001;
             var data = "";
-            if (idpart == IdPart)
+            if (GetNameUrl(url))
             {
                 try
                 {
-                    var obj = _listNewsModels(idpart,ref data);
+                    var obj = _listNewsModels(idpart);
 
                     TempData["ControllerName"] = this.ControllerContext.RouteData.Values["controller"].ToString();
                     TempData["ActionName"] = this.ControllerContext.RouteData.Values["action"].ToString();
 
-                    return Json(obj);
+                    return View(obj);
                 }catch(Exception e)
                 {
                     notice = e.Message.ToString();
@@ -76,7 +89,7 @@ namespace ProjectTestApi.Controllers
             const int idpart = 35004;
             try
             {
-                var obj = _listRecruitmentModels(idpart,ref data);
+                var obj = _listRecruitmentModels(idpart/*,ref data*/);
 
                 TempData["ControllerName"] = this.ControllerContext.RouteData.Values["controller"].ToString();
                 TempData["ActionName"] = this.ControllerContext.RouteData.Values["action"].ToString();
@@ -89,8 +102,6 @@ namespace ProjectTestApi.Controllers
                 return Json(e.Message);
             }
         }
-
-
         public async Task<IActionResult> Recruitment(int IdPart)
         {
             const int idpart = 35004;
@@ -100,12 +111,12 @@ namespace ProjectTestApi.Controllers
             {
                 try
                 {
-                    var obj = _listRecruitmentModels(idpart, ref data);
+                    var obj = _listRecruitmentModels(idpart/*, ref data*/);
 
                     TempData["ControllerName"] = this.ControllerContext.RouteData.Values["controller"].ToString();
                     TempData["ActionName"] = this.ControllerContext.RouteData.Values["action"].ToString();
 
-                    return Json(obj);
+                    return View(obj);
                 }
                 catch(Exception e) { notice = e.Message.ToString();}
             }
@@ -120,7 +131,7 @@ namespace ProjectTestApi.Controllers
             const int idpart = 35031;
             try
             {
-                var obj = _listInternModels(idpart, ref data);
+                var obj = _listInternModels(idpart);
 
                 TempData["ControllerName"] = this.ControllerContext.RouteData.Values["controller"].ToString();
                 TempData["ActionName"] = this.ControllerContext.RouteData.Values["action"].ToString();
@@ -142,12 +153,12 @@ namespace ProjectTestApi.Controllers
             {
                 try
                 {
-                    var obj = _listInternModels(idpart, ref data);
+                    var obj = _listInternModels(idpart/*, ref data*/);
 
                     TempData["ControllerName"] = this.ControllerContext.RouteData.Values["controller"].ToString();
                     TempData["ActionName"] = this.ControllerContext.RouteData.Values["action"].ToString();
 
-                    return Json(obj);
+                    return View(obj);
                 }catch(Exception e)
                 {
                     notice = e.Message.ToString();
@@ -182,11 +193,11 @@ namespace ProjectTestApi.Controllers
         {
             //string domainName = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}";
             string json = ReadJson(_url + "app.menu.dautrang.asp");
-            var list = JsonSerializer.Deserialize<List<TopMenuModel>>(json);
+            var list = JsonSerializer.Deserialize<List<ApiModel>>(json);
 
             foreach(var js in list)
             {
-               if(js.idpart == key.ToString())
+                if(js.idpart == key.ToString())
                 {
                     var result = _url+ "module."+js.kieuhienthi+".trangchu.asp?id="+js.idpart;
                     return result;
@@ -200,26 +211,69 @@ namespace ProjectTestApi.Controllers
 
         }
 
-        private List<NewsModel> _listNewsModels(int key,ref string data)
+        private List<ApiModel> _listNewsModels(int key/*,ref string data*/)
         {
             string json = ReadJson(ApiMenuItem(key));
-            data = json;
-            return JsonSerializer.Deserialize<List<NewsModel>>(json); ;
+            //data = json;
+            return JsonSerializer.Deserialize<List<ApiModel>>(json); ;
         }
 
-        private List<RecruitmentModel> _listRecruitmentModels(int key, ref string data)
+        private List<ApiModel> _listRecruitmentModels(int key/*, ref string data*/)
         {
             string json = ReadJson(ApiMenuItem(key));
-            data = json;
-            return JsonSerializer.Deserialize<List<RecruitmentModel>>(json); ;
+            //data = json;
+            return JsonSerializer.Deserialize<List<ApiModel>>(json); ;
         }
 
-        private List<InternModel> _listInternModels(int key,ref string data)
+        private List<ApiModel> _listInternModels(int key/*,ref string data*/)
         {
             string json = ReadJson(ApiMenuItem(key));
-            data = json;
-            return JsonSerializer.Deserialize<List<InternModel>>(json); ;
+            //data = json;
+            return JsonSerializer.Deserialize<List<ApiModel>>(json); ;
         }
 
+        private List<ApiModel> GetHomeContent()
+        {
+            List<ApiModel> result = new List<ApiModel>();
+
+            string json = ReadJson(_url + "web.trangchu.module.content.asp");
+            var list = JsonSerializer.Deserialize<List<ApiModel>>(json);
+
+            foreach (var js in list)
+            {
+                result.Add(js);
+            }
+            return result;
+        }
+
+        private bool GetNameUrl(string url)
+        {
+            string json = ReadJson(_url + "app.menu.dautrang.asp");
+            var list = JsonSerializer.Deserialize<List<ApiModel>>(json);
+            foreach(var item in list)
+            {
+                if(item.url == url)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public bool GetHeaders(string url)
+        {
+            HttpStatusCode result = default(HttpStatusCode);
+
+            var request = HttpWebRequest.Create(url);
+            request.Method = "HEAD";
+            using (var response = request.GetResponse() as HttpWebResponse)
+            {
+                if (response != null)
+                {
+                    response.Close();
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model List<InternModel>
+﻿@model List<ApiModel>
 @{
     ViewData["Title"] = "Intern";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -14,46 +14,4 @@
         </li>
     </ol>
 </nav>
-
-<div class="table-responsive">
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Title</th>
-                <th scope="col">Name</th>
-                <th scope="col">Salary</th>
-                <th scope="col">Carrer</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach(var item in Model)
-            {
-                <tr>
-                    <th scope="row">@item.tieude</th>
-                    <td>@item.tenND</td>
-                    <td>@item.gia[0].viet</td>
-                    <td>
-                        <ol class="breadcrumb" itemtype="https://schema.org/BreadcrumList">
-                            @{
-                                foreach (var x in item.nganh)
-                                {
-                                    <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="htpp://schema.org/ListItem">
-                                        <a href="/">@x.tengoi</a>
-                                    </li>
-                                }
-                            }
-                        </ol>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
-
-<div class="jumbotron jumbotron-fluid" style="margin-bottom:5%">
-    <div class="container">
-        <h1 class="display-4">JSON</h1>
-        <p class="lead" style="font-size:15px">@ViewBag.DataJson</p>
-    </div>
-</div>
 

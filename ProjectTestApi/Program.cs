@@ -15,7 +15,14 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
+app.UseStatusCodePages(async context =>
+{
+    if (context.HttpContext.Response.StatusCode == StatusCodes.Status404NotFound)
+    {
+        context.HttpContext.Response.ContentType = "text/html";
+        await context.HttpContext.Response.WriteAsync("<html><body><h1>Page Not Found</h1></body></html>");
+    }
+});
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 

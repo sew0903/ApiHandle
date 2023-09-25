@@ -1,4 +1,4 @@
-﻿@model List<RecruitmentModel>
+﻿@model List<ApiModel>
 @{
     ViewData["Title"] = "Recruitment";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -31,23 +31,18 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <th scope="row">@item.tieude</th>
-                    <td>@item.tenND</td>
-                    <td>@item.gia[0].sotien</td>
-                    <td>@item.gia[0].viet</td>
+                    <th scope="row">XXX</th>
+                    <td>XXX</td>
+                    <td>XXX</td>
+                    <td>XXX</td>
                     <td>
                         <ol class="breadcrumb" itemtype="https://schema.org/BreadcrumList">
-                            @{
-                                foreach (var x in item.nganh)
-                                {
-                                    <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="htpp://schema.org/ListItem">
-                                        <a href="/">@x.tengoi</a>
-                                    </li>
-                                }
-                            }
+                            <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="htpp://schema.org/ListItem">
+                                <a href="/">XXXX</a>
+                            </li>
                         </ol>                      
                     </td>
-                    <td>@item.diachimap[0].tengoi</td>
+                    <td>XXX</td>
                 </tr>
             }
         </tbody>

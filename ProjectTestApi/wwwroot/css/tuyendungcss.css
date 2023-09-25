@@ -1,0 +1,948 @@
+/*---TRANG CHU PHAN TUYEN THUC TAP---*/
+.tuyendung {
+    padding: 0;
+    margin: 0 auto;
+    -webkit-transition: .4s;
+    transition: .4s
+}
+
+.tuyendung .boloc-danhmuc {
+    align-items: center;
+    align-self: stretch;
+    background: var(--white-white-50-s, #fff);
+    border-radius: 12px;
+    box-shadow: 0 8px 16px 0 rgba(1, 18, 34, .04);
+    gap: 4px;
+    padding: 8px 8px 8px 12px;
+}
+
+.tuyendung .boloc-danhmuc input {
+    border: none;
+    border-radius: 6px !important;
+    font-size: 14px;
+    font-weight: 500;
+    height: 100%;
+    outline: none;
+    padding: 6px 40px;
+    width: 80%;
+    background-image: url('/icon/Search.png');
+    background-repeat: no-repeat;
+    background-size: 24px;
+    display: inline-block;
+    position: relative;
+}
+
+.tuyendung .boloc-danhmuc .boloc32004 {}
+.tuyendung .boloc-danhmuc .boloc32004::before{}
+.tuyendung .boloc-danhmuc .boloc32004 .css-13cymwt-control {
+    border: none;
+}
+.tuyendung .boloc-danhmuc .boloc32004 .css-t3ipsp-control {
+    border: none;
+    box-shadow: none;
+}
+.tuyendung .boloc-danhmuc .boloc32004 .css-13cymwt-control .css-1u9des2-indicatorSeparator {
+    display: none;
+}
+.tuyendung .boloc-danhmuc .boloc32004 .css-t3ipsp-control .css-1u9des2-indicatorSeparator {
+    display: none;
+}
+.tuyendung .boloc-danhmuc .boloc32004 .input-size::before{
+
+    background: #dee0e2;
+    border-radius: 100px;
+    content: "";
+    display: block;
+    height: 25px;
+    left: -5px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1px;
+}
+.tuyendung .boloc-danhmuc .boloc32003 {}
+
+.tuyendung .boloc-danhmuc .boloc32003 .item-city2 {
+    border: none;
+}
+.tuyendung .boloc-danhmuc .boloc32003 .item-city2::before {
+    background: #dee0e2;
+    border-radius: 100px;
+    content: "";
+    display: block;
+    height: 25px;
+    left: -5px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1px;
+}
+.tuyendung .boloc-danhmuc .boloc32003 .item-city2 input {
+    border-radius: 6px !important;
+    font-size: 14px;
+    font-weight: 500;
+    height: 100%;
+    outline: none;
+    padding: 6px 30px;
+    width: 100%;
+    background-image: url('/icon/location.png');
+    background-repeat: no-repeat;
+    background-size: 24px;
+    display: inline-block;
+    position: relative;
+    background-position: top 50%;
+}
+.tuyendung .boloc-danhmuc .btn-tk {
+    background: #2e55fa;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    height: 40px;
+    letter-spacing: .175px;
+    line-height: 22px;
+    padding: 0 12px;
+    width: 250px;
+    border: none;
+    cursor: pointer;
+}
+
+.tuyendung .boloc-danhmuc .btn-tk::before {
+    content: "Tìm Kiếm";
+}
+
+.tuyendung .boloc-danhmuc .btn-tk:hover {
+    background: #17a8e3;
+    transition-duration: .3s;
+}
+.tuyendung .container {}
+.tuyendung .container h2 {}
+.tuyendung .container h2 a {
+    color: #2e55fa;
+    font-weight: 700;
+    font-size: 35px;
+}
+
+.tuyendung .container .row {
+    margin-top: 20px;
+}
+
+.tuyendung .container .row .ndct {
+    width: 33%;
+    display: block;
+    height: 100%;
+    position: relative;
+    border: 5px solid transparent;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.tuyendung .container .wrap-ndct {}
+
+.tuyendung .container .vip {}
+
+.tuyendung .container .thuong {}
+
+.tuyendung .container .thuong .ct::before {}
+
+.tuyendung .container .ct {
+    padding: 15px;
+
+}
+
+.tuyendung .container .ndct:hover {
+    box-shadow: 0 1px 7px 0 rgba(0, 0, 0, .3);
+    z-index: 10;
+    border-radius: 10px;
+    border: 1px solid #cacaca;
+    background-color: #ffffff;
+    transition-duration: .2s;
+}
+
+.tuyendung .container .vip h3::before {
+    content: "VIP";
+    position: absolute;
+    background: #08769b;
+    box-shadow: 0 0 0 999px #08769b;
+    clip-path: inset(0 -100%);
+    inset: 0 0 auto auto;
+    transform-origin: 0 0;
+    transform: translate(27.3%) rotate(45deg);
+    padding: 5px;
+}
+
+.tuyendung .container .ct h3 {
+    font-size: 16px;
+    font-weight: 500;
+    color: #000;
+    display: block;
+    line-height: 1.43;
+    margin-top: 8px;
+    width: calc(100% - -56px);
+}
+
+.tuyendung .container .ct .group-wishlist {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 0 0 0;
+}
+
+.tuyendung .container .ct .wish_list {
+    width: 30px;
+}
+
+.tuyendung .container .ct .wish_list::before {
+    content: "";
+    background: url('/icon/heart.png');
+    background-repeat: no-repeat;
+    background-size: 30px 30px;
+    display: inline-block;
+    position: relative;
+    width: 30px;
+    height: 30px;
+}
+
+.tuyendung .container .ct .wish_list_liked:before {
+    content: "";
+    background: url('/icon/heart_active.png');
+    background-repeat: no-repeat;
+    background-size: 30px 30px;
+    display: inline-block;
+    position: relative;
+    width: 30px;
+    height: 30px;
+}
+
+.tuyendung .container .ct .add_to_cart::before {
+    content: "NỘP ĐƠN ỨNG TUYỂN";
+    border: 1px none #333;
+    padding: 10px;
+    border-radius: 6px;
+    background: #2e55fa;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+
+}
+
+.tuyendung .container .ct .add_to_cart_liked:before {
+    content: "ĐÃ ỨNG TUYỂN";
+    border: 1px none #333;
+    padding: 10px;
+    border-radius: 6px;
+    background: #2e55fa;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.tuyendung .container .ct .tenND {
+    color: #9b9b9b;
+}
+
+.tuyendung .container .ct .tenND:before {
+    content: "";
+    background: url('/icon/conpany.svg');
+    background-repeat: no-repeat;
+    background-size: 12px 16px;
+    display: inline-block;
+    height: 16px;
+    margin-right: 3px;
+    position: relative;
+    top: 3px;
+    width: 12px;
+}
+
+.tuyendung .container .ct .gia {
+    color: #d0021b;
+    font-weight: 700;
+    line-height: 1.33;
+}
+
+.tuyendung .container .ct .gia:before {
+    content: "";
+    background: url('/icon/dollar.svg');
+    background-repeat: no-repeat;
+    background-size: 15px 15px;
+    display: inline-block;
+    height: 16px;
+    margin-right: 3px;
+    position: relative;
+    top: 3px;
+    width: 15px;
+    right: 1px;
+}
+
+.tuyendung .container .row .gia .st {}
+
+.tuyendung .container .row .gia .dvt {}
+
+.tuyendung .container .row .diachiND {
+    display: block;
+}
+
+.tuyendung .container .row .diachiND:before {
+    content: '';
+    background: url('/icon/location.svg');
+    background-repeat: no-repeat;
+    background-size: 12px 16px;
+    display: inline-block;
+    height: 16px;
+    margin-right: 3px;
+    position: relative;
+    top: 3px;
+    width: 12px;
+}
+
+.tuyendung .container .row .chucdanh {
+    display: block;
+}
+
+.tuyendung .container .row .chucdanh:before {
+    content: "";
+    background: url('/icon/order_timer.svg');
+    background-repeat: no-repeat;
+    background-size: 12px 16px;
+    display: inline-block;
+    height: 16px;
+    margin-right: 3px;
+    position: relative;
+    top: 3px;
+    width: 12px;
+}
+
+.tuyendung .container .row .loai {}
+
+.tuyendung .container .row .loai:before {
+    content: "";
+    background: url('/icon/nvct.svg');
+    background-repeat: no-repeat;
+    background-size: 12px 16px;
+    display: inline-block;
+    height: 16px;
+    margin-right: 3px;
+    position: relative;
+    top: 3px;
+    width: 12px;
+}
+
+.tuyendung .container .row .thoihan {
+    display: block;
+}
+
+.tuyendung .container .row .thoihan:before {
+    content: "";
+    background: url('/icon/icon-date.png');
+    background-repeat: no-repeat;
+    background-size: 12px 13px;
+    display: inline-block;
+    height: 16px;
+    margin-right: 3px;
+    position: relative;
+    top: 3px;
+    width: 12px;
+}
+
+.tuyendung .container .row .ngoaingu {
+    display: block;
+}
+
+.tuyendung .container .row .ngoaingu:before {
+    content: "";
+    background: url('/icon/skills.png');
+    background-repeat: no-repeat;
+    background-size: 12px 16px;
+    display: inline-block;
+    height: 16px;
+    margin-right: 3px;
+    position: relative;
+    top: 3px;
+    width: 12px;
+}
+
+.tuyendung .container .row .ngoaingu a:after {
+    content: " / ";
+}
+
+.tuyendung .container .row .ngoaingu a:last-child:after {
+    content: "";
+}
+
+.tuyendung .container .row .vttd {}
+
+.tuyendung .container .row .vttd:before {
+    content: "";
+    background: url('/icon/list.svg');
+    background-repeat: no-repeat;
+    background-size: 12px 16px;
+    display: inline-block;
+    height: 16px;
+    margin-right: 3px;
+    position: relative;
+    top: 3px;
+    width: 12px;
+}
+
+.tuyendung .container .row .vttd a:after {
+    content: " / ";
+}
+
+.tuyendung .container .row .vttd a:last-child:after {
+    content: "";
+}
+
+/*--- END TRANG CHU PHAN TUYEN THUC TAP ---*/
+
+
+
+/*--- TRANG CHU PHAN TIN TUC ---*/
+.tintuc .container {}
+
+.tintuc .container h2 {}
+
+.tintuc .container h2 a {
+    color: #2e55fa;
+    font-weight: 700;
+    font-size: 35px;
+}
+
+.tintuc .container .row {
+    display: block;
+}
+
+.tintuc .container .row .ndct {}
+
+.tintuc .container .hinh {}
+
+.tintuc .container .row {
+    padding: 15px;
+    border: 1px solid #cacaca;
+    border-radius: 10px;
+}
+
+.tintuc .container .wrap-ndct:hover {
+    box-shadow: 0 1px 7px 0 rgba(0, 0, 0, .3);
+    z-index: 10;
+    border-radius: 10px;
+    background-color: #ffffff;
+    transition-duration: .3s;
+}
+
+.tintuc .container .row .ngdang {
+    color: #9b9b9b;
+}
+
+.tintuc .container .row h3 a:before {
+    content: "";
+    background: url('/icon/mul-video.png');
+    background-repeat: no-repeat;
+    background-size: 12px 13px;
+    display: inline-block;
+    height: 16px;
+    margin-right: 3px;
+    position: relative;
+    top: 3px;
+    width: 12px;
+}
+
+.tintuc .container .row .hinh {
+    /* border-radius-top: 10px; */
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    overflow: hidden;
+}
+
+.tintuc .container .row .ngdang:before {
+    content: "";
+    background: url('/icon/icon-date.png');
+    background-repeat: no-repeat;
+    background-size: 12px 13px;
+    display: inline-block;
+    height: 16px;
+    margin-right: 3px;
+    position: relative;
+    top: 3px;
+    width: 12px;
+}
+
+.tintuc .container .row h3 {
+    font-size: 17px;
+}
+
+.tintuc .container .row .ttct {
+    color: #9b9b9b;
+}
+
+/*--- END TRANG CHU PHAN TIN TUC ---*/
+
+
+
+/*--- CHI TIET TRANG TIN TUC ---*/
+.chitiet {}
+
+.chitiet .container {}
+
+.chitiet .container .tieude {}
+
+.chitiet .container .ttct_ndtt {}
+
+.chitiet .container .ttct_ndtt p {}
+
+.chitiet .container .ttct_ndtt p img {}
+
+.chitiet .formbinhluan {
+    border: 1px solid #e5e5e5;
+    padding: 30px;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+.chitiet .formbinhluan form {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.chitiet .formbinhluan .tieude {}
+
+.chitiet .formbinhluan .tieude::before {
+    content: "Bình Luận";
+    color: #222b45;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 1.4;
+}
+
+.chitiet .formbinhluan .form-group {}
+
+.chitiet .formbinhluan .group-bl {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.chitiet .formbinhluan .group-bl .form-group {
+    margin: 0 3px 10px;
+    width: calc(50% - 6px);
+}
+
+.chitiet .formbinhluan .form-group .form-bl {
+    border-radius: 8px;
+    border: 1px solid #8f9bb3;
+    height: 80px;
+    padding: 6px 10px 6px;
+    transition: all .5s ease;
+    width: 100%;
+    line-height: unset;
+    font: 14px/18px Arial, sans-serif, Helvetica;
+    color: #333;
+    outline: 0;
+    height: 100px;
+}
+
+.chitiet .formbinhluan .form-group .empty-noidungtxt::before {
+    content: "Vui lòng nhập bình luận (*)";
+    color: red;
+}
+
+.chitiet .formbinhluan .form-group .input-hoten {
+    border-radius: 8px;
+    border: 1px solid #d7d7d7;
+    width: 100%;
+    line-height: unset;
+    outline: 0;
+}
+
+.chitiet .formbinhluan .form-group .empty-tenkh::before {
+    content: "Vui lòng nhập họ tên (*)";
+    color: red;
+}
+
+.chitiet .formbinhluan .form-group .input-sdth {
+    border-radius: 8px;
+    border: 1px solid #d7d7d7;
+    width: 100%;
+    line-height: unset;
+    outline: 0;
+}
+
+.chitiet .formbinhluan .form-group .empty-txtdienthoai::before {
+    content: "Vui lòng nhập số điện thoại (*)";
+    color: red;
+}
+
+.chitiet .formbinhluan .form-group .invalid-txtdienthoai::before {
+    content: "Số điện thoại không hợp lệ (*)";
+    color: red;
+}
+
+.chitiet .formbinhluan .form-group .input-email {
+    border-radius: 8px;
+    border: 1px solid #d7d7d7;
+    width: 100%;
+    line-height: unset;
+    outline: 0;
+}
+
+.chitiet .formbinhluan .form-group .empty-email::before {
+    content: "Vui lòng nhập email (*)";
+    color: red;
+}
+
+.chitiet .formbinhluan .form-group .invalid-email::before {
+    content: "Email không hợp lệ (*)";
+    color: red;
+}
+
+.chitiet .formbinhluan .form-group .empty-email::before {
+    content: "Vui lòng nhập email (*)";
+    color: red;
+}
+
+.chitiet .formbinhluan .form-group .invalid-email::before {
+    content: "Email không hợp lệ (*)";
+    color: red;
+}
+
+
+.chitiet .formbinhluan .btn-bl {
+    width: calc(50% - 6px);
+}
+
+.chitiet .formbinhluan .btn-bldn {
+    width: 100%;
+}
+
+.chitiet .formbinhluan .btn-bl button {
+    background-color: #4a90e2;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 8px;
+    color: #fff;
+    cursor: pointer;
+    display: block;
+    font-weight: bold;
+    height: 40px;
+    line-height: 44px;
+    transition: .3s;
+    width: 100%;
+    border: none;
+    margin-bottom: 30px;
+}
+
+.chitiet .formbinhluan .dsbl {
+    margin-top: 30px;
+}
+
+.chitiet .formbinhluan .dsbl .binhluan {}
+
+.chitiet .formbinhluan .dsbl .comment-right-part {}
+
+.chitiet .formbinhluan .dsbl .comment-right-part .nguoidung {
+    text-transform: capitalize;
+    color: #222b45;
+    display: inline;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 16px;
+    margin-right: 10px;
+}
+
+.chitiet .formbinhluan .dsbl .comment-right-part .ndbl {
+    /* margin: 2px!important;
+    line-height: 150%!important; */
+    color: #333333;
+}
+
+.chitiet .formbinhluan .dsbl .comment-right-part .cmt-comment {
+    display: flex;
+    gap: 30px;
+}
+
+.chitiet .formbinhluan .dsbl .comment-right-part .ngaydang {
+    color: #8f9bb3;
+}
+
+.chitiet .formbinhluan .dsbl .comment-right-part .traloi {
+    cursor: pointer;
+    color: #333333;
+}
+
+.chitiet .formbinhluan .dsbl .comment-right-part .replies {}
+
+.chitiet .formbinhluan .dsbl .comment-right-part .replies .binhluan {}
+
+.chitiet .formbinhluan .dsbl .comment-right-part .replies .binhluan .comment-right-part {
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    border: 0;
+    margin-bottom: 15px;
+    position: relative;
+    padding: 10px;
+}
+
+.chitiet .formbinhluan .dsbl .comment-right-part .replies .binhluan .comment-right-part::before {
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #f7f7f7;
+    content: '';
+    left: 10px;
+    position: absolute;
+    top: -10px;
+}
+
+.chitiet .formbinhluan .dsbl .comment-right-part .replies .binhluan .comment-right-part {}
+
+.chitiet .formbinhluan .dsbl .phantrang .previous a{
+    background: url('/icon/previous.png');
+    background-repeat: no-repeat;
+    background-size: 30px;
+    
+}
+.chitiet .formbinhluan .dsbl .phantrang .next a{
+    background: url('/icon/next.png');
+    background-repeat: no-repeat;
+    background-size: 30px;
+    
+}
+.chitiet .container .ctcv_title {}
+
+/*--- END CHI TIET TRANG TIN TUC ---*/
+
+
+
+.mota .form-group .ck-editor .ck-editor__main .ck-editor__editable {
+    min-height: 200px !important;
+}
+
+.ckeditor-inline {
+    border: 1px solid var(--ck-color-base-text);
+    border-radius: 3px;
+}
+
+
+/*CHI TIET TRANG CHI TIET TUYEN DUNG*/
+.tuyendung.chitiet {}
+
+.tuyendung.chitiet .content-block {}
+
+.tuyendung.chitiet .container {}
+
+.tuyendung.chitiet .container {}
+
+/*thiếu class div*/
+.tuyendung.chitiet .container .widget {}
+
+.tuyendung.chitiet .container .wish_list {}
+
+.tuyendung.chitiet .container .add_to_cart {}
+
+.tuyendung.chitiet .bando-cvct {}
+
+.tuyendung.chitiet .formbinhluan {}
+
+.tuyendung.chitiet .formbinhluan form {}
+
+.tuyendung.chitiet .formbinhluan form .tieude {}
+
+.tuyendung.chitiet .formbinhluan form .tieude::before {}
+
+.tuyendung.chitiet .formbinhluan form .form-group {}
+
+.tuyendung.chitiet .formbinhluan form .form-group .form-bl {}
+
+.tuyendung.chitiet .formbinhluan .group-bl {}
+
+.tuyendung.chitiet .formbinhluan .group-bl .form-group {}
+
+.tuyendung.chitiet .formbinhluan .group-bl .form-group .input-hoten {}
+
+.chitiet .formbinhluan .group-bl .form-group .input-sdth {}
+
+.chitiet .formbinhluan .group-bl .form-group .input-email {}
+
+.tuyendung.chitiet .formbinhluan .group-bl .btn-bl {}
+
+.tuyendung.chitiet .formbinhluan .group-bl .btn-bl button {}
+
+.tuyendung.chitiet .formbinhluan .dsbl {}
+
+.tuyendung.chitiet .section-full {}
+
+/*END CHI TIET TUYEN DUNG*/
+
+/*NUT LAY TIM KIEM*/
+.laytimkiem {}
+
+.laytimkiem .container {}
+
+.laytimkiem .container h2 {}
+
+.laytimkiem .th-laytimkiem {}
+
+.laytimkiem .th-laytimkiem .container {}
+
+.laytimkiem .th-laytimkiem .search-congviec {
+    align-items: center;
+    align-self: stretch;
+    background: var(--white-white-50-s, #fff);
+    border-radius: 12px;
+    box-shadow: 0 8px 16px 0 rgba(1, 18, 34, .04);
+    gap: 4px;
+    padding: 8px 8px 8px 12px;
+}
+
+.laytimkiem .th-laytimkiem .item {
+    align-items: center;
+    display: flex;
+    position: relative;
+    width: 100%;
+}
+
+.laytimkiem .th-laytimkiem .item-search {}
+
+.laytimkiem .th-laytimkiem .item-search input {
+    border: none;
+    border-radius: 6px !important;
+    font-size: 14px;
+    font-weight: 500;
+    height: 100%;
+    outline: none;
+    padding: 6px 40px;
+    width: 100%;
+    background-image: url('/icon/Search.png');
+    background-repeat: no-repeat;
+    background-size: 24px;
+    display: inline-block;
+    position: relative;
+    background-position: top 50%;
+}
+
+.laytimkiem .th-laytimkiem .item-city input {
+    border: none;
+    border-radius: 6px !important;
+    font-size: 14px;
+    font-weight: 500;
+    height: 100%;
+    outline: none;
+    padding: 6px 30px;
+    width: 100%;
+    background-image: url('/icon/location.png');
+    background-repeat: no-repeat;
+    background-size: 24px;
+    display: inline-block;
+    position: relative;
+    background-position: top 50%;
+}
+
+.laytimkiem .th-laytimkiem .item-city::before {
+    background: #dee0e2;
+    border-radius: 100px;
+    content: "";
+    display: block;
+    height: 32px;
+    left: -5px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1px;
+}
+
+.laytimkiem .th-laytimkiem .btn-tk {
+    background: #2e55fa;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    height: 40px;
+    letter-spacing: .175px;
+    line-height: 22px;
+    padding: 0 12px;
+    width: 200px;
+    border: none;
+    cursor: pointer;
+}
+
+.laytimkiem .th-laytimkiem .btn-tk:hover {
+    background: #17a8e3;
+    transition-duration: .3s;
+}
+
+.laytimkiem .th-laytimkiem .btn-tk::before {
+    content: "Tìm Kiếm";
+}
+
+/*END NUT LAY TIM KIEM*/
+
+
+/*PHAN BAN DO*/
+.bando .map-2 .no-map-data::before {
+    content: "Không có công việc trong khu vực này !";
+    padding: 10px;
+    color: red;
+}
+/*END PHAN BAN DO*/
+
+
+
+/*PHAN BINH LUAN KHI DANG NHAP TIN TUC*/
+.chitiet {}
+
+.chitiet .container {}
+
+.chitiet .container h1 {}
+
+.chitiet .container {}
+
+.chitiet .container .ttct_ndtt {}
+
+.chitiet .container .formbinhluan {}
+
+.chitiet .container .formbinhluan h3 {}
+
+.chitiet .container .formbinhluan .form-group {}
+
+.chitiet .container .formbinhluan .btn-bl {
+    background-color: #4a90e2;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 8px;
+    color: #fff;
+    cursor: pointer;
+    display: block;
+    font-weight: bold;
+    height: 40px;
+    line-height: 44px;
+    transition: .3s;
+    width: 100%;
+    border: none;
+    margin-bottom: 30px;
+}
+
+/*END PHAN BINH LUAN KHI DANG NHAP TIN TUC*/
+@media screen and (min-width:768px) {}
+
+@media screen and (min-width:992px) {}
+
+@media screen and (min-width:1200px) {}
+
+@media screen and (min-width:1600px) {}
+
+@media screen and (min-width:1900px) {}
+
+@media screen and (min-width:2500px) {}
+
+@media screen and (min-width:3800px) {}
+
+@media screen and (min-width:992px) and (max-width:1199px) {}
+
+@media screen and (min-width:768px) and (max-width:991px) {}
+
+@media screen and (min-width:350px) and (max-width:767px) {}
+
+@media screen and (max-width:1199px) {}
+
+@media screen and (max-width:991px) {}
+
+@media screen and (max-width:767px) {}
+
+@media screen and (max-width:500px) {}
+
+@media screen and (max-width:349px) {}
