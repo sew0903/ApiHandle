@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using ProjectTestApi.Models;
-using ProjectTestApi.Models.API;
 using System.Diagnostics;
 using System.Net;
 using System.Reflection.PortableExecutable;
@@ -14,7 +13,7 @@ namespace ProjectTestApi.Controllers
     {
 
         private readonly ILogger<HomeController> _logger;
-        public const string _url = "http://api.tuyendung.choixanh.net/";
+        public const string _url = "http://ww2.tuyennhansu.vn/";
         string notice = "";
 
         public HomeController(ILogger<HomeController> logger)
@@ -27,13 +26,13 @@ namespace ProjectTestApi.Controllers
         public async Task<IActionResult> Index()
         {
             try {
-                var json = (new WebClient()).DownloadString("http://api.tuyendung.choixanh.net/web.trangchu.module.content.asp");
+                var json = (new WebClient()).DownloadString("http://ww2.tuyennhansu.vn/web.trangchu.module.content.asp");
                 var list = JsonSerializer.Deserialize<List<ApiModel>>(json);
                 return View(list);
             }
-            catch
+            catch(Exception e)
             {
-                return Json("Not Found");
+                return Json(e.Message);
             }
         }
 

@@ -8,11 +8,10 @@
         public string? tieude { get; set; }
         public string? url { get; set; }
         public string? noidungtomtat { get; set; }
-
+        public string? ten { get;set; }
         public string? idpart { get; set; }
         public string? idquanly { get; set; }
         public string? kieuhienthi { get; set; }
-
         public string? module { get; set; }
         public string? tomtat { get; set; }
         public string? tenham { get; set; }
@@ -25,12 +24,6 @@
         public int? recordsFiltered { get; set; }
 
         public List<DataDetail>? data { get;set; }
-        public List<ChucDanhDetail>? chucdanh { get; set; }
-        public List<NganhDetail>? nganh { get; set; }
-        public List<DiaChiMapDetail>? diachimap { get; set; }
-        public List<TinhDetail>? tinh { get; set; }
-        public List<GiaDetail>? gia { get; set; }
-        public List<LoaiDetai>? loai { get; set; }
 
         public class ChucDanhDetail
         {

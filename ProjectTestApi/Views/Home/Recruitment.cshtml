@@ -3,55 +3,133 @@
     ViewData["Title"] = "Recruitment";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<nav style="background-color:#e9ecef;height:100%">
-    <ol class="breadcrumb" itemtype="https://schema.org/BreadcrumList">
-        <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="htpp://schema.org/ListItem">
-            <a href="/">@TempData["ControllerName"]</a>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb" itemscope="" itemtype="https://schema.org/BreadcrumbList">
+        <li class="breadcrumb-item" itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
+            <a href="/">Trang chủ</a>
         </li>
-        <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="htpp://schema.org/ListItem">
-            <a href="@Url.Action(TempData["ActionName"].ToString())">@TempData["ActionName"]</a>
+        <li class="breadcrumb-item" itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
+            <a href="/can-tuyen-thuc-tap-sinh">Tuyển thực tập</a>
         </li>
     </ol>
 </nav>
-
-<div class="table-responsive">
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Title</th>
-                <th scope="col">CompanyName</th>
-                <th scope="col">MoneyValue</th>
-                <th scope="col">Money</th>
-                <th scope="col">Career</th>
-                <th scope="col">Map</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <th scope="row">XXX</th>
-                    <td>XXX</td>
-                    <td>XXX</td>
-                    <td>XXX</td>
-                    <td>
-                        <ol class="breadcrumb" itemtype="https://schema.org/BreadcrumList">
-                            <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="htpp://schema.org/ListItem">
-                                <a href="/">XXXX</a>
-                            </li>
-                        </ol>                      
-                    </td>
-                    <td>XXX</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>
-
-<div class="jumbotron jumbotron-fluid" style="margin-bottom:5%">
+<div class="id35004 tuyendung ">
     <div class="container">
-        <h1 class="display-4">JSON</h1>
-        <p class="lead" style="font-size:15px">@ViewBag.DataJson</p>
+        <div class="boloc-danhmuc">
+            <input type="text" class="form-control tukhoatimkiem" value="">
+            <div class="boloc32004">
+                <div class="select-32004  ">
+                    <div class="input-size css-b62m3t-container">
+                        <span id="react-select-3-live-region"
+                              class="css-7pg0cj-a11yText"></span><span aria-live="polite" aria-atomic="false"
+                                                                       aria-relevant="additions text" class="css-7pg0cj-a11yText"></span>
+                        <div class=" css-13cymwt-control">
+                            <div class=" css-hlgwow">
+                                <div class=" css-1jqq78o-placeholder" id="react-select-3-placeholder">Ngành nghề</div>
+                                <div class=" css-19bb58m" data-value="">
+                                    <input class="" autocapitalize="none"
+                                           autocomplete="off" autocorrect="off" id="react-select-3-input"
+                                           spellcheck="false" tabindex="0" type="text" aria-autocomplete="list"
+                                           aria-expanded="false" aria-haspopup="true" role="combobox"
+                                           aria-describedby="react-select-3-placeholder" value=""
+                                           style="color: inherit; background: 0px center; opacity: 1; width: 100%; grid-area: 1 / 2 / auto / auto; font: inherit; min-width: 2px; border: 0px; margin: 0px; outline: 0px; padding: 0px;">
+                                </div>
+                            </div>
+                            <div class=" css-1wy0on6">
+                                <span class=" css-1u9des2-indicatorSeparator"></span>
+                                <div class=" css-1xc3v61-indicatorContainer" aria-hidden="true">
+                                    <svg height="20"
+                                         width="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false"
+                                         class="css-8mmkcg">
+                                        <path d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z">
+                                        </path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="boloc32003">
+                <div class="item item-city item-city2">
+                    <input type="text" class="input-timcongviec"
+                           placeholder="Tỉnh thành" value=""><span class="clear-tinhthanh ">×</span>
+                </div>
+            </div><button type="button" class="btn-tk"></button>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            @{
+                try
+                {
+                    foreach (var item in Model[0].data)
+                    {
+                        <div class="ndct">
+                            <div class="wrap-ndct">
+                                <div class="thuong 37506 111">
+                                    <div class="ct">
+                                        <h3><a href="/senior-accoutant">Senior Accoutant</a></h3><span class="tenND">
+                                            @item.tenND
+                                        </span>
+                                        <div class="gia">
+                                            @if(item.gia != null)
+                                            {
+                                                <span class="st">@item.gia[0].viet</span>
+                                                <span class="dv">@item.gia[0].donvi</span>
+                                            }
+                                        </div>
+                                        <span class="diachiND">@item.diachiND</span><span class="chucdanh">
+                                            @if (item.chucdanh != null)
+                                            {
+                                                @foreach (var position in item.chucdanh)
+                                                {
+                                                    <a href="@position.url">@position.tengoi</a>
+                                                }
+                                            }
+                                        </span><span class="loai">
+                                            @if (item.loai != null)
+                                            {
+                                                @foreach (var loai in item.loai)
+                                                {
+                                                    <a href="@loai.url">@loai.tengoi</a>
+                                                }
+                                            }
+                                        </span><span class="thoihan">11/23/2023 3:25:04 PM</span><span class="ngoaingu">
+                                            @if (item.ngoaingu != null)
+                                            {
+                                                @foreach (var language in item.ngoaingu)
+                                                {
+                                                    <a href="@language.url">@language.tengoi</a>
+                                                }
+                                            }
+                                        </span>
+                                        <div class="vttd">
+                                            @if (item.nganh != null)
+                                            {
+                                                @foreach (var carrer in item.nganh)
+                                                {
+                                                    <a href="@carrer.url">@carrer.tengoi</a>
+                                                }
+                                            }
+                                        </div>
+                                        <div class="group-wishlist">
+                                            <div class="wish_list "></div>
+                                            <div class="add_to_cart  "></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }
+            <div class="xemthem"><span><a href="/undefined"></a></span></div>
+        </div>
     </div>
 </div>

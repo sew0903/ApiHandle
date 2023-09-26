@@ -1,38 +1,274 @@
 ﻿[
   {
+    "id": null,
+    "ngaydang": null,
+    "hinhdaidien": null,
+    "tieude": null,
+    "url": null,
+    "noidungtomtat": null,
+    "ten": null,
+    "idpart": null,
+    "idquanly": null,
+    "kieuhienthi": null,
+    "module": null,
+    "tomtat": null,
+    "tenham": null,
+    "tenND": null,
+    "diachiND": null,
+    "emailND": null,
+    "emailxxxND": null,
+    "thoihan": null,
     "recordsTotal": 0,
     "recordsFiltered": 0,
     "data": [
       {
-        "id": "37499",
+        "id": "37496",
         "loaitin": "vip v2",
-        "url": "nhan-vien-ke-toan",
-        "tieude": "Nhân viên Kế toán",
-        "diachimap": [
+        "url": "nhan-vien-hanh-chanh-nhan-su",
+        "tieude": "Nhân Viên Hành Chánh Nhân Sự",
+        "name": null,
+        "thoihan": "",
+        "tenND": "Chồi Xanh Media",
+        "diachiND": "334 Tân Sơn Nhì, Tân Phú",
+        "emailND": "",
+        "emailxxxND": "",
+        "ngaydang": null,
+        "hinhdaidien": null,
+        "noidungtomtat": null,
+        "loai": [
           {
-            "tengoi": "Hòa Phát, Cẩm Lệ, Đà Nẵng",
-            "toadox": "16.041108972000075",
-            "toadoy": "108.18337122200006"
+            "tengoi": "Toàn thời gian cố định",
+            "url": "toan-thoi-gian-co-dinh"
           }
         ],
-        "thoihan": "",
+        "chucdanh": [
+          {
+            "tengoi": "Quản lý / Giám sát",
+            "url": "quan-ly---giam-sat"
+          }
+        ],
+        "nganh": [
+          {
+            "tengoi": "Nông nghiệp",
+            "url": "Nong-nghiep"
+          },
+          {
+            "tengoi": "Thủy sản / Hải sản",
+            "url": "Thuy-san-Hai-san"
+          },
+          {
+            "tengoi": "Hóa học",
+            "url": "Hoa-hoc"
+          },
+          {
+            "tengoi": "CNTT - Phần mềm",
+            "url": "CNTT-Phan-mem"
+          },
+          {
+            "tengoi": "CNTT - Phần cứng / Mạng",
+            "url": "CNTT-Phan-cung-Mang"
+          }
+        ],
+        "ngoaingu": [
+          {
+            "tengoi": "Tiếng Việt",
+            "url": "Tieng-Viet"
+          }
+        ],
+        "diachimap": [
+          {
+            "tengoi": "334 Tân Sơn Nhì, Tân Phú",
+            "toadox": "10.796433471000057",
+            "toadoy": "106.63028448600005"
+          }
+        ],
+        "tinh": [
+          {
+            "tengoi": "Thành phố Hồ Chí Minh",
+            "huyen": null,
+            "url": "Thanh-pho-Ho-Chi-Minh"
+          },
+          {
+            "tengoi": null,
+            "huyen": "Quận Tân Phú",
+            "url": "Quan-Tan-Phu"
+          },
+          {
+            "tengoi": null,
+            "huyen": null,
+            "url": "Phuong-Tan-Son-Nhi"
+          }
+        ],
         "gia": [
           {
             "sotien": "",
             "viet": "",
             "donvi": ""
           }
-        ],
-        "tenND": "",
-        "diachiND": "",
+        ]
+      },
+      {
+        "id": "37477",
+        "loaitin": "vip v2",
+        "url": "tai-xe-xe-tai-giao-hang-trong-tphcm--quan-12-",
+        "tieude": "Tài Xế Xe Tải Giao Hàng Trong Tphcm (Quận 12)",
+        "name": null,
+        "thoihan": "12/25/2023 5:23:51 AM",
+        "tenND": "Đông Hưng Thuận",
+        "diachiND": "Đông Hưng Thuận, Quận 12, TPHCM",
         "emailND": "",
-        "emailxxxND": ""
+        "emailxxxND": "xxxx0283974",
+        "ngaydang": null,
+        "hinhdaidien": null,
+        "noidungtomtat": null,
+        "loai": null,
+        "chucdanh": null,
+        "nganh": null,
+        "ngoaingu": null,
+        "diachimap": [
+          {
+            "tengoi": "Đông Hưng Thuận, Quận 12, TPHCM",
+            "toadox": "10.846009117227887",
+            "toadoy": "106.62983936531491"
+          }
+        ],
+        "tinh": [
+          {
+            "tengoi": "Thành phố Hồ Chí Minh",
+            "huyen": null,
+            "url": "Thanh-pho-Ho-Chi-Minh"
+          },
+          {
+            "tengoi": null,
+            "huyen": "Quận 12",
+            "url": "Quan-12"
+          },
+          {
+            "tengoi": null,
+            "huyen": null,
+            "url": "Phuong-dong-Hung-Thuan"
+          }
+        ],
+        "gia": [
+          {
+            "sotien": "0",
+            "viet": "",
+            "donvi": "6 500 000"
+          }
+        ]
+      },
+      {
+        "id": "37424",
+        "loaitin": "vip v5",
+        "url": "can-tuyen-200-lao-dong-pho-thong--cong-viec-dan-nhan-boc-vac--sap-xep-kho",
+        "tieude": "Cần tuyển 200 lao động phổ thông, công việc dán nhãn, bốc vác, sắp xếp kho...",
+        "name": null,
+        "thoihan": "11/25/2023 5:03:29 AM",
+        "tenND": "CHỒI XANH MEDIA",
+        "diachiND": "334 TÂN SƠN NHÌ, QUẬN TÂN PHÚ",
+        "emailND": "",
+        "emailxxxND": "xxxx0283974",
+        "ngaydang": null,
+        "hinhdaidien": null,
+        "noidungtomtat": null,
+        "loai": [
+          {
+            "tengoi": "Toàn thời gian cố định tại văn phòng",
+            "url": "toan-thoi-gian-co-dinh-tai-van-phong"
+          }
+        ],
+        "chucdanh": [
+          {
+            "tengoi": "Nhân viên",
+            "url": "nhan-vien"
+          }
+        ],
+        "nganh": [
+          {
+            "tengoi": "Nông nghiệp",
+            "url": "Nong-nghiep"
+          },
+          {
+            "tengoi": "Thủy sản / Hải sản",
+            "url": "Thuy-san-Hai-san"
+          },
+          {
+            "tengoi": "CNTT - Phần cứng / Mạng",
+            "url": "CNTT-Phan-cung-Mang"
+          },
+          {
+            "tengoi": "Mỹ thuật / Nghệ thuật / Thiết kế",
+            "url": "My-thuat-Nghe-thuat-Thiet-ke"
+          },
+          {
+            "tengoi": "Quảng cáo / Đối ngoại / Truyền Thông",
+            "url": "Quang-cao-doi-ngoai-Truyen-Thong"
+          },
+          {
+            "tengoi": "Bán hàng / Kinh doanh",
+            "url": "Ban-hang-Kinh-doanh"
+          },
+          {
+            "tengoi": "Kế toán / Kiểm toán",
+            "url": "Ke-toan-Kiem-toan"
+          },
+          {
+            "tengoi": "Ngân hàng",
+            "url": "Ngan-hang"
+          }
+        ],
+        "ngoaingu": [
+          {
+            "tengoi": "Tiếng Anh",
+            "url": "Tieng-Anh"
+          }
+        ],
+        "diachimap": [
+          {
+            "tengoi": "334 Tân Sơn Nhì, Tân Phú",
+            "toadox": "10.796433471000057",
+            "toadoy": "106.63028448600005"
+          }
+        ],
+        "tinh": [
+          {
+            "tengoi": "Thành phố Hồ Chí Minh",
+            "huyen": null,
+            "url": "Thanh-pho-Ho-Chi-Minh"
+          },
+          {
+            "tengoi": null,
+            "huyen": "Quận Tân Phú",
+            "url": "Quan-Tan-Phu"
+          },
+          {
+            "tengoi": null,
+            "huyen": null,
+            "url": "Phuong-Tan-Son-Nhi"
+          }
+        ],
+        "gia": [
+          {
+            "sotien": "0",
+            "viet": "",
+            "donvi": "8 100 000"
+          }
+        ]
       },
       {
         "id": "37506",
         "loaitin": "thuong",
         "url": "senior-accoutant",
         "tieude": "Senior Accoutant",
+        "name": null,
+        "thoihan": "11/23/2023 3:25:04 PM",
+        "tenND": "CHỒI XANH MEDIA",
+        "diachiND": "Thới Hòa, Bến Cát, Bình Dương",
+        "emailND": "",
+        "emailxxxND": "xxxx0283974",
+        "ngaydang": null,
+        "hinhdaidien": null,
+        "noidungtomtat": null,
         "loai": [
           {
             "tengoi": "Toàn thời gian cố định",
@@ -83,35 +319,42 @@
         "tinh": [
           {
             "tengoi": "Tỉnh Bình Dương",
+            "huyen": null,
             "url": "Tinh-Binh-Duong"
           },
           {
+            "tengoi": null,
             "huyen": "Thị xã Bến Cát",
             "url": "Thi-xa-Ben-Cat"
           },
           {
-            "xa": "Phường Thới Hòa",
+            "tengoi": null,
+            "huyen": null,
             "url": "Phuong-Thoi-Hoa-Thi-xa-Ben-Cat"
           }
         ],
-        "thoihan": "11/23/2023 3:25:04 PM",
         "gia": [
           {
             "sotien": "30000000",
             "viet": "30 triệu",
             "donvi": "30 000 000"
           }
-        ],
-        "tenND": "CHỒI XANH MEDIA",
-        "diachiND": "Thới Hòa, Bến Cát, Bình Dương",
-        "emailND": "",
-        "emailxxxND": "xxxx0283974"
+        ]
       },
       {
         "id": "37501",
         "loaitin": "thuong",
         "url": "ky-su-ha-tang---du-an--waterpoint---ben-luc--long-an--",
         "tieude": "Kỹ Sư Hạ Tầng ( Dự Án: Waterpoint - Bến Lức, Long An )",
+        "name": null,
+        "thoihan": "11/23/2023 3:26:46 PM",
+        "tenND": "CHỒI XANH MEDIA",
+        "diachiND": "Waterpoint, Bến Lức, Long An",
+        "emailND": "quocdat473@yahoo.com",
+        "emailxxxND": "xxxxdat473@yahoo.com",
+        "ngaydang": null,
+        "hinhdaidien": null,
+        "noidungtomtat": null,
         "loai": [
           {
             "tengoi": "Toàn thời gian cố định",
@@ -158,35 +401,42 @@
         "tinh": [
           {
             "tengoi": "Tỉnh Long An",
+            "huyen": null,
             "url": "Tinh-Long-An"
           },
           {
+            "tengoi": null,
             "huyen": "Huyện Bến Lức",
             "url": "Huyen-Ben-Luc"
           },
           {
-            "xa": "Thị trấn Bến Lức",
+            "tengoi": null,
+            "huyen": null,
             "url": "Thi-tran-Ben-Luc"
           }
         ],
-        "thoihan": "11/23/2023 3:26:46 PM",
         "gia": [
           {
             "sotien": "0",
             "viet": "",
             "donvi": "9 000 000"
           }
-        ],
-        "tenND": "CHỒI XANH MEDIA",
-        "diachiND": "Waterpoint, Bến Lức, Long An",
-        "emailND": "quocdat473@yahoo.com",
-        "emailxxxND": "xxxxdat473@yahoo.com"
+        ]
       },
       {
         "id": "37500",
         "loaitin": "thuong",
         "url": "tuyen-dung-can-bo-lam-viec-tai-trung-tam-the-bidv",
         "tieude": "Tuyển Dụng Cán Bộ Làm Việc Tại Trung Tâm Thẻ BIDV",
+        "name": null,
+        "thoihan": "",
+        "tenND": "CHỒI XANH MEDIA",
+        "diachiND": "Hòa Phát, Cẩm lệ, Đà Nẵng",
+        "emailND": "",
+        "emailxxxND": "xxxx0283974",
+        "ngaydang": null,
+        "hinhdaidien": null,
+        "noidungtomtat": null,
         "loai": [
           {
             "tengoi": "Toàn thời gian cố định",
@@ -233,78 +483,196 @@
         "tinh": [
           {
             "tengoi": "Thành phố Đà Nẵng",
+            "huyen": null,
             "url": "Thanh-pho-da-Nang"
           },
           {
+            "tengoi": null,
             "huyen": "Quận Cẩm Lệ",
             "url": "Quan-Cam-Le"
           },
           {
-            "xa": "Phường Hòa Phát",
+            "tengoi": null,
+            "huyen": null,
             "url": "Phuong-Hoa-Phat"
           }
         ],
-        "thoihan": "",
         "gia": [
           {
-            "sotien": "",
-            "viet": "",
-            "donvi": ""
+            "sotien": "9000000",
+            "viet": "9 triệu",
+            "donvi": "9 000 000"
           }
-        ],
-        "tenND": "CHỒI XANH MEDIA",
-        "diachiND": "Hòa Phát, Cẩm lệ, Đà Nẵng",
-        "emailND": "",
-        "emailxxxND": "xxxx0283974"
+        ]
       },
       {
         "id": "37498",
         "loaitin": "thuong",
         "url": "planning-assistant-manager",
         "tieude": "Planning Assistant Manager",
+        "name": null,
+        "thoihan": "",
+        "tenND": "CXM",
+        "diachiND": "Cờ Đỏ, Cần Thơ",
+        "emailND": "",
+        "emailxxxND": "xxxx0283974",
+        "ngaydang": null,
+        "hinhdaidien": null,
+        "noidungtomtat": null,
+        "loai": [
+          {
+            "tengoi": "Toàn thời gian cố định",
+            "url": "toan-thoi-gian-co-dinh"
+          }
+        ],
+        "chucdanh": [
+          {
+            "tengoi": "Nhân viên",
+            "url": "nhan-vien"
+          }
+        ],
+        "nganh": [
+          {
+            "tengoi": "Khoáng sản",
+            "url": "Khoang-san"
+          }
+        ],
+        "ngoaingu": [
+          {
+            "tengoi": "Tiếng Việt",
+            "url": "Tieng-Viet"
+          },
+          {
+            "tengoi": "Tiếng Anh",
+            "url": "Tieng-Anh"
+          }
+        ],
         "diachimap": [
           {
             "tengoi": "Cờ Đỏ, Cần Thơ",
-            "toadox": "10.098536698000032",
-            "toadoy": "105.43424299500003"
+            "toadox": "105.43424299500003",
+            "toadoy": "10.098536698000032"
           }
         ],
-        "thoihan": "",
+        "tinh": [
+          {
+            "tengoi": "Thành phố Cần Thơ",
+            "huyen": null,
+            "url": "Thanh-pho-Can-Tho"
+          },
+          {
+            "tengoi": null,
+            "huyen": "Huyện Cờ Đỏ",
+            "url": "Huyen-Co-do"
+          },
+          {
+            "tengoi": null,
+            "huyen": null,
+            "url": "Thi-tran-Co-do"
+          }
+        ],
         "gia": [
           {
-            "sotien": "",
+            "sotien": "0",
             "viet": "",
-            "donvi": ""
+            "donvi": "20 000 000"
           }
-        ],
-        "tenND": "",
-        "diachiND": "",
-        "emailND": "",
-        "emailxxxND": ""
+        ]
       },
       {
         "id": "37497",
         "loaitin": "thuong",
         "url": "bac-sy-thu-y",
         "tieude": "Bác Sỹ Thú Y",
-        "thoihan": "",
-        "gia": [
+        "name": null,
+        "thoihan": "11/23/2023 6:27:44 AM",
+        "tenND": "CXM",
+        "diachiND": "Đan Phượng, Hà Nội",
+        "emailND": "quocdat473@yahoo.com",
+        "emailxxxND": "xxxxdat473@yahoo.com",
+        "ngaydang": null,
+        "hinhdaidien": null,
+        "noidungtomtat": null,
+        "loai": [
           {
-            "sotien": "",
-            "viet": "",
-            "donvi": ""
+            "tengoi": "Toàn thời gian cố định",
+            "url": "toan-thoi-gian-co-dinh"
           }
         ],
-        "tenND": "",
-        "diachiND": "",
-        "emailND": "",
-        "emailxxxND": ""
+        "chucdanh": [
+          {
+            "tengoi": "Trưởng chi nhánh",
+            "url": "truong-chi-nhanh"
+          }
+        ],
+        "nganh": [
+          {
+            "tengoi": "Nông nghiệp",
+            "url": "Nong-nghiep"
+          },
+          {
+            "tengoi": "Thống kê",
+            "url": "Thong-ke"
+          }
+        ],
+        "ngoaingu": [
+          {
+            "tengoi": "Tiếng Việt",
+            "url": "Tieng-Viet"
+          }
+        ],
+        "diachimap": [
+          {
+            "tengoi": "Đan Phượng, Hà Nội",
+            "toadox": "21.08296888900003",
+            "toadoy": "105.67236864800009"
+          }
+        ],
+        "tinh": [
+          {
+            "tengoi": "Thành phố Hà Nội",
+            "huyen": null,
+            "url": "Thanh-pho-Ha-Noi"
+          },
+          {
+            "tengoi": null,
+            "huyen": "Huyện Đan Phượng",
+            "url": "Huyen-dan-Phuong"
+          },
+          {
+            "tengoi": null,
+            "huyen": null,
+            "url": "Xa-dan-Phuong-Huyen-dan-Phuong"
+          }
+        ],
+        "gia": [
+          {
+            "sotien": "0",
+            "viet": "",
+            "donvi": "10 000 000"
+          }
+        ]
       },
       {
-        "id": "37496",
+        "id": "37494",
         "loaitin": "thuong",
-        "url": "nhan-vien-hanh-chanh-nhan-su",
-        "tieude": "Nhân Viên Hành Chánh Nhân Sự",
+        "url": "chuyen-vien-tu-van-bat-dong-san",
+        "tieude": "Chuyên Viên Tư Vấn Bất Động Sản",
+        "name": null,
+        "thoihan": "",
+        "tenND": "CXM",
+        "diachiND": "334 Tân Sơn Nhì, Tân Phú",
+        "emailND": "",
+        "emailxxxND": "xxxx0283974",
+        "ngaydang": null,
+        "hinhdaidien": null,
+        "noidungtomtat": null,
+        "loai": [
+          {
+            "tengoi": "Toàn thời gian cố định",
+            "url": "toan-thoi-gian-co-dinh"
+          }
+        ],
         "chucdanh": [
           {
             "tengoi": "Trưởng/phó nhóm",
@@ -317,20 +685,142 @@
             "url": "Hang-khong"
           },
           {
-            "tengoi": "Nông nghiệp",
-            "url": "Nong-nghiep"
+            "tengoi": "Thống kê",
+            "url": "Thong-ke"
+          }
+        ],
+        "ngoaingu": [
+          {
+            "tengoi": "Tiếng Việt",
+            "url": "Tieng-Viet"
+          }
+        ],
+        "diachimap": [
+          {
+            "tengoi": "334 Tân Sơn Nhì, Tân Phú",
+            "toadox": "10.796433471000057",
+            "toadoy": "106.63028448600005"
+          }
+        ],
+        "tinh": [
+          {
+            "tengoi": "Thành phố Hồ Chí Minh",
+            "huyen": null,
+            "url": "Thanh-pho-Ho-Chi-Minh"
           },
           {
-            "tengoi": "Thủy sản / Hải sản",
-            "url": "Thuy-san-Hai-san"
+            "tengoi": null,
+            "huyen": "Quận Tân Phú",
+            "url": "Quan-Tan-Phu"
           },
           {
-            "tengoi": "Hóa học",
-            "url": "Hoa-hoc"
+            "tengoi": null,
+            "huyen": null,
+            "url": "Phuong-Tan-Son-Nhi"
+          }
+        ],
+        "gia": [
+          {
+            "sotien": "0",
+            "viet": "",
+            "donvi": "10 000 000"
+          }
+        ]
+      },
+      {
+        "id": "37493",
+        "loaitin": "thuong",
+        "url": "nhan-vien-kinh-doanh-bds-tai-tan-phu",
+        "tieude": "Nhân Viên Kinh Doanh BĐS Tại Tân Phú",
+        "name": null,
+        "thoihan": "11/24/2023 6:36:13 AM",
+        "tenND": "CXM",
+        "diachiND": "Mỹ Phước 3, P. Thới Hòa, Tx Bến Cát, Tỉnh BÌnh Dương",
+        "emailND": "quocdat473@yahoo.com",
+        "emailxxxND": "xxxxdat473@yahoo.com",
+        "ngaydang": null,
+        "hinhdaidien": null,
+        "noidungtomtat": null,
+        "loai": [
+          {
+            "tengoi": "Toàn thời gian cố định",
+            "url": "toan-thoi-gian-co-dinh"
+          }
+        ],
+        "chucdanh": [
+          {
+            "tengoi": "Trưởng/phó nhóm",
+            "url": "truong-nhom"
+          }
+        ],
+        "nganh": [
+          {
+            "tengoi": "Bất động sản",
+            "url": "Bat-dong-san"
+          }
+        ],
+        "ngoaingu": [
+          {
+            "tengoi": "Tiếng Việt",
+            "url": "Tieng-Viet"
+          }
+        ],
+        "diachimap": [
+          {
+            "tengoi": "Mỹ Phước 3, P. Thới Hòa, Tx Bến Cát, Tỉnh BÌnh Dương",
+            "toadox": "11.1192462",
+            "toadoy": "106.641507"
+          }
+        ],
+        "tinh": [
+          {
+            "tengoi": "Tỉnh Bình Dương",
+            "huyen": null,
+            "url": "Tinh-Binh-Duong"
           },
           {
-            "tengoi": "CNTT - Phần mềm",
-            "url": "CNTT-Phan-mem"
+            "tengoi": null,
+            "huyen": "Thị xã Bến Cát",
+            "url": "Thi-xa-Ben-Cat"
+          },
+          {
+            "tengoi": null,
+            "huyen": null,
+            "url": "Phuong-Thoi-Hoa-Thi-xa-Ben-Cat"
+          }
+        ],
+        "gia": [
+          {
+            "sotien": "0",
+            "viet": "",
+            "donvi": "15 000 000"
+          }
+        ]
+      },
+      {
+        "id": "37492",
+        "loaitin": "thuong",
+        "url": "nhan-vien-bao-ve",
+        "tieude": "Nhân Viên Bảo Vệ",
+        "name": null,
+        "thoihan": "12/25/2023 4:54:11 AM",
+        "tenND": "CHỒI XANH MEDIA",
+        "diachiND": "Bình Hưng, Phan Thiết, Bình Thuận",
+        "emailND": "",
+        "emailxxxND": "xxxx0283974",
+        "ngaydang": null,
+        "hinhdaidien": null,
+        "noidungtomtat": null,
+        "loai": [
+          {
+            "tengoi": "Toàn thời gian cố định ngoài văn phòng",
+            "url": "toan-thoi-gian-co-dinh-ngoai-van-phong"
+          }
+        ],
+        "chucdanh": [
+          {
+            "tengoi": "Trưởng/phó nhóm",
+            "url": "truong-nhom"
           }
         ],
         "nganh": [
@@ -339,8 +829,262 @@
             "url": "Hang-khong"
           },
           {
-            "tengoi": "Nông nghiệp",
-            "url": "Nong-nghiep"
+            "tengoi": "Thủy sản / Hải sản",
+            "url": "Thuy-san-Hai-san"
+          },
+          {
+            "tengoi": "Tổ chức sự kiện",
+            "url": "To-chuc-su-kien"
+          },
+          {
+            "tengoi": "Thu mua / Vật tư",
+            "url": "Thu-mua-Vat-tu"
+          },
+          {
+            "tengoi": "Tiếp thị / Marketing",
+            "url": "Tiep-thi-Marketing"
+          }
+        ],
+        "ngoaingu": [
+          {
+            "tengoi": "Tiếng Việt",
+            "url": "Tieng-Viet"
+          },
+          {
+            "tengoi": "Tiếng Anh",
+            "url": "Tieng-Anh"
+          }
+        ],
+        "diachimap": [
+          {
+            "tengoi": "Bình Hưng, Phan Thiết, Bình Thuận",
+            "toadox": "10.929402542000048",
+            "toadoy": "108.10215372900007"
+          }
+        ],
+        "tinh": [
+          {
+            "tengoi": "Tỉnh Bình Thuận",
+            "huyen": null,
+            "url": "Tinh-Binh-Thuan"
+          },
+          {
+            "tengoi": null,
+            "huyen": "Thành phố Phan Thiết",
+            "url": "Thanh-pho-Phan-Thiet"
+          },
+          {
+            "tengoi": null,
+            "huyen": null,
+            "url": "Phuong-Binh-Hung"
+          }
+        ],
+        "gia": [
+          {
+            "sotien": "0",
+            "viet": "",
+            "donvi": "5 000 000"
+          }
+        ]
+      },
+      {
+        "id": "37491",
+        "loaitin": "thuong",
+        "url": "nhan-vien-lap-trinh-php",
+        "tieude": "Nhân Viên Lập Trình Php",
+        "name": null,
+        "thoihan": "12/25/2023 4:56:09 AM",
+        "tenND": "CHỒI XANH MEDIA",
+        "diachiND": "Phường Minh Khai, Hà Giang",
+        "emailND": "",
+        "emailxxxND": "xxxx0283974",
+        "ngaydang": null,
+        "hinhdaidien": null,
+        "noidungtomtat": null,
+        "loai": [
+          {
+            "tengoi": "Toàn thời gian cố định ngoài văn phòng",
+            "url": "toan-thoi-gian-co-dinh-ngoai-van-phong"
+          }
+        ],
+        "chucdanh": [
+          {
+            "tengoi": "Quản lý / Giám sát",
+            "url": "quan-ly---giam-sat"
+          }
+        ],
+        "nganh": [
+          {
+            "tengoi": "Lâm Nghiệp",
+            "url": "Lam-Nghiep"
+          },
+          {
+            "tengoi": "Quảng cáo / Đối ngoại / Truyền Thông",
+            "url": "Quang-cao-doi-ngoai-Truyen-Thong"
+          },
+          {
+            "tengoi": "Sản xuất / Vận hành sản xuất",
+            "url": "San-xuat-Van-hanh-san-xuat"
+          },
+          {
+            "tengoi": "Dệt may / Da giày / Thời trang",
+            "url": "Det-may-Da-giay-Thoi-trang"
+          }
+        ],
+        "ngoaingu": [
+          {
+            "tengoi": "Tiếng Việt",
+            "url": "Tieng-Viet"
+          },
+          {
+            "tengoi": "Tiếng Anh",
+            "url": "Tieng-Anh"
+          }
+        ],
+        "diachimap": [
+          {
+            "tengoi": "Phường Minh Khai, Hà Giang",
+            "toadox": "22.81946372400006",
+            "toadoy": "104.98938356700006"
+          }
+        ],
+        "tinh": [
+          {
+            "tengoi": "Tỉnh Hà Giang",
+            "huyen": null,
+            "url": "Tinh-Ha-Giang"
+          },
+          {
+            "tengoi": null,
+            "huyen": "Thành phố Hà Giang",
+            "url": "Thanh-pho-Ha-Giang"
+          },
+          {
+            "tengoi": null,
+            "huyen": null,
+            "url": "Phuong-Minh-Khai-Thanh-pho-Ha-Giang"
+          }
+        ],
+        "gia": [
+          {
+            "sotien": "0",
+            "viet": "",
+            "donvi": "7 000 000"
+          }
+        ]
+      },
+      {
+        "id": "37490",
+        "loaitin": "thuong",
+        "url": "nhan-vien-ban-hang---pg-sua-nestle-tai-shop--q3-q4-q7-",
+        "tieude": "Nhân Viên Bán Hàng / PG Sữa Nestle Tại Shop [Q3-Q4-Q7]",
+        "name": null,
+        "thoihan": "12/25/2023 4:58:21 AM",
+        "tenND": "Vị Thanh, Hậu Giang",
+        "diachiND": "PHường 1, Vị Thanh, Hậu Giang",
+        "emailND": "",
+        "emailxxxND": "xxxx0283974",
+        "ngaydang": null,
+        "hinhdaidien": null,
+        "noidungtomtat": null,
+        "loai": [
+          {
+            "tengoi": "Bán thời gian cố định tại văn phòng",
+            "url": "ban-thoi-gian-co-dinh-tai-van-phong"
+          }
+        ],
+        "chucdanh": [
+          {
+            "tengoi": "Phó giám đốc",
+            "url": "pho-giam-doc"
+          }
+        ],
+        "nganh": [
+          {
+            "tengoi": "CNTT - Phần mềm",
+            "url": "CNTT-Phan-mem"
+          },
+          {
+            "tengoi": "CNTT - Phần cứng / Mạng",
+            "url": "CNTT-Phan-cung-Mang"
+          }
+        ],
+        "ngoaingu": [
+          {
+            "tengoi": "Tiếng Việt",
+            "url": "Tieng-Viet"
+          },
+          {
+            "tengoi": "Tiếng Đức",
+            "url": "Tieng-duc"
+          },
+          {
+            "tengoi": "Ngoại ngữ khác",
+            "url": "Ngoai-ngu-khac"
+          }
+        ],
+        "diachimap": [
+          {
+            "tengoi": "PHường 1, Vị Thanh, Hậu Giang",
+            "toadox": "9.781244411000046",
+            "toadoy": "105.46536528600006"
+          }
+        ],
+        "tinh": [
+          {
+            "tengoi": "Tỉnh Hậu Giang",
+            "huyen": null,
+            "url": "Tinh-Hau-Giang"
+          },
+          {
+            "tengoi": null,
+            "huyen": "Thành phố Vị Thanh",
+            "url": "Thanh-pho-Vi-Thanh"
+          },
+          {
+            "tengoi": null,
+            "huyen": null,
+            "url": "Phuong-I"
+          }
+        ],
+        "gia": [
+          {
+            "sotien": "0",
+            "viet": "",
+            "donvi": "5 000 000"
+          }
+        ]
+      },
+      {
+        "id": "37489",
+        "loaitin": "thuong",
+        "url": "qc--quan-ly-chat-luong",
+        "tieude": "QC, Quản Lý Chất Lượng",
+        "name": null,
+        "thoihan": "12/25/2023 5:00:16 AM",
+        "tenND": "Hương An, Hương Trà, Huế",
+        "diachiND": "Hương An, Hương Trà, Huế",
+        "emailND": "",
+        "emailxxxND": "xxxx0283974",
+        "ngaydang": null,
+        "hinhdaidien": null,
+        "noidungtomtat": null,
+        "loai": [
+          {
+            "tengoi": "Toàn thời gian cố định tại văn phòng",
+            "url": "toan-thoi-gian-co-dinh-tai-van-phong"
+          }
+        ],
+        "chucdanh": [
+          {
+            "tengoi": "Quản lý / Giám sát",
+            "url": "quan-ly---giam-sat"
+          }
+        ],
+        "nganh": [
+          {
+            "tengoi": "Hàng không",
+            "url": "Hang-khong"
           },
           {
             "tengoi": "Thủy sản / Hải sản",
@@ -349,70 +1093,437 @@
           {
             "tengoi": "Hóa học",
             "url": "Hoa-hoc"
+          }
+        ],
+        "ngoaingu": [
+          {
+            "tengoi": "Tiếng Việt",
+            "url": "Tieng-Viet"
           },
           {
-            "tengoi": "CNTT - Phần mềm",
-            "url": "CNTT-Phan-mem"
+            "tengoi": "Tiếng Nhật",
+            "url": "Tieng-Nhat"
           }
         ],
         "diachimap": [
           {
-            "tengoi": "Bình Đại, Bến Tre",
-            "toadox": "10.189317334000066",
-            "toadoy": "106.69055924900005"
+            "tengoi": "Hương An, Hương Trà, Huế",
+            "toadox": "16.4658783",
+            "toadoy": "107.5200488"
           }
         ],
         "tinh": [
           {
-            "tengoi": "Tỉnh Bến Tre",
-            "url": "Tinh-Ben-Tre"
+            "tengoi": "Tỉnh Thừa Thiên Huế",
+            "huyen": null,
+            "url": "Tinh-Thua-Thien-Hue"
           },
           {
-            "huyen": "Huyện Bình Đại",
-            "url": "Huyen-Binh-dai"
+            "tengoi": null,
+            "huyen": "Thị xã Hương Trà",
+            "url": "Thi-xa-Huong-Tra"
           },
           {
-            "xa": "Thị trấn Bình Đại",
-            "url": "Thi-tran-Binh-dai"
+            "tengoi": null,
+            "huyen": null,
+            "url": "Phuong-Huong-An"
           }
         ],
-        "thoihan": "",
         "gia": [
           {
-            "sotien": "",
+            "sotien": "0",
             "viet": "",
-            "donvi": ""
+            "donvi": "7 000 000"
           }
-        ],
-        "tenND": "",
-        "diachiND": "",
-        "emailND": "",
-        "emailxxxND": ""
+        ]
       },
       {
-        "id": "37494",
+        "id": "37488",
         "loaitin": "thuong",
-        "url": "chuyen-vien-tu-van-bat-dong-san",
-        "tieude": "Chuyên Viên Tư Vấn Bất Động Sản",
-        "diachimap": [
+        "url": "nhan-vien-kinh-doanh-tiec-cuoi---hoi-nghi-tai-quan-tan-binh",
+        "tieude": "Nhân Viên Kinh Doanh Tiệc Cưới / Hội Nghị Tại Quận Tân Bình",
+        "name": null,
+        "thoihan": "12/25/2023 5:00:46 AM",
+        "tenND": "Auto_Customer_CRM",
+        "diachiND": "Cầu Đất, Ngô Quyền, Hải Phòng",
+        "emailND": "",
+        "emailxxxND": "xxxx0283974",
+        "ngaydang": null,
+        "hinhdaidien": null,
+        "noidungtomtat": null,
+        "loai": [
           {
-            "tengoi": "Tây Đằng, Ba Vì, Hà Nội",
-            "toadox": "21.197352318529564",
-            "toadoy": "105.41995595646651"
+            "tengoi": "Thực tập sinh, học việc",
+            "url": "thuc-tap-sinh-hoc-viec"
           }
         ],
-        "thoihan": "",
+        "chucdanh": [
+          {
+            "tengoi": "Trưởng/phó nhóm",
+            "url": "truong-nhom"
+          }
+        ],
+        "nganh": [
+          {
+            "tengoi": "Nông nghiệp",
+            "url": "Nong-nghiep"
+          },
+          {
+            "tengoi": "Khoáng sản",
+            "url": "Khoang-san"
+          }
+        ],
+        "ngoaingu": [
+          {
+            "tengoi": "Tiếng Trung",
+            "url": "Tieng-Trung"
+          },
+          {
+            "tengoi": "Tiếng Đức",
+            "url": "Tieng-duc"
+          }
+        ],
+        "diachimap": [
+          {
+            "tengoi": "Cầu Đất, Ngô Quyền, Hải Phòng",
+            "toadox": "20.854140992119355",
+            "toadoy": "106.68361832423928"
+          }
+        ],
+        "tinh": [
+          {
+            "tengoi": "Thành phố Hải Phòng",
+            "huyen": null,
+            "url": "Thanh-pho-Hai-Phong"
+          },
+          {
+            "tengoi": null,
+            "huyen": "Quận Ngô Quyền",
+            "url": "Quan-Ngo-Quyen"
+          },
+          {
+            "tengoi": null,
+            "huyen": null,
+            "url": "Phuong-Cau-dat"
+          }
+        ],
+        "gia": [
+          {
+            "sotien": "0",
+            "viet": "",
+            "donvi": "5 000 000"
+          }
+        ]
+      },
+      {
+        "id": "37487",
+        "loaitin": "thuong",
+        "url": "nhan-vien-kho",
+        "tieude": "Nhân Viên Kho",
+        "name": null,
+        "thoihan": "9/5/2024 5:13:01 AM",
+        "tenND": "CHỒI XANH MEDIA",
+        "diachiND": "Đông Hồ, Hà Tiên, Kiên Giang",
+        "emailND": "",
+        "emailxxxND": "xxxx0283974",
+        "ngaydang": null,
+        "hinhdaidien": null,
+        "noidungtomtat": null,
+        "loai": [
+          {
+            "tengoi": "Thực tập sinh, học việc",
+            "url": "thuc-tap-sinh-hoc-viec"
+          }
+        ],
+        "chucdanh": [
+          {
+            "tengoi": "Quản lý / Giám sát",
+            "url": "quan-ly---giam-sat"
+          }
+        ],
+        "nganh": [
+          {
+            "tengoi": "Hàng hải",
+            "url": "Hang-hai"
+          },
+          {
+            "tengoi": "Điện / Điện tử / Điện lạnh",
+            "url": "dien-dien-tu-dien-lanh"
+          },
+          {
+            "tengoi": "Bảo trì / Sửa chữa",
+            "url": "Bao-tri-Sua-chua"
+          },
+          {
+            "tengoi": "Tổ chức sự kiện",
+            "url": "To-chuc-su-kien"
+          },
+          {
+            "tengoi": "Thu mua / Vật tư",
+            "url": "Thu-mua-Vat-tu"
+          },
+          {
+            "tengoi": "An toàn lao động",
+            "url": "An-toan-lao-dong"
+          },
+          {
+            "tengoi": "Xây dựng",
+            "url": "Xay-dung"
+          },
+          {
+            "tengoi": "Ngành khác",
+            "url": "Nganh-khac"
+          },
+          {
+            "tengoi": "Tài chính / Đầu tư",
+            "url": "Tai-chinh-dau-tu"
+          }
+        ],
+        "ngoaingu": [
+          {
+            "tengoi": "Tiếng Việt",
+            "url": "Tieng-Viet"
+          },
+          {
+            "tengoi": "Tiếng Anh",
+            "url": "Tieng-Anh"
+          },
+          {
+            "tengoi": "Ngoại ngữ khác",
+            "url": "Ngoai-ngu-khac"
+          }
+        ],
+        "diachimap": [
+          {
+            "tengoi": "Đông Hồ, Hà Tiên, Kiên Giang",
+            "toadox": "10.386720450366049",
+            "toadoy": "104.490604241967"
+          }
+        ],
+        "tinh": [
+          {
+            "tengoi": "Tỉnh Kiên Giang",
+            "huyen": null,
+            "url": "Tinh-Kien-Giang"
+          },
+          {
+            "tengoi": null,
+            "huyen": "Thị xã Hà Tiên",
+            "url": "Thi-xa-Ha-Tien"
+          },
+          {
+            "tengoi": null,
+            "huyen": null,
+            "url": "Phuong-dong-Ho"
+          }
+        ],
+        "gia": [
+          {
+            "sotien": "0",
+            "viet": "",
+            "donvi": "9 000 000"
+          }
+        ]
+      },
+      {
+        "id": "37486",
+        "loaitin": "thuong",
+        "url": "ky-su-dien15611995",
+        "tieude": "Kỹ Sư Điện",
+        "name": null,
+        "thoihan": "12/25/2023 5:13:12 AM",
+        "tenND": "Bảo Vệ",
+        "diachiND": "Điện An, Điện Bàn, Quảng Nam",
+        "emailND": "",
+        "emailxxxND": "xxxx0283974",
+        "ngaydang": null,
+        "hinhdaidien": null,
+        "noidungtomtat": null,
+        "loai": null,
+        "chucdanh": null,
+        "nganh": null,
+        "ngoaingu": null,
+        "diachimap": [
+          {
+            "tengoi": "Điện An, Điện Bàn, Quảng Nam",
+            "toadox": "15.902694439000072",
+            "toadoy": "108.24005710300008"
+          }
+        ],
+        "tinh": [
+          {
+            "tengoi": "Tỉnh Quảng Nam",
+            "huyen": null,
+            "url": "Tinh-Quang-Nam"
+          },
+          {
+            "tengoi": null,
+            "huyen": "Thị xã Điện Bàn",
+            "url": "Thi-xa-dien-Ban"
+          },
+          {
+            "tengoi": null,
+            "huyen": null,
+            "url": "Phuong-dien-An"
+          }
+        ],
+        "gia": [
+          {
+            "sotien": "0",
+            "viet": "",
+            "donvi": "2 000 000"
+          }
+        ]
+      },
+      {
+        "id": "37482",
+        "loaitin": "thuong",
+        "url": "nhan-vien-ho-tro-ky-thuat-mi-store--hcm---q-1-",
+        "tieude": "Nhân Viên Hỗ Trợ Kỹ Thuật Mi Store [Hcm - Q.1]",
+        "name": null,
+        "thoihan": "12/25/2023 5:15:12 AM",
+        "tenND": "Bến Nghé",
+        "diachiND": "Bến Nghé, Quận 1, HCM",
+        "emailND": "",
+        "emailxxxND": "xxxx0283974",
+        "ngaydang": null,
+        "hinhdaidien": null,
+        "noidungtomtat": null,
+        "loai": null,
+        "chucdanh": null,
+        "nganh": null,
+        "ngoaingu": null,
+        "diachimap": [
+          {
+            "tengoi": "Bến Nghé, Quận 1, HCM",
+            "toadox": "10.771046493135335",
+            "toadoy": "106.70263841219635"
+          }
+        ],
+        "tinh": [
+          {
+            "tengoi": "Thành phố Hồ Chí Minh",
+            "huyen": null,
+            "url": "Thanh-pho-Ho-Chi-Minh"
+          },
+          {
+            "tengoi": null,
+            "huyen": "Quận 1",
+            "url": "Quan-1"
+          },
+          {
+            "tengoi": null,
+            "huyen": null,
+            "url": "Phuong-Ben-Nghe"
+          }
+        ],
         "gia": [
           {
             "sotien": "",
             "viet": "",
             "donvi": ""
           }
-        ],
-        "tenND": "",
-        "diachiND": "",
+        ]
+      },
+      {
+        "id": "37481",
+        "loaitin": "thuong",
+        "url": "ke-toan-truong",
+        "tieude": "Kế Toán Trưởng",
+        "name": null,
+        "thoihan": "12/25/2023 5:20:19 AM",
+        "tenND": "Đồng Xuân",
+        "diachiND": "Đồng Xuân, Phúc Yên, Vĩnh Phúc",
         "emailND": "",
-        "emailxxxND": ""
+        "emailxxxND": "xxxx0283974",
+        "ngaydang": null,
+        "hinhdaidien": null,
+        "noidungtomtat": null,
+        "loai": null,
+        "chucdanh": null,
+        "nganh": null,
+        "ngoaingu": null,
+        "diachimap": [
+          {
+            "tengoi": "Đồng Xuân, Phúc Yên, Vĩnh Phúc",
+            "toadox": "21.27692744500007",
+            "toadoy": "105.72974574100004"
+          }
+        ],
+        "tinh": [
+          {
+            "tengoi": "Tỉnh Vĩnh Phúc",
+            "huyen": null,
+            "url": "Tinh-Vinh-Phuc"
+          },
+          {
+            "tengoi": null,
+            "huyen": "Thị xã Phúc Yên",
+            "url": "Thi-xa-Phuc-Yen"
+          },
+          {
+            "tengoi": null,
+            "huyen": null,
+            "url": "Phuong-dong-Xuan-Thi-xa-Phuc-Yen"
+          }
+        ],
+        "gia": [
+          {
+            "sotien": "",
+            "viet": "",
+            "donvi": ""
+          }
+        ]
+      },
+      {
+        "id": "37480",
+        "loaitin": "thuong",
+        "url": "kien-truc-su-thiet-ke",
+        "tieude": "Kiến Trúc Sư Thiết Kế",
+        "name": null,
+        "thoihan": "12/25/2023 5:27:09 AM",
+        "tenND": "Hiệp Thạnh",
+        "diachiND": "Hiệp Thạnh, Duyên Hải, Trà Vinh",
+        "emailND": "",
+        "emailxxxND": "xxxx0283974",
+        "ngaydang": null,
+        "hinhdaidien": null,
+        "noidungtomtat": null,
+        "loai": null,
+        "chucdanh": null,
+        "nganh": null,
+        "ngoaingu": null,
+        "diachimap": [
+          {
+            "tengoi": "Hiệp Thạnh, Duyên Hải, Trà Vinh",
+            "toadox": "9.739035555000044",
+            "toadoy": "106.55264405200006"
+          }
+        ],
+        "tinh": [
+          {
+            "tengoi": "Tỉnh Trà Vinh",
+            "huyen": null,
+            "url": "Tinh-Tra-Vinh"
+          },
+          {
+            "tengoi": null,
+            "huyen": "Thị xã Duyên Hải",
+            "url": "Thi-xa-Duyen-Hai"
+          },
+          {
+            "tengoi": null,
+            "huyen": null,
+            "url": "Xa-Hiep-Thanh-Thi-xa-Duyen-Hai"
+          }
+        ],
+        "gia": [
+          {
+            "sotien": "",
+            "viet": "",
+            "donvi": ""
+          }
+        ]
       }
     ]
   }

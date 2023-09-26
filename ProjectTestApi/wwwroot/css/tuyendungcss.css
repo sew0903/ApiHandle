@@ -281,18 +281,18 @@
     display: block;
 }
 
-.tuyendung .container .row .diachiND:before {
-    content: '';
-    background: url('/icon/location.svg');
-    background-repeat: no-repeat;
-    background-size: 12px 16px;
-    display: inline-block;
-    height: 16px;
-    margin-right: 3px;
-    position: relative;
-    top: 3px;
-    width: 12px;
-}
+    .tuyendung .container .row .diachiND:before {
+        content: '';
+        background: url("http://media.tuyennhansu.vn/icon/location.svg");
+        background-repeat: no-repeat;
+        background-size: 12px 16px;
+        display: inline-block;
+        height: 16px;
+        margin-right: 3px;
+        position: relative;
+        top: 3px;
+        width: 12px;
+    }
 
 .tuyendung .container .row .chucdanh {
     display: block;
