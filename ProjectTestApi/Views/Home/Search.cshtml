@@ -1,0 +1,96 @@
+﻿@model List<ApiModel.DataDetail>
+@{
+    ViewData["Title"] = "Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="id35030 timboloc ">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb" itemscope="" itemtype="https://schema.org/BreadcrumbList">
+            <li class="breadcrumb-item" itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
+                <a href="/">Trang chủ</a>
+            </li>
+            <li class="breadcrumb-item" itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
+                <a href="/tim-cong-viec">Kết quả tìm kiếm theo yêu cầu </a>
+            </li>
+        </ol>
+    </nav>
+    <div class="container">
+        <div class="boloc-danhmuc"></div>
+    </div>
+    <div class="container">
+        <div class="row">
+            @if(Model != null)
+            {
+                @foreach (var item in Model)
+                {
+                    <div class="ndct">
+                        <div class="wrap-ndct">
+                            <div class="thuong 37424 111">
+                                <div class="ct">
+                                    <h3>
+                                        <a href="@item.url">
+                                            @item.tieude
+                                        </a>
+                                    </h3>
+                                    <span class="tenND">@item.tenND</span>
+                                    <div class="gia"><span class="dv">@item.gia[0].donvi</span></div><span class="diachiND">
+                                        @item.diachimap[0].tengoi
+                                    </span><span class="chucdanh">
+                                        @if (item.chucdanh != null)
+                                        {
+                                            foreach (var data in item.chucdanh)
+                                            {
+                                                <a href="@data.url">
+                                                    @data.tengoi
+                                                </a>
+                                            }
+                                        }
+                                    </span><span class="loai">
+                                        @if (item.loai != null)
+                                        {
+                                            foreach (var data in item.loai)
+                                            {
+                                                <a href="@data.url">
+                                                    <a href="@data.url">@data.tengoi</a>
+                                                </a>
+                                            }
+                                        }
+                                    </span><span class="thoihan">
+                                        @if (item.thoihan != null)
+                                        {
+                                            @item.thoihan
+                                            ;
+                                        }
+                                    </span><span class="ngoaingu">
+                                        @if (item.ngoaingu != null)
+                                        {
+                                            foreach (var data in item.ngoaingu)
+                                            {
+                                                <a href="@data.url">@data.tengoi</a>
+                                            }
+                                        }
+                                    </span>
+                                    <div class="vttd">
+                                        @if (item.nganh != null)
+                                        {
+                                            @foreach (var carrer in item.nganh)
+                                            {
+                                                <a href="@carrer.url">@carrer.tengoi</a>
+                                            }
+                                        }
+                                    </div>
+                                    <div class="group-wishlist">
+                                        <div class="wish_list "></div>
+                                        <div class="add_to_cart  "></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            <div class="xemthem"><span><a href="/undefined"></a></span></div>
+        </div>
+    </div>
+</div>

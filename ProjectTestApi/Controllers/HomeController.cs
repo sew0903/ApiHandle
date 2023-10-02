@@ -5,7 +5,12 @@ using ProjectTestApi.Models;
 using System.Diagnostics;
 using System.Net;
 using System.Reflection.PortableExecutable;
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.Json;
+using System.Web;
+using X.PagedList;
+using X.PagedList.Web.Common;
 
 namespace ProjectTestApi.Controllers
 {
@@ -14,6 +19,7 @@ namespace ProjectTestApi.Controllers
 
         private readonly ILogger<HomeController> _logger;
         public const string _url = "http://ww2.tuyennhansu.vn/";
+        public const string _urlBreadCrumb = "http://ww2.tuyennhansu.vn/web.breadcrumb.asp?id=";
         string notice = "";
 
         public HomeController(ILogger<HomeController> logger)
@@ -23,10 +29,11 @@ namespace ProjectTestApi.Controllers
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
         }
 
+        [Route("/")]
         public async Task<IActionResult> Index()
         {
             try {
-                var json = (new WebClient()).DownloadString("http://ww2.tuyennhansu.vn/web.trangchu.module.content.asp");
+                var json = (new WebClient()).DownloadString(_url + "web.trangchu.module.content.asp");
                 var list = JsonSerializer.Deserialize<List<ApiModel>>(json);
                 return View(list);
             }
@@ -36,141 +43,167 @@ namespace ProjectTestApi.Controllers
             }
         }
 
-        [Route("Home/tin-tuc")]
+        [Route("tin-tuc")]
         public async Task<IActionResult> News()
         {
             const int idpart = 35001;
-            string data = "";
+            var isCheckBreadCrumb = GetValueBreadCrumb(idpart);
             try
             {
                 var obj = _listNewsModels(idpart);
-
-                TempData["ControllerName"] = this.ControllerContext.RouteData.Values["controller"].ToString();
-                TempData["ActionName"] = this.ControllerContext.RouteData.Values["action"].ToString();
-                ViewBag.DataJson = data;
-
+                if (isCheckBreadCrumb != null) {
+                    ViewBag.BreadCrumb = isCheckBreadCrumb;
+                }
                 return View(obj);
             }
             catch(Exception e)
             {
-                return Json(e.Message);
+                throw;
             }
         }
 
-        [Route("/{url}")]
-        public async Task<IActionResult> News(string url)
+        [Route("tuyen-nhan-vien")]
+        public async Task<IActionResult> Recruitment(int? page)
         {
-            const int idpart = 35001;
-            var data = "";
-            if (GetNameUrl(url))
-            {
-                try
-                {
-                    var obj = _listNewsModels(idpart);
-
-                    TempData["ControllerName"] = this.ControllerContext.RouteData.Values["controller"].ToString();
-                    TempData["ActionName"] = this.ControllerContext.RouteData.Values["action"].ToString();
-
-                    return View(obj);
-                }catch(Exception e)
-                {
-                    notice = e.Message.ToString();
-                }
-            }
-            return Json(notice);
-        }
-
-        [Route("can-tuyen-thuc-tap-sinh")]
-        [Route("Home/can-tuyen-thuc-tap-sinh")]
-        public async Task<IActionResult> Recruitment()
-        {
-            string data = "";
             const int idpart = 35004;
+            var isCheckBreadCrumb = GetValueBreadCrumb(idpart);
             try
             {
-                var obj = _listRecruitmentModels(idpart/*,ref data*/);
+                var obj = _listRecruitmentModels(idpart);
+                if (isCheckBreadCrumb != null)
+                {
+                    ViewBag.BreadCrumb = isCheckBreadCrumb;
+                }
 
-                TempData["ControllerName"] = this.ControllerContext.RouteData.Values["controller"].ToString();
-                TempData["ActionName"] = this.ControllerContext.RouteData.Values["action"].ToString();
-                ViewBag.DataJson = data;
-
-                return View(obj);
+                int pageSize = 3;
+                int pageNumber = page == null || page < 0 ? 1 : page.Value;
+                PagedList<ApiModel.DataDetail> lst = new PagedList<ApiModel.DataDetail>(obj[0].data, pageNumber, pageSize);
+                return View(lst);
             }
             catch(Exception e)
             {
-                return Json(e.Message);
+                throw;
             }
         }
-        public async Task<IActionResult> Recruitment(int IdPart)
-        {
-            const int idpart = 35004;
-            var data = "";
 
-            if (idpart == IdPart)
-            {
-                try
-                {
-                    var obj = _listRecruitmentModels(idpart/*, ref data*/);
-
-                    TempData["ControllerName"] = this.ControllerContext.RouteData.Values["controller"].ToString();
-                    TempData["ActionName"] = this.ControllerContext.RouteData.Values["action"].ToString();
-
-                    return View(obj);
-                }
-                catch(Exception e) { notice = e.Message.ToString();}
-            }
-            return Json(notice);
-        }
-
-        [Route("ho-so-thuc-tap-sinh")]
-        [Route("Home/ho-so-thuc-tap-sinh")]
         public async Task<IActionResult> Intern()
         {
-            var data = "";
-            const int idpart = 35031;
+            const int idpart = 35004;
+            var isCheckBreadCrumb = GetValueBreadCrumb(idpart);
             try
             {
-                var obj = _listInternModels(idpart);
-
-                TempData["ControllerName"] = this.ControllerContext.RouteData.Values["controller"].ToString();
-                TempData["ActionName"] = this.ControllerContext.RouteData.Values["action"].ToString();
-                ViewBag.DataJson = data;
-
+                var obj = _listNewsModels(idpart);
+                if (isCheckBreadCrumb != null)
+                {
+                    ViewBag.BreadCrumb = isCheckBreadCrumb;
+                }
                 return View(obj);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                return Json(e.Message);
+                throw;
             }
-        }
-
-        public async Task<IActionResult> Intern(int IdPart)
-        {
-            const int idpart = 35031;
-            var data = "";
-            if (idpart == IdPart)
-            {
-                try
-                {
-                    var obj = _listInternModels(idpart/*, ref data*/);
-
-                    TempData["ControllerName"] = this.ControllerContext.RouteData.Values["controller"].ToString();
-                    TempData["ActionName"] = this.ControllerContext.RouteData.Values["action"].ToString();
-
-                    return View(obj);
-                }catch(Exception e)
-                {
-                    notice = e.Message.ToString();
-                }
-            }
-            return Json(notice);
         }
 
         [Route("ban-do")]
-        [Route("Home/ban-do")]
         public async Task<IActionResult> Map()
         {
+            const int idpart = 35014;
+            var isCheckBreadCrumb = GetValueBreadCrumb(idpart);
+            try
+            {
+                if (isCheckBreadCrumb != null)
+                {
+                    ViewBag.BreadCrumb = isCheckBreadCrumb;
+                }
+            }
+            catch(Exception e)
+            {
+                throw;
+            }
             return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Login()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginViewModel loginViewModel)
+        {
+            var urlApi = "http://ww1.tuyennhansu.vn/userlogin.asp?userid=" + loginViewModel.typeEmailX + "&pass=" + loginViewModel.typePasswordX;
+            try
+            {
+                var json = ReadJson(urlApi);
+                if(json != null)
+                {
+                    var result = JsonSerializer.Deserialize<List<StatusLoginModel>>(json);
+                    return Json(result);
+                }
+            } 
+            catch(Exception e)
+            {
+                throw;
+            }
+            return View();
+        }
+
+        [HttpGet]
+        public  async Task<IActionResult> Search()
+        {
+            var urlSearch = "http://ww2.tuyennhansu.vn/module.Timboloc.asp";
+            try
+            {
+                var json = ReadJson(urlSearch);
+                if (json != null)
+                {
+                    var list = JsonSerializer.Deserialize<List<ApiModel>>(json);
+                    return View(list[0].data);
+                }
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
+            return RedirectToAction("Index","Home");
+        }
+        [HttpPost]
+        public async Task<IActionResult> Search(SearchViewModel searchViewModel)
+        {
+            var url = "http://ww2.tuyennhansu.vn/module.timboloc.asp?id=&id1=&id2=";
+            try
+            {
+                if(searchViewModel.id != null && searchViewModel.id2 == null)
+                {
+                    var _id = ReplaceSpacesWithPercent20(searchViewModel.id);
+                    url = "http://ww2.tuyennhansu.vn/module.timboloc.asp?id=" + _id + "&id1=&id2=";
+                   
+                }
+                else if(searchViewModel.id == null && searchViewModel.id2 != null)
+                {
+                    var _id2 = ReplaceSpacesWithPercent20(searchViewModel.id2);
+                    url = url + _id2;
+                }
+                else if(searchViewModel.id != null && searchViewModel.id2 != null)
+                {
+                    var _id = ReplaceSpacesWithPercent20(searchViewModel.id);
+                    var _id2 = ReplaceSpacesWithPercent20(searchViewModel.id2);
+                    url = "http://ww2.tuyennhansu.vn/module.timboloc.asp?id=" + _id2 + "&id1=&id2=" + _id;
+                }
+                var json = (new WebClient()).DownloadString(url);
+                var list = JsonSerializer.Deserialize<List<ApiModel>>(json);
+                if (list.Count != 0)
+                {
+                    return View(list[0].data);
+                }
+                return View();
+            }
+            catch(Exception e)
+            {
+                throw;
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -198,7 +231,7 @@ namespace ProjectTestApi.Controllers
             {
                 if(js.idpart == key.ToString())
                 {
-                    var result = _url+ "module."+js.kieuhienthi+".trangchu.asp?id="+js.idpart;
+                    var result = _url+ "module."+js.kieuhienthi+".asp?id="+js.idpart;
                     return result;
                 }
             }
@@ -273,6 +306,32 @@ namespace ProjectTestApi.Controllers
                 }
             }
             return false;
+        }
+        private List<BreadCrumbModel> GetValueBreadCrumb(int idPart)
+        {
+            var arr = JsonSerializer.Deserialize<List<BreadCrumbModel>>(ReadJson(_urlBreadCrumb+idPart));
+            if(arr != null)
+            {
+                return arr;
+            }
+            return null;
+        }
+
+        private string ReplaceSpacesWithPercent20(string input)
+        {
+            StringBuilder result = new StringBuilder();
+            foreach (char c in input)
+            {
+                if (c == ' ')
+                {
+                    result.Append("%20");
+                }
+                else
+                {
+                    result.Append(c);
+                }
+            }
+            return result.ToString();
         }
     }
 }

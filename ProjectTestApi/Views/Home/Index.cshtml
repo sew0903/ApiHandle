@@ -10,338 +10,477 @@
 
     var jsonState = (new WebClient()).DownloadString("http://ww2.tuyennhansu.vn/dialy.tinhthanh.asp");
     var arrStates = JsonConvert.DeserializeObject<List<ApiModel>>(jsonState);
+    string idState = "";
 }
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Trang chủ";
 }
-@foreach (var item in Model.Select((value, i) => new { i, value }))
-{
-    var url = HomeController._url + "module." + item.value.module + ".trangchu.asp?id=" + item.value.idpart;
-    switch (int.Parse(item.value.idpart))
+<div class="page-wraper">
+    @foreach (var item in Model.Select((value, i) => new { i, value }))
     {
-        case 35019:
-            try
-            {
-                var json = (new WebClient()).DownloadString(url);
-                var list = JsonConvert.DeserializeObject<List<ApiModel>>(json);
-                <div class="id35019 tuyendung">
-                    <div class="container">
-                        <h2>
-                            <a href="@item.value.url">@item.value.tieude</a>
-                        </h2>
-                    </div>
-                    <div class="th-tuyendung">
+        var url = HomeController._url + "module." + item.value.module + ".trangchu.asp?id=" + item.value.idpart;
+        switch (int.Parse(item.value.idpart))
+        {
+            case 35019:
+                try
+                {
+                    var json = (new WebClient()).DownloadString(url);
+                    var list = JsonConvert.DeserializeObject<List<ApiModel>>(json);
+                    <div class="id35019 tuyendung">
                         <div class="container">
-                            <div class="row">
-                                @foreach (var data in list[0].data.Select((value, i) => new { i, value }))
-                                {
-                                    <div class="ndct">
-                                        <div class="wrap-ndct">
-                                            <div class="@data.value.loaitin 37506 111">
+                            <h2>
+                                <a href="@item.value.url">@item.value.tieude</a>
+                            </h2>
+                        </div>
+                        <div class="th-tuyendung">
+                            <div class="container">
+                                <div class="row">
+                                    @foreach (var data in list[0].data.Select((value, i) => new { i, value }))
+                                    {
+                                        <div class="ndct">
+                                            <div class="wrap-ndct">
+                                                <div class="@data.value.loaitin 37506 111">
+                                                    <div class="ct">
+                                                        <h3>
+                                                            <a>@data.value.tieude</a>
+                                                        </h3>
+                                                        <span class="tenND">
+                                                            @data.value.tenND
+                                                        </span>
+                                                        <div class="gia">
+                                                            <span class="st"></span>
+                                                            @if (data.value.gia != null)
+                                                            {
+                                                                @foreach (var price in data.value.gia)
+                                                                {
+                                                                    <span class="dv">@price.donvi</span>
+                                                                }
+                                                            }
+                                                        </div>
+                                                        <div class="diachiND">
+                                                            <span>@data.value.diachiND</span>
+                                                        </div>
+                                                        <div class="chucdanh">
+                                                            @if (data.value.chucdanh != null)
+                                                            {
+                                                                @foreach (var position in data.value.chucdanh)
+                                                                {
+                                                                    <a href="@position.url">@position.tengoi</a>
+                                                                }
+                                                            }
+                                                        </div>
+                                                        <div class="loai">
+                                                            @if (data.value.loai != null)
+                                                            {
+                                                                @foreach (var loai in data.value.loai)
+                                                                {
+                                                                    <a href="@loai.url">@loai.tengoi</a>
+                                                                }
+                                                            }
+                                                        </div>
+                                                        <div class="thoihan">
+                                                            @data.value.thoihan
+                                                        </div>
+                                                        <div class="ngoaingu">
+                                                            @if (data.value.ngoaingu != null)
+                                                            {
+                                                                @foreach (var language in data.value.ngoaingu)
+                                                                {
+                                                                    <a href="@language.url">@language.tengoi</a>
+                                                                }
+                                                            }
+                                                        </div>
+                                                        <div class="vttd">
+                                                            @if (data.value.nganh != null)
+                                                            {
+                                                                @foreach (var carrer in data.value.nganh)
+                                                                {
+                                                                    <a href="@carrer.url">@carrer.tengoi</a>
+                                                                }
+                                                            }
+                                                        </div>
+                                                        <div class="group-wishlist">
+                                                            <div class="wish_list "></div>
+                                                            <div class="add_to_cart  "></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container tt-tuyendung"></div>
+                    </div>
+                }
+                catch
+                {
+                    break;
+                }
+                break;
+            case 35001:
+                try
+                {
+                    var json = (new WebClient()).DownloadString(url);
+                    var list = JsonConvert.DeserializeObject<List<ApiModel>>(json);
+                    <div class="id35001 tintuc">
+                        <div class="container">
+                            <h2>
+                                <a href="">@item.value.tieude</a>
+                            </h2>
+                        </div>
+                        <div class="th-tintuc">
+                            <div class="container">
+                                <div class="row">
+                                    @foreach (var data in list[0].data.Select((value, i) => new { i, value }))
+                                    {
+                                        <div class="ndct">
+                                            <div class="wrap-ndct">
+                                                <div class="hinh">
+                                                    <a href="@data.value.url">
+                                                        <img src="@data.value.hinhdaidien" alt="" class="border">
+                                                    </a>
+                                                </div>
                                                 <div class="ct">
+                                                    <div class="ngdang">
+                                                        @data.value.ngaydang
+                                                    </div>
                                                     <h3>
-                                                        <a>@data.value.tieude</a>
+                                                        <a href="@data.value.url">@data.value.tieude</a>
                                                     </h3>
-                                                    <span class="tenND">
-                                                        @data.value.tenND
-                                                    </span>
-                                                    <div class="gia">
-                                                        <span class="st"></span>
-                                                        @if(data.value.gia != null)
-                                                        {
+                                                    <div class="ttct">
+                                                        <p>@Html.Raw(@data.value.noidungtomtat)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container tt-tintuc"></div>
+                    </div>
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+                break;
+            case 35031:
+                break;
+            case 35008:
+                break;
+            case 35004:
+                try
+                {
+                    var json = (new WebClient()).DownloadString(url);
+                    var list = JsonConvert.DeserializeObject<List<ApiModel>>(json);
+                    <div class="id35004 tuyendung">
+                        <div class="container">
+                            <h2>
+                                <a href="@item.value.url">@item.value.tieude</a>
+                            </h2>
+                        </div>
+                        <div class="th-tuyendung">
+                            <div class="container">
+                                <div class="row">
+                                    @foreach (var data in list[0].data.Select((value, i) => new { i, value }))
+                                    {
+                                        <div class="ndct">
+                                            <div class="wrap-ndct">
+                                                <div class="@data.value.loaitin 37506 111">
+                                                    <div class="ct">
+                                                        <h3>
+                                                            <a>@data.value.tieude</a>
+                                                        </h3>
+                                                        <span class="tenND">
+                                                            @data.value.tenND
+                                                        </span>
+                                                        <div class="gia">
+                                                            <span class="st"></span>
                                                             @foreach (var price in data.value.gia)
                                                             {
                                                                 <span class="dv">@price.donvi</span>
                                                             }
-                                                        }
-                                                    </div>
-                                                    <div class="diachiND">
-                                                        <span>@data.value.diachiND</span>
-                                                    </div>
-                                                    <div class="chucdanh">
-                                                        @if(data.value.chucdanh != null)
-                                                        {
-                                                            @foreach (var position in data.value.chucdanh)
+                                                        </div>
+                                                        <div class="diachiND">
+                                                            <span>@data.value.diachiND</span>
+                                                        </div>
+                                                        <div class="chucdanh">
+                                                            @if (data.value.chucdanh != null)
                                                             {
-                                                                <a href="@position.url">@position.tengoi</a>
+                                                                @foreach (var position in data.value.chucdanh)
+                                                                {
+                                                                    <a href="@position.url">@position.tengoi</a>
+                                                                }
                                                             }
-                                                        }
-                                                    </div>
-                                                    <div class="loai">
-                                                        @if (data.value.loai != null)
-                                                        {
-                                                            @foreach (var loai in data.value.loai)
+                                                        </div>
+                                                        <div class="loai">
+                                                            @if (data.value.loai != null)
                                                             {
-                                                                <a href="@loai.url">@loai.tengoi</a>
+                                                                @foreach (var loai in data.value.loai)
+                                                                {
+                                                                    <a href="@loai.url">@loai.tengoi</a>
+                                                                }
                                                             }
-                                                        }
-                                                    </div>
-                                                    <div class="thoihan">
-                                                        @data.value.thoihan
-                                                    </div>
-                                                    <div class="ngoaingu">
-                                                        @if (data.value.ngoaingu != null)
-                                                        {
-                                                            @foreach (var language in data.value.ngoaingu)
+                                                        </div>
+                                                        <div class="thoihan">
+                                                            @data.value.thoihan
+                                                        </div>
+                                                        <div class="ngoaingu">
+                                                            @if (data.value.ngoaingu != null)
                                                             {
-                                                                <a href="@language.url">@language.tengoi</a>
+                                                                @foreach (var language in data.value.ngoaingu)
+                                                                {
+                                                                    <a href="@language.url">@language.tengoi</a>
+                                                                }
                                                             }
-                                                        }
-                                                    </div>
-                                                    <div class="vttd">
-                                                        @if(data.value.nganh != null)
-                                                        {
-                                                            @foreach (var carrer in data.value.nganh)
+                                                        </div>
+                                                        <div class="vttd">
+                                                            @if (data.value.nganh != null)
                                                             {
-                                                                <a href="@carrer.url">@carrer.tengoi</a>
+                                                                @foreach (var carrer in data.value.nganh)
+                                                                {
+                                                                    <a href="@carrer.url">@carrer.tengoi</a>
+                                                                }
                                                             }
-                                                        }
-                                                    </div>
-                                                    <div class="group-wishlist">
-                                                        <div class="wish_list "></div>
-                                                        <div class="add_to_cart  "></div>
+                                                        </div>
+                                                        <div class="group-wishlist">
+                                                            <div class="wish_list "></div>
+                                                            <div class="add_to_cart  "></div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                }
+                                    }
+                                </div>
                             </div>
                         </div>
+                        <div class="container tt-tuyendung"></div>
                     </div>
-                    <div class="container tt-tuyendung"></div>
-                </div>
-            }
-            catch
-            {
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
                 break;
-            }
-            break;
-        case 35001:
-            try
-            {
-                var json = (new WebClient()).DownloadString(url);
-                var list = JsonConvert.DeserializeObject<List<ApiModel>>(json);
-                <div class="id35001 tintuc">
-                    <div class="container">
-                        <h2>
-                            <a href="">@item.value.tieude</a>
-                        </h2>
-                    </div>
-                    <div class="th-tintuc">
+            case 35028:
+                try
+                {
+                    <div class="id35028 ykienkhachhang">
                         <div class="container">
-                            <div class="row">
-                                @foreach (var data in list[0].data.Select((value, i) => new { i, value }))
-                                {
-                                    <div class="ndct">
-                                        <div class="wrap-ndct">
-                                            <div class="hinh">
-                                                <a href="@data.value.url">
-                                                    <img src="@data.value.hinhdaidien" alt="" class="border">
-                                                </a>
-                                            </div>
-                                            <div class="ct">
-                                                <div class="ngdang">
-                                                    @data.value.ngaydang
-                                                </div>
-                                                <h3>
-                                                    <a href="@data.value.url">@data.value.tieude</a>
-                                                </h3>
-                                                <div class="ttct">
-                                                    <p>@Html.Raw(@data.value.noidungtomtat)</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
-                            </div>
+                            <h2><a href="/khach-hang-nhan-xet">Nhận xét</a></h2>
                         </div>
-                    </div>
-                    <div class="container tt-tintuc"></div>
-                </div>
-            }
-            catch (Exception)
-            {
-                
-                throw;
-            }
-            break;
-        case 35031:
-            break;
-        case 35008:
-            break;
-        case 35004:
-           try
-            {
-                var json = (new WebClient()).DownloadString(url);
-                var list = JsonConvert.DeserializeObject<List<ApiModel>>(json);
-                <div class="id35004 tuyendung">
-                    <div class="container">
-                        <h2>
-                            <a href="@item.value.url">@item.value.tieude</a>
-                        </h2>
-                    </div>
-                    <div class="th-tuyendung">
-                        <div class="container">
-                            <div class="row">
-                                @foreach (var data in list[0].data.Select((value, i) => new { i, value }))
-                                {
-                                    <div class="ndct">
-                                        <div class="wrap-ndct">
-                                            <div class="@data.value.loaitin 37506 111">
-                                                <div class="ct">
-                                                    <h3>
-                                                        <a>@data.value.tieude</a>
-                                                    </h3>
-                                                    <span class="tenND">
-                                                        @data.value.tenND
-                                                    </span>
-                                                    <div class="gia">
-                                                        <span class="st"></span>
-                                                        @foreach (var price in data.value.gia)
-                                                        {
-                                                            <span class="dv">@price.donvi</span>
-                                                        }
-                                                    </div>
-                                                    <div class="diachiND">
-                                                        <span>@data.value.diachiND</span>
-                                                    </div>
-                                                    <div class="chucdanh">
-                                                        @if(data.value.chucdanh != null)
-                                                        {
-                                                            @foreach (var position in data.value.chucdanh)
-                                                            {
-                                                                <a href="@position.url">@position.tengoi</a>
-                                                            }
-                                                        }
-                                                    </div>
-                                                    <div class="loai">
-                                                        @if(data.value.loai != null)
-                                                        {
-                                                            @foreach (var loai in data.value.loai)
-                                                            {
-                                                                <a href="@loai.url">@loai.tengoi</a>
-                                                            }
-                                                        }
-                                                    </div>
-                                                    <div class="thoihan">
-                                                        @data.value.thoihan
-                                                    </div>
-                                                    <div class="ngoaingu">
-                                                       @if(data.value.ngoaingu != null){
-                                                            @foreach (var language in data.value.ngoaingu)
-                                                            {
-                                                                <a href="@language.url">@language.tengoi</a>
-                                                            }
-                                                        }
-                                                    </div>
-                                                    <div class="vttd">
-                                                        @if(data.value.nganh != null)
-                                                        {
-                                                            @foreach (var carrer in data.value.nganh)
-                                                            {
-                                                                <a href="@carrer.url">@carrer.tengoi</a>
-                                                            }
-                                                        }
-                                                    </div>
-                                                    <div class="group-wishlist">
-                                                        <div class="wish_list "></div>
-                                                        <div class="add_to_cart  "></div>
+                        <div class="th-ykienkhachhang">
+                            <div class="container ">
+                                <div class="swiper-container">
+                                    <div class="swiper-wrapper">
+                                        <!-- Đưa các phần tử muốn hiển thị trong carousel vào đây -->
+                                        <div class="swiper-slide" style="text-align:center">
+                                            <div>
+                                                <div class="ykienkh">
+                                                    <h6><a href="/">Chị Trang</a></h6>
+                                                    <div class="ykkh_ngaydang">9/27/2017 8:05:49 AM</div>
+                                                    <div class="ykkh_ndtt">
+                                                        <p>
+                                                        <p>
+                                                            Trước có nhờ trung tâm khác, khi chuyển qua bên Thế Giới Gia Sư thấy các thầy cô tư vấn tốt hơn nhiều,
+                                                            con mình đã học được 1 tháng, sang năm sẽ tiếp tục nhờ các bạn tìm gia sư cho con mình.
+                                                        </p>
+                                                        <p><strong>Thu Trang</strong>, chợ Tân Bình</p>
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="swiper-slide" style="text-align:center">
+                                            <div>
+                                                <div class="ykienkh">
+                                                    <h6><a href="/">Trần Văn Thể</a></h6>
+                                                    <div class="ykkh_ngaydang">9/27/2017 8:02:44 AM</div>
+                                                    <div class="ykkh_ndtt">
+                                                        <p>
+                                                        <p>Gia sư tốt, con tôi tiến bộ nhiều.</p>
+                                                        <p><strong>Trần Văn Thế</strong>, Quận 7, TPHCM</p>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="swiper-slide" style="text-align:center">
+                                            <div>
+                                                <div class="ykienkh">
+                                                    <h6><a href="/">Nguyễn Thị Dung</a></h6>
+                                                    <div class="ykkh_ngaydang">9/27/2017 7:56:35 AM</div>
+                                                    <div class="ykkh_ndtt">
+                                                        <p>
+                                                        <p>Tôi là phụ huynh cháu Thúy Diễm, con tôi được sinh viên dạy kèm và hiện đang học rất tốt.</p>
+                                                        <p><strong>Nguyễn Thị Dung</strong> phụ huynh Trần Thị Thúy Diễm</p>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="swiper-slide" style="text-align:center">
+                                            <div>
+                                                <div class="ykienkh">
+                                                    <h6><a href="/">Chị Trang</a></h6>
+                                                    <div class="ykkh_ngaydang">9/27/2017 8:05:49 AM</div>
+                                                    <div class="ykkh_ndtt">
+                                                        <p>
+                                                        <p>
+                                                            Trước có nhờ trung tâm khác, khi chuyển qua bên Thế Giới Gia Sư thấy các thầy cô tư vấn tốt hơn nhiều,
+                                                            con mình đã học được 1 tháng, sang năm sẽ tiếp tục nhờ các bạn tìm gia sư cho con mình.
+                                                        </p>
+                                                        <p><strong>Thu Trang</strong>, chợ Tân Bình</p>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="swiper-slide" style="text-align:center">
+                                            <div>
+                                                <div class="ykienkh">
+                                                    <h6><a href="/">Trần Văn Thể</a></h6>
+                                                    <div class="ykkh_ngaydang">9/27/2017 8:02:44 AM</div>
+                                                    <div class="ykkh_ndtt">
+                                                        <p>
+                                                        <p>Gia sư tốt, con tôi tiến bộ nhiều.</p>
+                                                        <p><strong>Trần Văn Thế</strong>, Quận 7, TPHCM</p>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Thêm nhiều slide khác nếu cần -->
                                     </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="container tt-ykienkhachhang"></div>
+                    </div>
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+                break;
+            case 35030:
+                try
+                {
+                    <div class="id35030 laytimkiem">
+                        <div style="display:flex" class="container">
+                            <h2>
+                                <a href="@item.value.url">@item.value.tieude</a>
+                            </h2>
+                        </div>
+                        <div class="th-laytimkiem">
+                            <div class="container">
+                                @using (Html.BeginForm("Search", "Home", FormMethod.Post, new { @style = "display:flex" }))
+                                {
+                                    <form class="search-congviec">
+                                        <div class="item item-search">
+                                            <input name="id2" type="text" class="input-timcongviec" value="">
+                                        </div>
+                                        <div class="item item-city">
+                                            <input onclick="SearchClick()" id="input-searchJob" type="text" class="input-timcongviec" value="" data-bs-toggle="modal" data-bs-target="#exampleModalToggle">
+                                            <input name="id" type="hidden" id="input-ArrayIdMap" value="">
+                                            <span class="clear-tinhthanh "></span>
+                                        </div>
+                                        <button class="btn-tk" type="submit"></button>
+                                    </form>
                                 }
                             </div>
                         </div>
+                        <div class="container tt-laytimkiem"></div>
                     </div>
-                    <div class="container tt-tuyendung"></div>
-                </div>
-            }
-            catch (Exception)
-            {
-                
-                throw;
-            }
-            break;
-        case 35028:
-            try
-            {
-                <div class="id35028 ykienkhachhang">
-                    <div class="container">
-                        <h2>
-                            <a href="@item.value.url">@item.value.tieude</a>
-                        </h2>
-                    </div>
-                </div>
-            }
-            catch (Exception)
-            {
-                
-                throw;
-            }
-            break;
-        case 35030:
-            try
-            {
-                <div class="id35030 laytimkiem">
-                    <div class="container">
-                        <h2>
-                            <a href="@item.value.url">@item.value.tieude</a>
-                        </h2>
-                    </div>
-                    <div class="th-laytimkiem">
-                        <div class="container">
-                            <form class="search-congviec">
-                                <div class="item item-search">
-                                    <input type="text" class="input-timcongviec" value="">
-                                </div>
-                                <div class="item item-city">
-                                    <input type="text" class="input-timcongviec" value="" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                    <span class="clear-tinhthanh "></span>
-                                </div>
-                                <button class="btn-tk" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"></button>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="container tt-laytimkiem"></div>
-                </div>
-            }
-            catch (Exception)
-            {
-                
-                throw;
-            }
-            break;
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+                break;
+        }
     }
-}  
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+</div>
+
+<div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel" >Chọn theo khu vực tỉnh, thành phố </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title">Chọn theo khu vực tỉnh, thành phố</h5>
+                <button onclick="InsertNameMap()" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <select class="form-select" size="7" aria-label="size 3 select example">
-                    @{
-                        if(arrStates != null)
-                        {
-                            foreach(var state in arrStates)
-                            {                               
-                                        <option data-bs-dismiss="modal" class="state-value" value="@state.id" onclick="ClickStateHandle()">@state.ten</option>
-                            }
-                        }
-                    }
+            <div class="modal-body  modal-body-khuvuc">
+                <div class="modal-input-tt"><input class="form-control" type="text" placeholder="Tìm theo tỉnh thành" value=""></div>
+                <select id="selected-state" class="form-select" size="8" aria-label="size 3 select example">
                 </select>
             </div>
             <div class="modal-footer">
-
+                <button class="btn btn-primary" data-bs-dismiss="modal">Đóng</button>
             </div>
         </div>
     </div>
 </div>
+<div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalToggleLabel2">Chọn khu vực theo quận huyện</h5>
+                <button onclick="InsertNameMap()" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-input-tt"><input class="form-control" type="text" placeholder="Tìm theo quận huyện" value=""></div>
+                <select id="selected-district" class="form-select" size="8" aria-label="size 3 select example">
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button onclick="RemoveValueState()" class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal">Trở về</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="exampleModalToggle3" aria-hidden="true" aria-labelledby="exampleModalToggleLabel3" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalToggleLabel2">Chọn theo phường xã</h5>
+                <button onclick="InsertNameMap()" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-input-tt"><input class="form-control" type="text" placeholder="Tìm theo phường xã" value=""></div>
+                <select id="selected-wards" class="form-select" size="8" aria-label="size 3 select example">
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button onclick="RemoveValueDistrict()" class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Trở về</button>
+            </div>
+        </div>
+    </div>
+</div>
+<input id="input-state" type="hidden" />
+<input id="input-district" type="hidden" />
+<input id="input-wards" type="hidden" />
+
+<input id="input-IdState" type="hidden" />
+<input id="input-IdDistrict" type="hidden" />
+<input id="input-IdWards" type="hidden" />
+
+<div id="loading-container">
+    <div id="loading-spinner"></div>
+    <p id="loading-text">Đang tải...</p>
+</div>
+
+<button onclick="showLoading()">XXX</button>
+
+
+
 
 

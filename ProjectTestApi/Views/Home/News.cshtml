@@ -1,17 +1,50 @@
 ﻿@model List<ApiModel>
 @{
-    ViewData["Title"] = "News";
+    ViewData["Title"] = "Trang chủ";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<nav style="background-color:#e9ecef;height:100%">
-    <ol class="breadcrumb" itemtype="https://schema.org/BreadcrumList">
-        <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="htpp://schema.org/ListItem">
-            <a href="/">@TempData["ControllerName"]</a>
-        <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="htpp://schema.org/ListItem">
-            <a href="@Url.Action(TempData["ActionName"].ToString())">@TempData["ActionName"]</a>
-        </li>
-        </li>
-    </ol>
-</nav>
-
+<div class="id35001 tintuc ">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb" itemscope="" itemtype="https://schema.org/BreadcrumbList">
+            @{
+                foreach (var breadcrum in ViewBag.BreadCrumb)
+                {
+                    <li class="breadcrumb-item" itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
+                        <a href="@breadcrum.url">@breadcrum.tieude</a>
+                    </li>
+                }
+            }
+        </ol>
+    </nav>
+    <div class="container">
+        <div class="boloc-danhmuc"></div>
+    </div>
+    <div class="container">
+        <div class="row">
+            @foreach (var item in Model[0].data)
+            {
+                <div class="ndct">
+                    <div class="wrap-ndct">
+                        <div class="hinh">
+                            <a href="@item.url">
+                                <img class="border"
+                                     src="@item.hinhdaidien" alt="">
+                            </a>
+                        </div>
+                        <div class="ct">
+                            <div class="ngdang">@item.ngaydang</div>
+                            <h3>
+                                <a href="@item.url">
+                                    @item.tieude
+                                </a>
+                            </h3>
+                            <div class="ttct">
+                                <p>@Html.Raw(item.noidungtomtat)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

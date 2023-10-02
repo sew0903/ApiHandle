@@ -3,6 +3,64 @@
     ViewData["Title"] = "Map";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="id35014 bando ">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb" itemscope="" itemtype="https://schema.org/BreadcrumbList">
+            @{
+                foreach (var breadcrum in ViewBag.BreadCrumb)
+                {
+                    <li class="breadcrumb-item" itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
+                        <a href="@breadcrum.url">@breadcrum.tieude</a>
+                    </li>
+                }
+            }
+        </ol>
+    </nav>
+    <div class="container">
+        <div class="boloc-danhmuc"></div>
+    </div>
+
+    <div id="map" style="height: 400px;"></div>
+
+</div>
+
+<script>
+    var map = L.map('map').setView([51.505, -0.09], 13); // Thay đổi tọa độ và mức độ phóng to theo yêu cầu
+
+    // Hiển thị dịch vụ bản đồ từ OpenStreetMap
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Khai báo biến để lưu trữ đối tượng được click (hình đa giác)
+    var clickedPolygon = null;
+
+    // Xử lý sự kiện click
+    map.on('click', function (e) {
+        // Xóa đường viền của khu vực trước (nếu có)
+        if (clickedPolygon) {
+            map.removeLayer(clickedPolygon);
+        }
+
+        // Lấy tọa độ của điểm click
+        var latlng = e.latlng;
+
+        // Tạo một đa giác đại diện cho khu vực được click
+        var polygon = L.polygon([
+            [latlng.lat - 0.01, latlng.lng - 0.01],
+            [latlng.lat - 0.01, latlng.lng + 0.01],
+            [latlng.lat + 0.01, latlng.lng + 0.01],
+            [latlng.lat + 0.01, latlng.lng - 0.01]
+        ], {
+            color: 'red', // Màu của đường viền
+            weight: 2 // Độ rộng của đường viền
+        }).addTo(map);
+
+        // Lưu trữ đa giác vào biến clickedPolygon
+        clickedPolygon = polygon;
+    });
+</script>
+
 
 
 

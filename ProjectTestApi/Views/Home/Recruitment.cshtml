@@ -1,16 +1,22 @@
-﻿@model List<ApiModel>
+﻿@using X.PagedList.Mvc.Bootstrap4.Core;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Web.Common;
+@model X.PagedList.IPagedList<ApiModel.DataDetail>
 @{
-    ViewData["Title"] = "Recruitment";
+    ViewData["Title"] = "Trang chủ";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb" itemscope="" itemtype="https://schema.org/BreadcrumbList">
-        <li class="breadcrumb-item" itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
-            <a href="/">Trang chủ</a>
-        </li>
-        <li class="breadcrumb-item" itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
-            <a href="/can-tuyen-thuc-tap-sinh">Tuyển thực tập</a>
-        </li>
+        @{
+            foreach (var breadcrum in ViewBag.BreadCrumb)
+            {
+                <li class="breadcrumb-item" itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
+                    <a href="@breadcrum.url">@breadcrum.tieude</a>
+                </li>
+            }
+        }
     </ol>
 </nav>
 <div class="id35004 tuyendung ">
@@ -63,13 +69,13 @@
             @{
                 try
                 {
-                    foreach (var item in Model[0].data)
+                    foreach (var item in Model)
                     {
                         <div class="ndct">
                             <div class="wrap-ndct">
                                 <div class="thuong 37506 111">
                                     <div class="ct">
-                                        <h3><a href="/senior-accoutant">Senior Accoutant</a></h3><span class="tenND">
+                                        <h3><a href="/senior-accoutant">@item.tieude</a></h3><span class="tenND">
                                             @item.tenND
                                         </span>
                                         <div class="gia">
@@ -132,4 +138,8 @@
             <div class="xemthem"><span><a href="/undefined"></a></span></div>
         </div>
     </div>
+   <div class="container">
+        @Html.PagedListPager(Model, page => Url.Action("Recruitment", new { page }), Bootstrap4PagedListRenderOptions.OnlyShowFivePagesAtATime)
+   </div>
 </div>
+
