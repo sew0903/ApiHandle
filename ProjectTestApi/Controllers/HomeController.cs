@@ -150,6 +150,7 @@ namespace ProjectTestApi.Controllers
         }
 
         [HttpGet]
+        [Route("tim-cong-viec")]
         public  async Task<IActionResult> Search()
         {
             var urlSearch = "http://ww2.tuyennhansu.vn/module.Timboloc.asp";
@@ -169,6 +170,7 @@ namespace ProjectTestApi.Controllers
             return RedirectToAction("Index","Home");
         }
         [HttpPost]
+        [Route("tim-cong-viec")]
         public async Task<IActionResult> Search(SearchViewModel searchViewModel)
         {
             var url = "http://ww2.tuyennhansu.vn/module.timboloc.asp?id=&id1=&id2=";
@@ -204,6 +206,23 @@ namespace ProjectTestApi.Controllers
                 throw;
             }
             return RedirectToAction("Index", "Home");
+        }
+        [Route("/{url}")]
+        public async Task<IActionResult> JobDetail(int id, string url)
+        {
+            var urlResult = "http://ww2.tuyennhansu.vn/web.all.url.asp?id1="+url;
+            try
+            {
+                var json = (new WebClient()).DownloadString(urlResult);
+                var list = JsonSerializer.Deserialize<List<ApiModel>>(json);
+
+                return View(list);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

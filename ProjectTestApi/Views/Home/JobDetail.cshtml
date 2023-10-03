@@ -1,0 +1,467 @@
+﻿@using System.Net;
+@using Newtonsoft.Json;
+@model List<ApiModel>
+@{
+    ViewData["Title"] = "JobDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    string urlStates = "";
+    string urlDistricts = "";
+    string urlWards = "";
+    string urlChiTietTuyenDung = "";
+    string urlBreadCrumb = "";
+    string apiCheckShowSearch = "";
+    string stringIdMap = "";
+    string stateName = "";
+    string districtName = "";
+    string wardsName = "";
+    string _inputValueMaps = "";
+    string _inputIdMaps = "";
+    string stateId = "";
+    string districtId = "";
+    string wardsId = "";
+
+    ApiModel.MaLocDetail _state = new ApiModel.MaLocDetail();
+    ApiModel.MaLocDetail _district = new ApiModel.MaLocDetail();
+    ApiModel.MaLocDetail _wards = new ApiModel.MaLocDetail();
+    List<ApiModel.MaLocDetail> listNganh = new List<ApiModel.MaLocDetail>();
+
+    if (Model.Count == 1 && Model[0].module != null && Model[0].url != null)
+    {
+        urlStates = "http://ww2.tuyennhansu.vn/dialy.tinhthanh.asp";
+        urlChiTietTuyenDung = "http://ww2.tuyennhansu.vn/module." + Model[0].module + ".asp?id1=" + Model[0].url;
+        urlBreadCrumb = "http://ww2.tuyennhansu.vn/web.breadcrumb.asp?id="+Model[0].id;
+        apiCheckShowSearch = "http://ww2.tuyennhansu.vn/web.boloc.chitiet.asp?id=" + Model[0].id;
+    }
+    }
+
+    <div class="id37424 tuyendung chitiet ">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+            @{
+                try{
+                    var jsonBreadCrumb = (new WebClient()).DownloadString(urlBreadCrumb);
+                    var resultBreadCrumb = JsonConvert.DeserializeObject<List<ApiModel>>(jsonBreadCrumb);
+                        @if(resultBreadCrumb.Count != null)
+                    {
+                        foreach(var data in resultBreadCrumb)
+                        {
+                                <li class="breadcrumb-item"><a href="@data.url">@data.tieude</a></li>
+                        }
+                    }
+                }catch(Exception ex)
+                {
+                    throw;
+                }
+            }
+        </ol>
+    </nav>
+    @{
+        try{
+            var isCheck = JsonConvert.DeserializeObject<List<ApiModel>>(
+            (new WebClient()).DownloadString(apiCheckShowSearch));
+            if(isCheck != null)
+            {
+                var maloc = JsonConvert.DeserializeObject<List<ApiModel.DataDetail>>(
+                    (new WebClient()).DownloadString(urlChiTietTuyenDung));
+                        @foreach(var obj in maloc[0].maloc){
+                    if (obj.tennhom == "nganh")
+                    {
+                        listNganh.Add(obj);
+                    }
+                    if (obj.tennhom == "tinh")
+                    {
+                        _state = obj;
+                    }
+                    if (obj.tennhom == "huyen")
+                    {
+                        _district = obj;
+                    }
+                    if (obj.tennhom == "xa")
+                    {
+                        _wards = obj;
+                    }
+                }
+                urlDistricts = "http://ww2.tuyennhansu.vn/dialy.quanhuyen.asp?id=" + _state.giatri;
+                urlWards = "http://ww2.tuyennhansu.vn/dialy.phuongxa.asp?id=" + _district.giatri;
+                var stateResult = JsonConvert.DeserializeObject<List<ApiModel>>(
+                                   (new WebClient()).DownloadString(urlStates)).
+                                    Where(x => x.id == _state.giatri).
+                                    FirstOrDefault();
+                var districtResult = JsonConvert.DeserializeObject<List<ApiModel>>(
+                                    (new WebClient()).DownloadString(urlDistricts)).
+                                    Where(x => x.id == _district.giatri).
+                                    FirstOrDefault();
+                var wardsResult = JsonConvert.DeserializeObject<List<ApiModel>>(
+                                    (new WebClient()).DownloadString(urlWards)).
+                                    Where(x => x.id == _wards.giatri).
+                                    FirstOrDefault();
+                var listCarrer = JsonConvert.DeserializeObject<List<ApiModel.BoLoc>>(
+                                    (new WebClient()).DownloadString(urlWards));
+                    @if(stateResult != null && _state.giatri != null)
+                {
+                    stateName = stateResult.ten;
+                    stateId = _state.giatri;
+                        <input id="input-state" type="hidden" value="@stateResult.ten" />
+                        <input id="input-IdState" type="hidden" value="@_state.giatri" />
+                } 
+                    @if(districtResult != null && _district.giatri != null)
+                {
+                    districtName = ","+districtResult.ten;
+                    districtId =","+_district.giatri;
+                        <input id="input-district" type="hidden" value="@districtResult.ten" />
+                        <input id="input-IdDistrict" type="hidden" value="@_district.giatri" />
+                }
+                    @if(wardsResult != null && _wards.giatri != null)
+                {
+                    wardsName = "," + wardsResult.ten;
+                    wardsId =","+_wards.giatri;
+                        <input id="input-wards" type="hidden" value="@wardsResult.ten" />
+                        <input id="input-IdWards" type="hidden" value="@_wards.giatri" />
+                }
+                _inputValueMaps = stateName + districtName + wardsName;
+                _inputIdMaps = stateId + districtId + wardsId;                             
+          
+                    <div class="container">
+                        <div class="boloc-danhmuc">
+                            <input type="text" class="form-control tukhoatimkiem" value="">
+                            <div class="boloc32004">
+                                <div class="select-32004  ">
+                                    <div class="input-size css-b62m3t-container">
+                                        <span id="react-select-2-live-region" class="css-7pg0cj-a11yText"></span><span aria-live="polite" aria-atomic="false" aria-relevant="additions text"
+                                                                                                                       class="css-7pg0cj-a11yText"></span>
+                                        <div class=" css-13cymwt-control">
+                                            <div class=" css-1dyz3mf">
+                                                <div class=" css-1p3m7a8-multiValue">
+                                                    <div class=" css-9jq23d">Nông nghiệp</div>
+                                                    <div role="button" class=" css-v7duua" aria-label="Remove Nông nghiệp">
+                                                        <svg height="14" width="14" viewBox="0 0 20 20" aria-hidden="true"
+                                                             focusable="false" class="css-8mmkcg">
+                                                            <path d="M14.348 14.849c-0.469 0.469-1.229 0.469-1.697 0l-2.651-3.030-2.651 3.029c-0.469 0.469-1.229 0.469-1.697 0-0.469-0.469-0.469-1.229 0-1.697l2.758-3.15-2.759-3.152c-0.469-0.469-0.469-1.228 0-1.697s1.228-0.469 1.697 0l2.652 3.031 2.651-3.031c0.469-0.469 1.228-0.469 1.697 0s0.469 1.229 0 1.697l-2.758 3.152 2.758 3.15c0.469 0.469 0.469 1.229 0 1.698z">
+                                                            </path>
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @using (Html.BeginForm("Search", "Home", FormMethod.Post, new { @style = "display:flex" }))
+                        {
+                                <div class="boloc32003">
+                                    <div class="item item-city item-city2">
+                                        <input type="text" class="input-timcongviec" placeholder="Tỉnh thành"
+                                               value="@_inputValueMaps">
+                                        <input type="hidden" name="id" value="@_inputIdMaps" />
+                                        <input type="hidden" name="id1" value="id1" />
+                                        <input type="hidden" name="id2" value="id2" />
+                                        <span class="clear-tinhthanh display">×</span>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn-tk"></button>
+                        }
+                        </div>
+                    </div>
+            }
+        }catch(Exception ex)
+        {
+            throw;
+        }
+    }
+    @{
+        try
+        {
+            var json = (new WebClient()).DownloadString(urlChiTietTuyenDung);
+            var result = JsonConvert.DeserializeObject<List<ApiModel.DataDetail>>(json);
+            foreach (var item in result)
+            {
+                    <div class="content-block">
+                        <div class="container">
+                            <div class="wrap">
+                                @if (item.tieude != null)
+                            {
+                                    <h1> @item.tieude</h1>
+                            }
+                                <div class="row thoigian">
+                                    @if (item.thoihan != null)
+                                {
+                                        <span class="thoihan">@item.thoihan</span>
+                                }
+                                    @if(item.luotxem != null)
+                                {
+                                        <span class="luotxem">2</span>
+                                }
+                                    @if(item.ngaydang != null)
+                                {
+                                        <span class="ngaydang">@item.ngaydang</span>
+                                }
+                                </div>
+                            <div class="row ndct">
+                                    @if(item.phucloi != null && item.phucloi.Count != 0)
+                                {
+                                        <div class="phucloi">
+                                        @foreach(var data in item.phucloi)
+                                    {                                       
+                                          <a href="@data.url">@data.tengoi</a>
+                                    }
+                                        </div>
+                                }
+                                    @if(item.ngoaingu != null && item.ngoaingu.Count != 0)
+                                {
+                                        <div class="ngoaingu">
+                                            @foreach(var data in item.ngoaingu)
+                                        {
+                                                <a href="@data.url">@data.tengoi</a>
+                                        }
+                                        </div>
+                                }
+                                    @if (item.daotao != null && item.daotao.Count != 0)
+                                {
+                                        <div class="daotao">
+                                            @foreach (var data in item.daotao)
+                                        {
+                                                <a href="@data.url">@data.tengoi</a>
+                                        }
+                                        </div>
+                                } 
+                                    @if (item.chucdanh != null && item.chucdanh.Count != 0)
+                                {
+                                        <div class="chucdanh">
+                                            @foreach (var data in item.chucdanh)
+                                        {
+                                                <a href="@data.url">@data.tengoi</a>
+                                        }
+                                        </div>
+                                }
+                                    @if (item.thuviec != null && item.thuviec.Count != 0)
+                                {
+                                        <div class="thuviec">
+                                            @foreach (var data in item.thuviec)
+                                        {
+                                                <a href="@data.url">@data.tengoi</a>
+                                        }
+                                        </div>
+                                }
+                                    @if(item.loai != null && item.loai.Count != 0)
+                                {
+                                        <div class="loai">
+                                            @foreach(var data in item.loai)
+                                        {
+                                                <a href="@data.url">
+                                                    @data.tengoi
+                                                </a>
+                                        }
+                                        </div>
+                                }
+                                    @if(item.nganh != null && item.nganh.Count != 0)
+                                {
+                                        <div class="nganh">                                       
+                                            @foreach(var data in item.nganh)
+                                        {
+                                                 <a href="@data.url">@data.tengoi</a>
+                                        }
+                                        </div>
+                                }
+                                    @if (item.kinhnghiem != null && item.kinhnghiem.Count != 0)
+                                {
+                                        <div class="kinhnghiem">
+                                            @foreach (var data in item.kinhnghiem)
+                                        {
+                                                <a href="@data.url">@data.tengoi</a>
+                                        }
+                                        </div>
+                                }
+                                    @if(item.tinh != null && item.tinh.Count != 0)
+                                {
+                                        <div class="tinhthanh">
+                                           @foreach(var data in item.tinh){
+
+                                            if(data.huyen == null && data.xa == null)
+                                            {
+                                                    <a href="@data.url">@data.tengoi</a>
+                                            }
+                                            else if(data.tengoi == null && data.xa == null)
+                                            {
+                                                    <a href="@data.url">@data.huyen</a>
+                                            }
+                                            else  
+                                            {
+                                                    <a href="@data.url">@data.xa</a>
+
+                                            }
+                                        }
+                                        </div>
+                                }
+                            </div>
+                            <div class="row ttnd">
+                                    @if (item.tenND != null)
+                                {
+                                        <div class="tenND">@item.tenND</div>
+                                }
+                                    @if(item.diachiND != null)
+                                {
+                                        <div class="diachiND">@item.diachiND</div>
+                                }
+                                    @if(item.emailxxxND != null)
+                                {
+                                        <div class="dienthoaiND"><span class="cursorPointer">@item.emailxxxND</span></div>
+                                }
+                                </div>
+                        </div>
+                        <div class="group-wishlist-ct">
+                            <div class="wish_list "></div>
+                            <div class="add_to_cart  "></div>
+                        </div>
+                    </div>
+                    <div class="bando-cvct">
+                        <div id="map2"
+                            class="leaflet-container leaflet-touch leaflet-retina leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
+                            tabindex="0" style="position: relative;">
+                            <div class="leaflet-pane leaflet-map-pane" style="transform: translate3d(0px, 0px, 0px);">
+                                <div class="leaflet-pane leaflet-tile-pane">
+                                    <div class="leaflet-layer " style="z-index: 1; opacity: 1;">
+                                        <div class="leaflet-tile-container leaflet-zoom-animated"
+                                            style="z-index: 18; transform: translate3d(0px, 0px, 0px) scale(1);">
+                                            <img alt="" src="https://c.tile.openstreetmap.org/13/6522/3848.png"
+                                                class="leaflet-tile leaflet-tile-loaded"
+                                                style="width: 256px; height: 256px; transform: translate3d(645px, 5px, 0px); opacity: 1;"><img
+                                                alt="" src="https://b.tile.openstreetmap.org/13/6522/3847.png"
+                                                class="leaflet-tile leaflet-tile-loaded"
+                                                style="width: 256px; height: 256px; transform: translate3d(645px, -251px, 0px); opacity: 1;"><img
+                                                alt="" src="https://b.tile.openstreetmap.org/13/6521/3848.png"
+                                                class="leaflet-tile leaflet-tile-loaded"
+                                                style="width: 256px; height: 256px; transform: translate3d(389px, 5px, 0px); opacity: 1;"><img
+                                                alt="" src="https://a.tile.openstreetmap.org/13/6523/3848.png"
+                                                class="leaflet-tile leaflet-tile-loaded"
+                                                style="width: 256px; height: 256px; transform: translate3d(901px, 5px, 0px); opacity: 1;"><img
+                                                alt="" src="https://a.tile.openstreetmap.org/13/6522/3849.png"
+                                                class="leaflet-tile leaflet-tile-loaded"
+                                                style="width: 256px; height: 256px; transform: translate3d(645px, 261px, 0px); opacity: 1;"><img
+                                                alt="" src="https://a.tile.openstreetmap.org/13/6521/3847.png"
+                                                class="leaflet-tile leaflet-tile-loaded"
+                                                style="width: 256px; height: 256px; transform: translate3d(389px, -251px, 0px); opacity: 1;"><img
+                                                alt="" src="https://c.tile.openstreetmap.org/13/6523/3847.png"
+                                                class="leaflet-tile leaflet-tile-loaded"
+                                                style="width: 256px; height: 256px; transform: translate3d(901px, -251px, 0px); opacity: 1;"><img
+                                                alt="" src="https://c.tile.openstreetmap.org/13/6521/3849.png"
+                                                class="leaflet-tile leaflet-tile-loaded"
+                                                style="width: 256px; height: 256px; transform: translate3d(389px, 261px, 0px); opacity: 1;"><img
+                                                alt="" src="https://b.tile.openstreetmap.org/13/6523/3849.png"
+                                                class="leaflet-tile leaflet-tile-loaded"
+                                                style="width: 256px; height: 256px; transform: translate3d(901px, 261px, 0px); opacity: 1;"><img
+                                                alt="" src="https://a.tile.openstreetmap.org/13/6520/3848.png"
+                                                class="leaflet-tile leaflet-tile-loaded"
+                                                style="width: 256px; height: 256px; transform: translate3d(133px, 5px, 0px); opacity: 1;"><img
+                                                alt="" src="https://b.tile.openstreetmap.org/13/6524/3848.png"
+                                                class="leaflet-tile leaflet-tile-loaded"
+                                                style="width: 256px; height: 256px; transform: translate3d(1157px, 5px, 0px); opacity: 1;"><img
+                                                alt="" src="https://c.tile.openstreetmap.org/13/6520/3847.png"
+                                                class="leaflet-tile leaflet-tile-loaded"
+                                                style="width: 256px; height: 256px; transform: translate3d(133px, -251px, 0px); opacity: 1;"><img
+                                                alt="" src="https://a.tile.openstreetmap.org/13/6524/3847.png"
+                                                class="leaflet-tile leaflet-tile-loaded"
+                                                style="width: 256px; height: 256px; transform: translate3d(1157px, -251px, 0px); opacity: 1;"><img
+                                                alt="" src="https://b.tile.openstreetmap.org/13/6520/3849.png"
+                                                class="leaflet-tile leaflet-tile-loaded"
+                                                style="width: 256px; height: 256px; transform: translate3d(133px, 261px, 0px); opacity: 1;"><img
+                                                alt="" src="https://c.tile.openstreetmap.org/13/6524/3849.png"
+                                                class="leaflet-tile leaflet-tile-loaded"
+                                                style="width: 256px; height: 256px; transform: translate3d(1157px, 261px, 0px); opacity: 1;"><img
+                                                alt="" src="https://c.tile.openstreetmap.org/13/6519/3848.png"
+                                                class="leaflet-tile leaflet-tile-loaded"
+                                                style="width: 256px; height: 256px; transform: translate3d(-123px, 5px, 0px); opacity: 1;"><img
+                                                alt="" src="https://c.tile.openstreetmap.org/13/6525/3848.png"
+                                                class="leaflet-tile leaflet-tile-loaded"
+                                                style="width: 256px; height: 256px; transform: translate3d(1413px, 5px, 0px); opacity: 1;"><img
+                                                alt="" src="https://b.tile.openstreetmap.org/13/6519/3847.png"
+                                                class="leaflet-tile leaflet-tile-loaded"
+                                                style="width: 256px; height: 256px; transform: translate3d(-123px, -251px, 0px); opacity: 1;"><img
+                                                alt="" src="https://b.tile.openstreetmap.org/13/6525/3847.png"
+                                                class="leaflet-tile leaflet-tile-loaded"
+                                                style="width: 256px; height: 256px; transform: translate3d(1413px, -251px, 0px); opacity: 1;"><img
+                                                alt="" src="https://a.tile.openstreetmap.org/13/6519/3849.png"
+                                                class="leaflet-tile leaflet-tile-loaded"
+                                                style="width: 256px; height: 256px; transform: translate3d(-123px, 261px, 0px); opacity: 1;"><img
+                                                alt="" src="https://a.tile.openstreetmap.org/13/6525/3849.png"
+                                                class="leaflet-tile leaflet-tile-loaded"
+                                                style="width: 256px; height: 256px; transform: translate3d(1413px, 261px, 0px); opacity: 1;">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="leaflet-pane leaflet-overlay-pane"></div>
+                                <div class="leaflet-pane leaflet-shadow-pane">
+                                    <img src="https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png"
+                                        class="leaflet-marker-shadow leaflet-zoom-animated" alt=""
+                                        style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(755px, 224px, 0px);">
+                                </div>
+                                <div class="leaflet-pane leaflet-marker-pane">
+                                    <img src="https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png"
+                                        class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="Marker"
+                                        tabindex="0" role="button"
+                                        style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(755px, 224px, 0px); z-index: 224;">
+                                </div>
+                                <div class="leaflet-pane leaflet-tooltip-pane"></div>
+                                <div class="leaflet-pane leaflet-popup-pane"></div>
+                                <div class="leaflet-proxy leaflet-zoom-animated"
+                                    style="transform: translate3d(1.66974e+06px, 985307px, 0px) scale(4096);"></div>
+                            </div>
+                            <div class="leaflet-control-container">
+                                <div class="leaflet-top leaflet-left">
+                                    <div class="leaflet-control-zoom leaflet-bar leaflet-control">
+                                        <a class="leaflet-control-zoom-in" href="#" title="Zoom in" role="button"
+                                            aria-label="Zoom in" aria-disabled="false">
+                                            <span aria-hidden="true">+</span>
+                                        </a><a class="leaflet-control-zoom-out" href="#" title="Zoom out" role="button"
+                                            aria-label="Zoom out" aria-disabled="false">
+                                            <span aria-hidden="true">−</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="leaflet-top leaflet-right"></div>
+                                <div class="leaflet-bottom leaflet-left"></div>
+                                <div class="leaflet-bottom leaflet-right">
+                                    <div class="leaflet-control-attribution leaflet-control">
+                                        <a href="https://leafletjs.com" title="A JavaScript library for interactive maps">
+                                            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="12" height="8"
+                                                viewBox="0 0 12 8" class="leaflet-attribution-flag">
+                                                <path fill="#4C7BE1" d="M0 0h12v4H0z"></path>
+                                                <path fill="#FFD500" d="M0 4h12v3H0z"></path>
+                                                <path fill="#E0BC00" d="M0 7h12v1H0z"></path>
+                                            </svg> Leaflet
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="formbinhluan container">
+                        <form>
+                            <h3 class="tieude"> </h3>
+                            <div class="form-group">
+                                <textarea class="form-bl form-control" name="noidungtxt"
+                                    placeholder="Nhập bình luận"></textarea>
+                            </div>
+                        </form>
+                        <div class="dsbl"></div>
+                    </div>
+                    <div class="section-full content-inner">
+                        <div class="container">
+                            <div class="row"></div>
+                        </div>
+                    </div>
+                </div>
+            }
+            }
+            catch (Exception ex)
+            {
+            throw;
+            }
+            }
+    </div>
+<div id="loading-container">
+    <div id="loading-spinner"></div>
+    <p id="loading-text">Đang tải...</p>
+</div>

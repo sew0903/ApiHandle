@@ -29,13 +29,12 @@
                             <div class="thuong 37424 111">
                                 <div class="ct">
                                     <h3>
-                                        <a href="@item.url">
+                                        <a href="@Url.Action("JobDetail","Home", new {id = item.id, url=item.url})" onclick="showLoading()">
                                             @item.tieude
                                         </a>
                                     </h3>
                                     <span class="tenND">@item.tenND</span>
                                     <div class="gia"><span class="dv">@item.gia[0].donvi</span></div><span class="diachiND">
-                                        @item.diachimap[0].tengoi
                                     </span><span class="chucdanh">
                                         @if (item.chucdanh != null)
                                         {
@@ -93,4 +92,8 @@
             <div class="xemthem"><span><a href="/undefined"></a></span></div>
         </div>
     </div>
+</div>
+<div id="loading-container">
+    <div id="loading-spinner"></div>
+    <p id="loading-text">Đang tải...</p>
 </div>

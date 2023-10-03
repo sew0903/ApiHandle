@@ -3,6 +3,7 @@
     public class ApiModel
     {
         public string? id { get; set; }
+        public string? idxuly { get; set; }
         public string? ngaydang { get; set; }
         public string? hinhdaidien { get; set; }
         public string? tieude { get; set; }
@@ -24,7 +25,7 @@
         public int? recordsFiltered { get; set; }
 
         public List<DataDetail>? data { get;set; }
-
+        public List<NoiDungFormDetail>? noidungform { get;set; } 
         public class ChucDanhDetail
         {
             public string? tengoi { get; set; }
@@ -45,6 +46,7 @@
         {
             public string? tengoi { get; set; }
             public string? huyen { get; set; }
+            public string? xa { get; set; }
             public string? url { get; set; }
         }
         public class GiaDetail
@@ -67,12 +69,17 @@
         {
             public string? tengoi { get; set; }
             public string? huyen { get; set; }
+            public string? xa { get; set; }
             public string? url { get; set; }
         }
         public class NgoaiNguDetail
         {
             public string? tengoi { get; set; }
             public string? url { get; set; }
+        }
+        public class GiaTriDetail
+        {
+             
         }
         public class DataDetail
         {
@@ -89,6 +96,7 @@
             public string? ngaydang { get; set; }
             public string? hinhdaidien { get; set; }
             public string? noidungtomtat { get; set; }
+            public string? luotxem { get; set; } 
             public List<LoaiDetai>? loai { get; set; }
             public List<ChucDanhDetail>? chucdanh { get; set; }
             public List<NganhDetai>? nganh { get; set; }
@@ -96,6 +104,61 @@
             public List<DiaChiMapDetail>? diachimap { get; set; }
             public List<TinhDetai>? tinh { get; set; }
             public List<GiaDetail>? gia { get; set; }
+            public List<MaLocDetail>? maloc { get; set; }
+            public List<DaoTaoDetail>? daotao { get; set; }
+            public List<KinhNghiemDetail>? kinhnghiem { get; set; } 
+            public List<ThuViecDetail>? thuviec { get; set; }
+            public List<PhucLoiDetail>? phucloi { get; set; } 
+        }
+        public class PhucLoiDetail
+        {
+            public string? tengoi { get; set; }
+            public string? url { get; set; }
+        }
+        public class ThuViecDetail
+        {
+            public string? tengoi { get; set; }
+            public string? url { get; set; }
+        }
+        public class KinhNghiemDetail
+        {
+            public string? tengoi { get; set; }
+            public string? url { get; set; }
+        }
+        public class DaoTaoDetail
+        {
+            public string? tengoi { get; set; }
+            public string? url { get; set; }
+        }
+        public class MaLocDetail
+        {
+            public string? tennhom { get; set; }
+            public string? giatri { get; set; }
+        }
+        public class ThamSoDetail
+        {
+            public string? tengoi { get; set; }
+            public string? ma { get; set; }
+            public string? url { get; set; }
+        }
+        public class NoiDungFormDetail
+        {
+            public string? id { get; set; }
+            public string? idquanly { get; set; }
+            public string? danhmuc { get; set; }
+            public string? idxuly { get; set; }
+            public string? tieude { get; set; }
+            public string? chonnhieu { get; set; }
+            public string? url { get; set;}
+            //public GiaTriDetail giatri { get; set;}
+            public string? tennhom { get;set; }
+            public string? nhom { get; set; }
+        }
+        public class BoLoc
+        {
+            public string? ten { get; set; }
+            public string? ma { get; set; }
+            public List<ThamSoDetail>? thamso { get; set; }
         }
 
     }
