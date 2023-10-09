@@ -1,50 +1,64 @@
 ﻿@model List<ApiModel>
 @{
-    ViewData["Title"] = "Trang chủ";
+    ViewData["Title"] = "Tin tức nhân sự ";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="id35001 tintuc ">
+<div class="id35001">
     <nav aria-label="breadcrumb">
-        <ol class="breadcrumb" itemscope="" itemtype="https://schema.org/BreadcrumbList">
-            @{
-                foreach (var breadcrum in ViewBag.BreadCrumb)
-                {
-                    <li class="breadcrumb-item" itemprop="itemListElement" itemscope="" itemtype="https://schema.org/ListItem">
-                        <a href="@breadcrum.url">@breadcrum.tieude</a>
-                    </li>
-                }
+        <ol class="breadcrumb">
+            @foreach (var breadcrum in ViewBag.BreadCrumb)
+            {
+                <li class="breadcrumb-item"><a href="@breadcrum.url">@breadcrum.tieude</a></li>
             }
         </ol>
     </nav>
-    <div class="container">
-        <div class="boloc-danhmuc"></div>
-    </div>
-    <div class="container">
-        <div class="row">
-            @foreach (var item in Model[0].data)
-            {
-                <div class="ndct">
-                    <div class="wrap-ndct">
-                        <div class="hinh">
-                            <a href="@item.url">
-                                <img class="border"
-                                     src="@item.hinhdaidien" alt="">
-                            </a>
-                        </div>
-                        <div class="ct">
-                            <div class="ngdang">@item.ngaydang</div>
-                            <h3>
-                                <a href="@item.url">
-                                    @item.tieude
-                                </a>
-                            </h3>
-                            <div class="ttct">
-                                <p>@Html.Raw(item.noidungtomtat)</p>
+    <div class="id35001 md-tintuc ">
+        <div class="container">
+            <div class="th-tintuc">
+                <div class="container">
+                    <h2><a href="/tin-tuc">Tin tức nhân sự</a></h2>
+                    <div class="row">
+                        @foreach (var item in Model[0].data)
+                        {
+                            <div class="tintuc">
+                                <div class="wrap-ndct">
+                                    @if (item.url != null)
+                                    {
+                                        <div class="hinh">
+                                            <a href="@item.url">
+                                                <img class="border"
+                                                     src="@item.hinhdaidien"
+                                                     alt="">
+                                            </a>
+                                        </div>
+                                    }
+                                    <div class="ct">
+                                        @if (item.ngaydang != null)
+                                        {
+                                            <div class="ngdang">@item.ngaydang</div>
+                                        }
+                                        @if (item.tieude != null)
+                                        {
+                                            <h3>
+                                                <a href="/quy-tac-trang-phuc-trong-dam-cuoi-hoang-gia-anh">
+                                                    @item.tieude
+                                                </a>
+                                            </h3>
+                                        }
+                                        @if (item.noidungtomtat != null)
+                                        {
+                                            <div class="ttct">
+                                                <p>@Html.Raw(item.noidungtomtat)</p>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        }
                     </div>
                 </div>
-            }
+            </div>
         </div>
     </div>
 </div>
+

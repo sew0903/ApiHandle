@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Rewrite;
 using ProjectTestApi.Models;
 using System.Diagnostics;
 using System.Net;
+using System.Net.Http;
 using System.Reflection.PortableExecutable;
 using System.Security.Cryptography;
 using System.Text;
@@ -33,9 +35,14 @@ namespace ProjectTestApi.Controllers
         public async Task<IActionResult> Index()
         {
             try {
-                var json = (new WebClient()).DownloadString(_url + "web.trangchu.module.content.asp");
-                var list = JsonSerializer.Deserialize<List<ApiModel>>(json);
-                return View(list);
+                using (HttpClient httpClient = new HttpClient())
+                {
+                    var urlContent = _url + "web.trangchu.module.content.asp";
+                    string jsonContent = await httpClient.GetStringAsync(urlContent);
+                    //var json = (new WebClient()).DownloadString(_url + "web.trangchu.module.content.asp");
+                    var listContent = JsonSerializer.Deserialize<List<ApiModel>>(jsonContent);
+                    return View(listContent);
+                }
             }
             catch(Exception e)
             {
@@ -47,10 +54,11 @@ namespace ProjectTestApi.Controllers
         public async Task<IActionResult> News()
         {
             const int idpart = 35001;
-            var isCheckBreadCrumb = GetValueBreadCrumb(idpart);
+            var isCheckBreadCrumb = await GetValueBreadCrumb(idpart);
             try
             {
-                var obj = _listNewsModels(idpart);
+                var obj = await _listNewsModels(idpart);
+                var title = await getTitleTopMenu(idpart);
                 if (isCheckBreadCrumb != null) {
                     ViewBag.BreadCrumb = isCheckBreadCrumb;
                 }
@@ -69,13 +77,13 @@ namespace ProjectTestApi.Controllers
             var isCheckBreadCrumb = GetValueBreadCrumb(idpart);
             try
             {
-                var obj = _listRecruitmentModels(idpart);
+                var obj = await _listRecruitmentModels(idpart);
                 if (isCheckBreadCrumb != null)
                 {
                     ViewBag.BreadCrumb = isCheckBreadCrumb;
                 }
 
-                int pageSize = 3;
+                int pageSize = (int)obj[0].recordsFiltered;
                 int pageNumber = page == null || page < 0 ? 1 : page.Value;
                 PagedList<ApiModel.DataDetail> lst = new PagedList<ApiModel.DataDetail>(obj[0].data, pageNumber, pageSize);
                 return View(lst);
@@ -109,7 +117,7 @@ namespace ProjectTestApi.Controllers
         public async Task<IActionResult> Map()
         {
             const int idpart = 35014;
-            var isCheckBreadCrumb = GetValueBreadCrumb(idpart);
+            var isCheckBreadCrumb = await GetValueBreadCrumb(idpart);
             try
             {
                 if (isCheckBreadCrumb != null)
@@ -125,17 +133,19 @@ namespace ProjectTestApi.Controllers
         }
 
         [HttpGet]
+        [Route("/dang-nhap")]
         public async Task<IActionResult> Login()
         {
             return View();
         }
         [HttpPost]
+        [Route("/dang-nhap")]
         public async Task<IActionResult> Login(LoginViewModel loginViewModel)
         {
             var urlApi = "http://ww1.tuyennhansu.vn/userlogin.asp?userid=" + loginViewModel.typeEmailX + "&pass=" + loginViewModel.typePasswordX;
             try
             {
-                var json = ReadJson(urlApi);
+                var json = await ReadJson(urlApi);
                 if(json != null)
                 {
                     var result = JsonSerializer.Deserialize<List<StatusLoginModel>>(json);
@@ -151,12 +161,12 @@ namespace ProjectTestApi.Controllers
 
         [HttpGet]
         [Route("tim-cong-viec")]
-        public  async Task<IActionResult> Search()
+        public async Task<IActionResult> Search()
         {
             var urlSearch = "http://ww2.tuyennhansu.vn/module.Timboloc.asp";
             try
             {
-                var json = ReadJson(urlSearch);
+                var json = await ReadJson(urlSearch);
                 if (json != null)
                 {
                     var list = JsonSerializer.Deserialize<List<ApiModel>>(json);
@@ -169,6 +179,7 @@ namespace ProjectTestApi.Controllers
             }
             return RedirectToAction("Index","Home");
         }
+
         [HttpPost]
         [Route("tim-cong-viec")]
         public async Task<IActionResult> Search(SearchViewModel searchViewModel)
@@ -176,30 +187,35 @@ namespace ProjectTestApi.Controllers
             var url = "http://ww2.tuyennhansu.vn/module.timboloc.asp?id=&id1=&id2=";
             try
             {
-                if(searchViewModel.id != null && searchViewModel.id2 == null)
+                using (HttpClient httpClient = new HttpClient())
                 {
-                    var _id = ReplaceSpacesWithPercent20(searchViewModel.id);
-                    url = "http://ww2.tuyennhansu.vn/module.timboloc.asp?id=" + _id + "&id1=&id2=";
-                   
+
+                    if (searchViewModel.id != null && searchViewModel.id2 == null)
+                    {
+                        var _id = ReplaceSpacesWithPercent20(searchViewModel.id);
+                        url = "http://ww2.tuyennhansu.vn/module.timboloc.asp?id=" + _id + "&id1=&id2=";
+
+                    }
+                    else if (searchViewModel.id == null && searchViewModel.id2 != null)
+                    {
+                        var _id2 = ReplaceSpacesWithPercent20(searchViewModel.id2);
+                        url = url + _id2;
+                    }
+                    else if (searchViewModel.id != null && searchViewModel.id2 != null)
+                    {
+                        var _id = ReplaceSpacesWithPercent20(searchViewModel.id);
+                        var _id2 = ReplaceSpacesWithPercent20(searchViewModel.id2);
+                        url = "http://ww2.tuyennhansu.vn/module.timboloc.asp?id=" + _id2 + "&id1=&id2=" + _id;
+                    }
+                    //var json = (new WebClient()).DownloadString(url);
+                    string jsonContent = await httpClient.GetStringAsync(url);
+                    var list = JsonSerializer.Deserialize<List<ApiModel>>(jsonContent);
+                    if (list.Count != 0)
+                    {
+                        return View(list[0].data);
+                    }
+                    return View();
                 }
-                else if(searchViewModel.id == null && searchViewModel.id2 != null)
-                {
-                    var _id2 = ReplaceSpacesWithPercent20(searchViewModel.id2);
-                    url = url + _id2;
-                }
-                else if(searchViewModel.id != null && searchViewModel.id2 != null)
-                {
-                    var _id = ReplaceSpacesWithPercent20(searchViewModel.id);
-                    var _id2 = ReplaceSpacesWithPercent20(searchViewModel.id2);
-                    url = "http://ww2.tuyennhansu.vn/module.timboloc.asp?id=" + _id2 + "&id1=&id2=" + _id;
-                }
-                var json = (new WebClient()).DownloadString(url);
-                var list = JsonSerializer.Deserialize<List<ApiModel>>(json);
-                if (list.Count != 0)
-                {
-                    return View(list[0].data);
-                }
-                return View();
             }
             catch(Exception e)
             {
@@ -208,15 +224,26 @@ namespace ProjectTestApi.Controllers
             return RedirectToAction("Index", "Home");
         }
         [Route("/{url}")]
-        public async Task<IActionResult> JobDetail(int id, string url)
+        public async Task<IActionResult> JobDetail(int? id, string url)
         {
             var urlResult = "http://ww2.tuyennhansu.vn/web.all.url.asp?id1="+url;
             try
             {
-                var json = (new WebClient()).DownloadString(urlResult);
-                var list = JsonSerializer.Deserialize<List<ApiModel>>(json);
+                using (HttpClient httpClient = new HttpClient())
+                {
+                    //var json = (new WebClient()).DownloadString(urlResult);
+                    string jsonContent = await httpClient.GetStringAsync(urlResult);
 
-                return View(list);
+                    var options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+
+                    var list = JsonSerializer.Deserialize<List<ApiModel>>(jsonContent, options);
+
+                    return View(list);
+                }
+
             }
             catch (Exception ex)
             {
@@ -225,27 +252,43 @@ namespace ProjectTestApi.Controllers
             return View();
         }
 
+        [Route("/sangprovip")]
+        public async Task<IActionResult> Test()
+        {
+            return View();
+        }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        private string ReadJson(string url)
+        private async Task<string> ReadJson(string url)
         {
-            ServicePointManager.Expect100Continue = true;
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-
-            string json = (new WebClient()).DownloadString(url);
-            return json;
+            try {
+                using (HttpClient httpClient = new HttpClient())
+                {
+                    string jsonContent = await httpClient.GetStringAsync(url);
+                    return jsonContent;
+                }
+            }
+            catch(Exception ex)
+            {
+                throw;
+            }
         }
 
-        private string ApiMenuItem(int key)
+        private async Task<string> ApiMenuItem(int key)
         {
             //string domainName = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}";
-            string json = ReadJson(_url + "app.menu.dautrang.asp");
-            var list = JsonSerializer.Deserialize<List<ApiModel>>(json);
+            string json = await ReadJson(_url + "app.menu.dautrang.asp");
 
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+
+            var list = JsonSerializer.Deserialize<List<ApiModel>>(json,options);
             foreach(var js in list)
             {
                 if(js.idpart == key.ToString())
@@ -262,32 +305,31 @@ namespace ProjectTestApi.Controllers
 
         }
 
-        private List<ApiModel> _listNewsModels(int key/*,ref string data*/)
+        private async Task<List<ApiModel>> _listNewsModels(int key)
         {
-            string json = ReadJson(ApiMenuItem(key));
-            //data = json;
+            string json = await ReadJson(
+                await ApiMenuItem(key));
             return JsonSerializer.Deserialize<List<ApiModel>>(json); ;
         }
 
-        private List<ApiModel> _listRecruitmentModels(int key/*, ref string data*/)
+        private async Task<List<ApiModel>> _listRecruitmentModels(int key)
         {
-            string json = ReadJson(ApiMenuItem(key));
-            //data = json;
+            string json = await ReadJson(
+                await ApiMenuItem(key));
             return JsonSerializer.Deserialize<List<ApiModel>>(json); ;
         }
 
-        private List<ApiModel> _listInternModels(int key/*,ref string data*/)
+        private async Task<List<ApiModel>> _listInternModels(int key)
         {
-            string json = ReadJson(ApiMenuItem(key));
-            //data = json;
+            string json = await ReadJson(
+                await ApiMenuItem(key));
             return JsonSerializer.Deserialize<List<ApiModel>>(json); ;
         }
-
-        private List<ApiModel> GetHomeContent()
+        private async Task<List<ApiModel>> GetHomeContent()
         {
             List<ApiModel> result = new List<ApiModel>();
 
-            string json = ReadJson(_url + "web.trangchu.module.content.asp");
+            string json = await ReadJson(_url + "web.trangchu.module.content.asp");
             var list = JsonSerializer.Deserialize<List<ApiModel>>(json);
 
             foreach (var js in list)
@@ -297,9 +339,9 @@ namespace ProjectTestApi.Controllers
             return result;
         }
 
-        private bool GetNameUrl(string url)
+        private async Task<bool> GetNameUrl(string url)
         {
-            string json = ReadJson(_url + "app.menu.dautrang.asp");
+            string json = await ReadJson(_url + "app.menu.dautrang.asp");
             var list = JsonSerializer.Deserialize<List<ApiModel>>(json);
             foreach(var item in list)
             {
@@ -326,9 +368,9 @@ namespace ProjectTestApi.Controllers
             }
             return false;
         }
-        private List<BreadCrumbModel> GetValueBreadCrumb(int idPart)
+        private async Task<List<BreadCrumbModel>> GetValueBreadCrumb(int idPart)
         {
-            var arr = JsonSerializer.Deserialize<List<BreadCrumbModel>>(ReadJson(_urlBreadCrumb+idPart));
+            var arr = JsonSerializer.Deserialize<List<BreadCrumbModel>>(await ReadJson(_urlBreadCrumb+idPart));
             if(arr != null)
             {
                 return arr;
@@ -351,6 +393,37 @@ namespace ProjectTestApi.Controllers
                 }
             }
             return result.ToString();
+        }
+        private async Task<ApiModel> getTitleTopMenu(int _idpart)
+        {
+            var result = new ApiModel();
+            try
+            {
+                using(HttpClient httpClient = new HttpClient())
+                {
+                    string jsonContent = await httpClient.GetStringAsync("http://ww2.tuyennhansu.vn/app.menu.dautrang.asp");
+
+                    var options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true 
+                    };
+                    List<ApiModel> lstObj = JsonSerializer.Deserialize<List<ApiModel>>(jsonContent, options);
+
+                    var item = lstObj
+                        .Where(item => item.idpart == _idpart.ToString())
+                        .FirstOrDefault();
+
+                    if(item != null)
+                    {
+                        result = item;
+                        return result;
+                    }
+                }
+            }catch(Exception ex)
+            {
+                throw;
+            }
+            return null; ;
         }
     }
 }

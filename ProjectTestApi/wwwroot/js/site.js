@@ -103,7 +103,7 @@ function RemoveValueWards() {
 var swiper = new Swiper('.swiper-container', {
     // Cấu hình Swiper ở đây
     slidesPerView: 3,
-    spaceBetween: 110,
+    spaceBetween: 50,
     navigation: {
         nextEl: '.swiper-button-next',
         prevEl: '.swiper-button-prev'
