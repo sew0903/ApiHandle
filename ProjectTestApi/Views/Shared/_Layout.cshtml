@@ -1,11 +1,12 @@
 ﻿@using System.Net;
 @using ProjectTestApi.Controllers;
 @using System.Text.Json;
+@using ProjectTestApi.Models.Const;
 @{
     ServicePointManager.Expect100Continue = true;
     ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
-    string json = (new WebClient()).DownloadString(HomeController._url + "app.menu.dautrang.asp");
+    string json = (new WebClient()).DownloadString(MyConstanst.SiteName + "app.menu.dautrang.asp");
     var list = JsonSerializer.Deserialize<List<TopMenuModel>>(json);
 }
 <!DOCTYPE html>
@@ -17,22 +18,30 @@
 
     <link rel="stylesheet" href="http://media.tuyennhansu.vn/css/plugins.css" />
     <link rel="stylesheet" href="http://media.tuyennhansu.vn/css/tuyendungcss.css" />
-    <link rel="stylesheet" href="http://media.tuyennhansu.vn/css/sytle.css" />
+
 
     <link rel="stylesheet" type="text/css" href="~/ProjectTestApi.styles.css" asp-append-version="true" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link href="~/css/site.css" type="text/css" rel="stylesheet" />
-    <link rel="stylesheet" href="http://huy.nhanvien.choixanh.net/static/css/plugins/bootstrap/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.x.x/css/swiper.min.css">
 
-    <!-- Trong file HTML của bạn -->
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
-    <!-- Thêm các tệp CSS và JavaScript cho Leaflet -->
+
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="~/js/site.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.5.2/dist/sweetalert2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.5.2/dist/sweetalert2.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
 
 
 </head>
@@ -41,29 +50,64 @@
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" href="@Url.Action("Index","Home")">
-                    <img src="http://media.tuyennhansu.vn/logo.png" style="width:150px; height40px" />
+                    <img src="http://media.nhansuoutsource.com/logo.png" style="width:150px; height40px" />
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between" style="margin-left:25%">
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between" style="margin-left:23%">
                     <ul class="navbar-nav flex-grow-1">
                         @{
                             foreach(var content in list)
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" href="@content.url">@content.tieude</a>
+                                    <a class="nav-link text-dark" href="/@content.url">@content.tieude</a>
                                 </li>
                             }
                         }
                     </ul>
-                    @* @using (Html.BeginForm("Edit", "Clients", FormMethod.Post, new { @class = "d-flex",@role ="search" }))
-                    {
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Tìm kiếm">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
-                    } *@
-                    <div class="nav-icon"><a class="mr-2" href="/dang-nhap">Đăng nhập</a></div>
+                    @{
+                        if (User.Identity.IsAuthenticated)
+                        {
+                            <button style="margin-right:5%" class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                @User.Identity.Name
+                            </button>
+                            <div style="margin-right:2%" class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                @{
+                                    using (HttpClient httpClient = new HttpClient())
+                                    {
+                                        string cookieUserValue = Context.Request.Cookies[MyConstanst.KeyUserNameCookies];
+                                        string cookiePassValue = Context.Request.Cookies[MyConstanst.KeyPasswordCookies];
+
+                                        string apiFunction = MyConstanst.SiteName1
+                                        + "member.1.asp?userid="
+                                        + cookieUserValue + "&pass="
+                                        + cookiePassValue;
+
+                                        var options = new JsonSerializerOptions
+                                        {
+                                            PropertyNameCaseInsensitive = true
+                                        };
+                                        string jsonContent = await httpClient.GetStringAsync(apiFunction);
+                                        List<FunctionsUserModel.FunctionDetail> lstObj = JsonSerializer.Deserialize<
+                                        List<FunctionsUserModel.FunctionDetail>>
+                                        (jsonContent, options);
+
+                                        foreach(var item in lstObj)
+                                        {
+                                            <a class="dropdown-item" href="/@item.url">@item.tieude</a>
+                                        }
+                                    }
+                            }
+                                <a style="border-top:1px solid #3333" class="dropdown-item" href="@Url.Action("Logout","Account")">Đăng xuất</a>
+                            </div>
+                        }
+                        else
+                        {
+                          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalLogin">Đăng nhập</button>
+                        }
+                    }                  
                 </div>
             </div>
         </nav>
@@ -73,6 +117,10 @@
     <div class="mainheading"></div>
     <div id="root">
         @RenderBody()
+        <button id="backToTopButton" class="back-to-top-button">
+            <i class="fa fa-arrow-up"></i>
+        </button>
+
         <div class="site-footer">
             <footer id="sticky-footer" class="flex-shrink-0 py-4 bg-secondary text-white-50">
                 <div class="container text-center">
@@ -82,12 +130,67 @@
         </div>
     </div>
 
+    <div class="modal fade" id="ModalLogin" aria-hidden="true" aria-labelledby="ModalToggleLogin" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Đăng nhập</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    @using (Html.BeginForm("Login", "Account"))
+                    {
+
+                        <div class="form-outline mb-4">
+                            <input type="text" id="input-email" name="email" class="form-control" placeholder="Nhập email" />
+                        </div>
+
+
+                        <div class="form-outline mb-4">
+                            <input type="password" id="input-password" name="password" class="form-control" placeholder="Nhập mật khẩu" />
+                        </div>
+
+
+                        <div class="row mb-4">
+                            <div class="col d-flex justify-content-center">
+
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="form2Example31" checked />
+                                    <label class="form-check-label" for="form2Example31">Lưu mật khẩu</label>
+                                </div>
+                            </div>
+
+                            <div class="col">
+
+                                <a href="#!">Quên mật khẩu?</a>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block mb-4">Đăng nhập</button>
+
+                        <div class="text-center">
+                            <p>Bạn chưa có tài khoản? <a href="#!">Đăng kí</a></p>
+                            <p>Hoặc đăng nhập bằng:</p>
+                            <button type="button" class="btn btn-link btn-floating mx-1">
+                                <i class="fab fa-facebook-f"></i>
+                            </button>
+
+                            <button type="button" class="btn btn-link btn-floating mx-1">
+                                <i class="fab fa-google"></i>
+                            </button>
+                        </div>
+                    }
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/js/site.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.1.0/js/swiper.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.x.x/js/swiper.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

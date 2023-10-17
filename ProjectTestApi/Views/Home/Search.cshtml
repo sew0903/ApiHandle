@@ -1,8 +1,25 @@
 ﻿@model List<ApiModel.DataDetail>
 @{
-    ViewData["Title"] = "Search";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<nav aria-label="breadcrumb" style="    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    list-style: none;
+    background-color: #e9ecef;
+    border-radius: 0.25rem;">
+@*     <ol class="breadcrumb">
+        @{
+            foreach (var breadcrum in ViewBag.BreadCrumb)
+            {
+                <li class="breadcrumb-item"><a href="@Url.Action("Search","Home",new {url = breadcrum.url})">@breadcrum.tieude</a></li>
+            }
+        }
+    </ol> *@
+</nav>
 <div class="id35030 md-timboloc ">
     <div class="container">
         <div class="th-tuyendung">
@@ -18,7 +35,7 @@
                                     <div class="thuong 37424 111">
                                         <div class="ct">
                                             <h3>
-                                                <a href="@Url.Action("JobDetail","Home", new {id = item.id, url=item.url})" onclick="showLoading()">
+                                                <a href="@Url.Action("JobDetail","Home",new {key = item.url})">
                                                     @item.tieude
                                                 </a>
                                             </h3>
@@ -39,17 +56,23 @@
                                             @if(item.chucdanh != null)
                                             {
                                                 <span class="chucdanh">
-                                                    <a href="@item.chucdanh[0].url">
-                                                        @item.chucdanh[0].tengoi
-                                                    </a>
+                                                    @foreach(var cd in item.chucdanh)
+                                                    {
+                                                        <a href="@Url.Action("Search","Home", new {url = cd.url})">
+                                                            @cd.tengoi
+                                                        </a>
+                                                    }
                                                 </span>
                                             }
                                             @if(item.loai != null)
                                             {
                                                 <span class="loai">
-                                                    <a href="@item.loai[0].url">
-                                                        @item.loai[0].tengoi
-                                                    </a>
+                                                    @foreach(var type in item.loai)
+                                                    {
+                                                        <a href="@Url.Action("Search","Home",new {url = type.url})">
+                                                            @type.tengoi
+                                                        </a>
+                                                    }
                                                 </span>
                                             }
                                             @if(item.thoihan != null){
@@ -59,7 +82,7 @@
                                                   <span class="ngoaingu">
                                                     @foreach(var language in item.ngoaingu)
                                                     {
-                                                        <a href="@language.url">@language.tengoi</a>
+                                                        <a href="@Url.Action("Search","Home",new {url = language.url})">@language.tengoi</a>
                                                     }
                                                 </span>                                                
                                             }
@@ -68,8 +91,8 @@
                                                 <div class="vttd">
                                                     @foreach(var career in item.nganh)
                                                     {
-                                                        <a href="@career.url">@career.tengoi</a>
-                                                    }
+                                                        <a href="@Url.Action("Search","Home",new {url = career.url})">@career.tengoi</a>
+                                                }
                                                 </div>
                                             }
                                             <div class="group-wishlist">
@@ -82,14 +105,6 @@
                             </div>
                         }
                     }
-                    <div class="container">
-                        <ul class="pagination phantrang">
-                            <li class="previous"><a href="/tim-cong-viec"><span class="trangtruoc"></span></a></li>
-                            <li><a class="page-active" href="/tim-cong-viec">1</a></li>
-                            <li><a class="" href="/tim-cong-viec">2</a></li>
-                            <li class="next"><a href="/tim-cong-viec"><span class="trangsau"></span></a></li>
-                        </ul>
-                    </div>
                     <div class="xemthem"><span><a href="/undefined"></a></span></div>
                 </div>
             </div>

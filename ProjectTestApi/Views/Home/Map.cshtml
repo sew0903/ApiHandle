@@ -4,7 +4,15 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="id35014 bando ">
-    <nav aria-label="breadcrumb">
+    <nav aria-label="breadcrumb" style="    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    list-style: none;
+    background-color: #e9ecef;
+    border-radius: 0.25rem;">
         <ol class="breadcrumb" itemscope="" itemtype="https://schema.org/BreadcrumbList">
             @{
                 foreach (var breadcrum in ViewBag.BreadCrumb)

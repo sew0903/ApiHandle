@@ -1,13 +1,32 @@
-﻿@using X.PagedList.Mvc.Bootstrap4.Core;
+﻿@using Newtonsoft.Json;
+@using System.Net;
+@using ProjectTestApi.Models.Const;
+@using X.PagedList.Mvc.Bootstrap4.Core;
 @using X.PagedList.Mvc.Core;
 @using X.PagedList.Web.Common;
 @model X.PagedList.IPagedList<ApiModel.DataDetail>
 @{
-    ViewData["Title"] = "Trang chủ";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @{
-    var urlData = "http://ww2.tuyennhansu.vn/module.Tuyendung.asp?id=35004&pageid=1";
+    var idBoLocNganh = -1;
+    var urlData = MyConstanst.SiteName+"module.Tuyendung.asp?id="+ViewBag.IdPart;
+    var urlListCareerApi = MyConstanst.SiteName+"web.boloc.asp?id=" + ViewBag.IdPart;
+    var urlBoLocChiTiet = MyConstanst.SiteName+"crm.boloc.chitiet.asp?id=";
+
+    var boloc = JsonConvert.DeserializeObject<List<ApiModel>>((new WebClient()).DownloadString(urlListCareerApi));
+    if (boloc != null && boloc[0].noidungform != null)
+    {
+        foreach(var career in boloc[0].noidungform)
+        {
+            if(career.tennhom == "nganh")
+            {
+                idBoLocNganh = int.Parse(career.id);
+                urlBoLocChiTiet += idBoLocNganh;
+                break;
+            }
+        }
+    }
 }
 <nav aria-label="breadcrumb" style="    display: -ms-flexbox;
     display: flex;
@@ -19,8 +38,15 @@
     background-color: #e9ecef;
     border-radius: 0.25rem;">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
-        <li class="breadcrumb-item"><a href="/tuyen-nhan-vien">Cổng thông tin tuyển dụng nhân viên</a></li>
+        @{
+            if (ViewBag.BreadCrumb is List<BreadCrumbModel>)
+            {
+                @foreach (var breadecrumb in ViewBag.BreadCrumb)
+                {
+                    <li class="breadcrumb-item"><a href="/@Url.Action("Recruitment","Home",new{breadecrumb.url})">@breadecrumb.tieude</a></li>
+                }
+            }
+        }  
     </ol>
 </nav>
 <div class="container">
@@ -33,34 +59,21 @@
                           class="css-7pg0cj-a11yText"></span><span aria-live="polite" aria-atomic="false"
                                                                    aria-relevant="additions text" class="css-7pg0cj-a11yText"></span>
                     <div class=" css-13cymwt-control">
-                        <div class=" css-hlgwow">
-                            <div class=" css-1jqq78o-placeholder" id="react-select-2-placeholder">Ngành nghề</div>
-                            <div class=" css-19bb58m" data-value="">
-                                <input class="" autocapitalize="none"
-                                       autocomplete="off" autocorrect="off" id="react-select-2-input" spellcheck="false"
-                                       tabindex="0" type="text" aria-autocomplete="list" aria-expanded="false"
-                                       aria-haspopup="true" role="combobox" aria-describedby="react-select-2-placeholder"
-                                       value=""
-                                       style="color: inherit; background: 0px center; opacity: 1; width: 100%; grid-area: 1 / 2 / auto / auto; font: inherit; min-width: 2px; border: 0px; margin: 0px; outline: 0px; padding: 0px;">
-                            </div>
-                        </div>
-                        <div class=" css-1wy0on6">
-                            <span class=" css-1u9des2-indicatorSeparator"></span>
-                            <div class=" css-1xc3v61-indicatorContainer" aria-hidden="true">
-                                <svg height="20" width="20"
-                                     viewBox="0 0 20 20" aria-hidden="true" focusable="false" class="css-8mmkcg">
-                                    <path d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z">
-                                    </path>
-                                </svg>
-                            </div>
-                        </div>
+                        <select class="form-select" aria-label="Default select example">
+                            <option selected>Ngành nghề</option>
+                            @{
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            }
+                        </select>
                     </div>
                 </div>
             </div>
         </div>
         <div class="boloc32003 select-boloc">
             <div class="item item-city item-city2">
-                <input type="text" class="input-timcongviec" placeholder="Tỉnh thành"
+                <input id="input-searchJob" onclick="SearchClick()" type="text" class="input-timcongviec" placeholder="Tỉnh thành" value="" data-bs-toggle="modal" data-bs-target="#exampleModalToggle"
                        value=""><span class="clear-tinhthanh ">×</span>
             </div>
         </div><button type="button" class="btn-tk"></button>
@@ -83,7 +96,7 @@
                                             <div class="ct">
                                                 @if(@item.tieude != null && item.url != null)
                                                 {
-                                                    <h3><a href="@item.url">@item.tieude</a></h3>
+                                                    <h3><a href="@Url.Action("JobDetail","Home",new {key = item.url})">@item.tieude</a></h3>
                                                 }
                                                 @if(item.tenND != null)
                                                 {
@@ -105,7 +118,7 @@
                                                     <span class="chucdanh">
                                                         @foreach(var chucdanh in item.chucdanh)
                                                         {
-                                                            <a href="@chucdanh.url">@chucdanh.tengoi</a>
+                                                            <a href="@Url.Action("Recruitment","Home",new {url = chucdanh.url})">@chucdanh.tengoi</a>
                                                         }
                                                     </span>
                                                 }
@@ -114,7 +127,7 @@
                                                     <span class="loai">
                                                         @foreach(var type in item.loai)
                                                         {
-                                                            <a href="@type.url">
+                                                            <a href="@Url.Action("Recruitment","Home", new {url = type.url})">
                                                                 @type.tengoi
                                                             </a>
                                                         }
@@ -128,7 +141,7 @@
                                                     <span class="ngoaingu">
                                                         @foreach(var language in item.ngoaingu)
                                                         {
-                                                            <a href="@language.url">@language.tengoi</a>
+                                                            <a href="@Url.Action("Recruitment","Home",new {url = language.url})">@language.tengoi</a>
                                                         }
                                                     </span>
                                                 }
@@ -137,7 +150,7 @@
                                                     <div class="vttd">
                                                         @foreach(var career in item.nganh)
                                                         {
-                                                            <a href="@career.url">@career.tengoi</a>
+                                                            <a href="@Url.Action("Recruitment","Job",new {url = career.url})">@career.tengoi</a>
                                                         }
                                                     </div>
                                                 }
@@ -165,4 +178,65 @@
     </div>
 </div>
 
+<div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Chọn theo khu vực tỉnh, thành phố</h5>
+                <button onclick="InsertNameMap()" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body  modal-body-khuvuc">
+                <div class="modal-input-tt"><input class="form-control" type="text" placeholder="Tìm theo tỉnh thành" value=""></div>
+                <select id="selected-state" class="form-select" size="8" aria-label="size 3 select example">
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalToggleLabel2">Chọn khu vực theo quận huyện</h5>
+                <button onclick="InsertNameMap()" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-input-tt"><input class="form-control" type="text" placeholder="Tìm theo quận huyện" value=""></div>
+                <select id="selected-district" class="form-select" size="8" aria-label="size 3 select example">
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button onclick="RemoveValueState()" class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal">Trở về</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="exampleModalToggle3" aria-hidden="true" aria-labelledby="exampleModalToggleLabel3" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalToggleLabel2">Chọn theo phường xã</h5>
+                <button onclick="InsertNameMap()" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-input-tt"><input class="form-control" type="text" placeholder="Tìm theo phường xã" value=""></div>
+                <select id="selected-wards" class="form-select" size="8" aria-label="size 3 select example">
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button onclick="RemoveValueDistrict()" class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Trở về</button>
+            </div>
+        </div>
+    </div>
+</div>
+<input id="input-state" type="hidden" />
+<input id="input-district" type="hidden" />
+<input id="input-wards" type="hidden" />
 
+<input id="input-IdState" type="hidden" />
+<input id="input-IdDistrict" type="hidden" />
+<input id="input-IdWards" type="hidden" />
+<input id="input-ArrayIdMap" type="hidden" />

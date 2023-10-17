@@ -5,6 +5,17 @@ builder.Services.AddControllersWithViews();
 //Add Memory Cache
 builder.Services.AddMemoryCache();
 
+builder.Services.AddAuthentication(Microsoft
+    .AspNetCore
+    .Authentication
+    .Cookies
+    .CookieAuthenticationDefaults
+    .AuthenticationScheme)
+       .AddCookie(options =>
+       {
+           options.LoginPath = "/Account/Login";
+           options.AccessDeniedPath = "/Account/AccessDenied";
+       });
 
 var app = builder.Build();
 
@@ -27,6 +38,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

@@ -4,21 +4,44 @@
     @using Newtonsoft.Json;
     @using ProjectTestApi.Controllers;
     @using ProjectTestApi.Models;
+    @using ProjectTestApi.Models.Const;
 
     ServicePointManager.Expect100Continue = true;
     ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
-    var jsonState = (new WebClient()).DownloadString("http://ww2.tuyennhansu.vn/dialy.tinhthanh.asp");
+    var jsonState = (new WebClient()).DownloadString(MyConstanst.SiteName+"dialy.tinhthanh.asp");
     var arrStates = JsonConvert.DeserializeObject<List<ApiModel>>(jsonState);
     string idState = "";
+
+    string cookieUserValue = Context.Request.Cookies[MyConstanst.KeyUserNameCookies];
+    string cookiePassValue = Context.Request.Cookies[MyConstanst.KeyPasswordCookies];
+    string cookieTypeAccountValue = Context.Request.Cookies[MyConstanst.KeyTypeLAccountCookies];
 }
 @{
     ViewData["Title"] = "Trang chủ";
 }
+@{
+    if(User.Identity.IsAuthenticated){
+        if (TempData.ContainsKey("SuccessLogin"))
+        {
+            <input type="hidden" id="NotifiSuccess" value="@TempData["SuccessLogin"]"/>
+            <script>
+                var notifi = document.getElementById("NotifiSuccess");
+                Swal.fire({
+                    title: 'Thông báo!',
+                    text: notifi.value,
+                    icon: 'success',
+                    confirmButtonText: 'Đóng'
+                });
+                notifi.parentElement.removeChild(notifi);
+            </script>
+        }
+    }
+}
 <div id="idtrangchu">
     @foreach (var item in Model.Select((value, i) => new { i, value }))
     {
-        var url = HomeController._url + "module." + item.value.module + ".trangchu.asp?id=" + item.value.idpart;
+        var url = MyConstanst.SiteName + "module." + item.value.module + ".trangchu.asp?id=" + item.value.idpart;
         switch (int.Parse(item.value.idpart))
         {
             case 35019:
@@ -31,7 +54,7 @@
                         <div class="th-tuyendung">
                             <div class="container">
                                 @if(item.value.url != null && item.value.tieude != null){
-                                    <h2><a href="@item.value.url">@item.value.tieude</a></h2>                                    
+                                    <h2><a href="/@item.value.url">@item.value.tieude</a></h2>                                    
                                 }
                                 <div class="row">
                                     @foreach (var data in list[0].data.Select((value, i) => new { i, value }))
@@ -44,7 +67,7 @@
                                                         <div class="ct">
                                                             @if (data.value.url != null && data.value.tieude != null)
                                                             {
-                                                                <h3><a href="@data.value.url">@data.value.tieude</a></h3>
+                                                                <h3><a href="@Url.Action("JobDetail","Home",new {key= data.value.url})">@data.value.tieude</a></h3>
                                                             }
                                                             @if (data.value.tenND != null)
                                                             {
@@ -65,7 +88,10 @@
                                                             }
                                                             @if (data.value.chucdanh != null)
                                                             {
-                                                                <span class="chucdanh"><a href="@data.value.chucdanh[0].url">@data.value.chucdanh[0].tengoi</a></span>
+                                                                foreach (var cd in data.value.chucdanh)
+                                                                {
+                                                                    <span class="chucdanh"><a href="@Url.Action("Search","Home", new {url = cd.url})">@cd.tengoi</a></span>
+                                                                }
                                                             }
                                                             @if (data.value.loai != null)
                                                             {
@@ -84,7 +110,7 @@
                                                                 <span class="ngoaingu">
                                                                     @foreach (var language in data.value.ngoaingu)
                                                                     {
-                                                                        <a href="@language.url">@language.tengoi</a>
+                                                                        <a href="@Url.Action("Search","Home",new {url = language.url})">@language.tengoi</a>
                                                                     }
                                                                 </span>
                                                             }
@@ -93,13 +119,13 @@
                                                                 <div class="vttd">
                                                                     @foreach (var career in data.value.nganh)
                                                                     {
-                                                                        <a href="@career.url">@career.tengoi</a>
+                                                                        <a href="@Url.Action("Search","Home",new {url = career.url})">@career.tengoi</a>
                                                                     }
                                                                 </div>
                                                             }
                                                             <div class="group-wishlist">
                                                                 <div class="wish_list "></div>
-                                                                <div class="add_to_cart da-ung-tuyen"></div>
+                                                                <div id="add_to_cart da-ung-tuyen" class="add_to_cart da-ung-tuyen"></div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -211,7 +237,7 @@
                                                     <div class="ct">
                                                         @if (data.value.url != null && data.value.tieude != null)
                                                         {
-                                                            <h3><a href="@data.value.url">@data.value.tieude</a></h3>
+                                                            <h3><a href="@Url.Action("JobDetail","Home", new {key =data.value.url})">@data.value.tieude</a></h3>
                                                         }
                                                         @if (data.value.tenND != null)
                                                         {
@@ -232,16 +258,19 @@
                                                         <span class="chucdanh">
                                                             @if (data.value.chucdanh != null)
                                                             {
-                                                                <a href="@data.value.chucdanh[0].url">
-                                                                    @data.value.chucdanh[0].tengoi
+                                                                foreach(var cd in data.value.chucdanh)
+                                                                {
+                                                                    <a href="@Url.Action("Recruitment","Home", new {url = cd.url})">
+                                                                    @cd.tengoi
                                                                 </a>
+                                                                }
                                                             }                                                         
                                                         </span>
                                                         @if(data.value.loai != null){
                                                             <span class="loai">
                                                                 @foreach(var type in data.value.loai)
                                                                 {
-                                                                    <a href="@type.url">
+                                                                    <a href="@Url.Action("Recruitment","Home",new {url = type.url})">
                                                                         @type.tengoi
                                                                     </a>
                                                                 }
@@ -254,7 +283,7 @@
                                                             <span class="ngoaingu">
                                                                 @foreach(var languege in data.value.ngoaingu)
                                                                 {
-                                                                    <a href="@languege.url">@languege.url</a>
+                                                                    <a href="@Url.Action("Recruitment","Home",new {url = languege.url})">@languege.url</a>
                                                                 }
                                                             </span>
                                                         }
@@ -263,13 +292,13 @@
                                                             <div class="vttd">
                                                                 @foreach(var career in data.value.nganh)
                                                                 {
-                                                                    <a href="@career.url">@career.tengoi</a>
+                                                                    <a href="@Url.Action("Recruitment","Home",new {url = career.url})">@career.tengoi</a>
                                                                 }
                                                             </div>
                                                         }
                                                         <div class="group-wishlist">
                                                             <div class="wish_list "></div>
-                                                            <div class="add_to_cart da-ung-tuyen"></div>
+                                                            <div onclick="AddToCart(@data.value.id)" class="add_to_cart da-ung-tuyen"></div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -293,95 +322,49 @@
                 try
                 {
                     var _className = "id" + item.value.idpart + " md-" + item.value.module.ToLower();
+                    var json = (new WebClient()).DownloadString(url);
+                    var list = JsonConvert.DeserializeObject<List<ApiModel>>(json);
                     <div class="@_className">
-                        <div class="container">
-                            <h2><a href="/khach-hang-nhan-xet">Nhận xét</a></h2>
-                        </div>
                         <div class="th-ykienkhachhang">
                             <div class="container ">
-                                <div class="swiper-container">
-                                    <div class="swiper-wrapper">
-                                        <!-- Đưa các phần tử muốn hiển thị trong carousel vào đây -->
-                                        <div class="swiper-slide" style="text-align:center">
-                                            <div>
-                                                <div class="ykienkh">
-                                                    <h6><a href="/">Chị Trang</a></h6>
-                                                    <div class="ykkh_ngaydang">9/27/2017 8:05:49 AM</div>
-                                                    <div class="ykkh_ndtt">
-                                                        <p>
-                                                        <p>
-                                                            Trước có nhờ trung tâm khác, khi chuyển qua bên Thế Giới Gia Sư thấy các thầy cô tư vấn tốt hơn nhiều,
-                                                            con mình đã học được 1 tháng, sang năm sẽ tiếp tục nhờ các bạn tìm gia sư cho con mình.
-                                                        </p>
-                                                        <p><strong>Thu Trang</strong>, chợ Tân Bình</p>
-                                                        </p>
+                                <div class="swiper swiper-initialized swiper-horizontal mySwiper swiper-backface-hidden">
+                                    <div class="swiper-container">
+                                        <div class="swiper-wrapper">
+                                            @if(list.Count != null)
+                                            {
+                                                @foreach(var Review in list)
+                                                {
+                                                    <div class="swiper-slide">
+                                                        <div>
+                                                            <div class="ykienkh">
+                                                                @if(Review.tieude != null && Review.url != null)
+                                                                {
+                                                                    <h6><a href="@Review.url">@Review.tieude</a></h6>
+                                                                }
+                                                                @if(Review.ngaydang != null)
+                                                                {
+                                                                    <div class="ykkh_ngaydang">@Review.ngaydang</div>
+                                                                }
+                                                                @if(Review.noidungtomtat != null)
+                                                                {
+                                                                    <div class="ykkh_ndtt">
+                                                                        <span>
+                                                                            <p>
+                                                                                @Html.Raw(Review.noidungtomtat)
+                                                                            </p>
+                                                                        </span>
+                                                                    </div>
+                                                                }
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </div>
+                                                }
+                                            }
                                         </div>
-                                        <div class="swiper-slide" style="text-align:center">
-                                            <div>
-                                                <div class="ykienkh">
-                                                    <h6><a href="/">Trần Văn Thể</a></h6>
-                                                    <div class="ykkh_ngaydang">9/27/2017 8:02:44 AM</div>
-                                                    <div class="ykkh_ndtt">
-                                                        <p>
-                                                        <p>Gia sư tốt, con tôi tiến bộ nhiều.</p>
-                                                        <p><strong>Trần Văn Thế</strong>, Quận 7, TPHCM</p>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="swiper-slide" style="text-align:center">
-                                            <div>
-                                                <div class="ykienkh">
-                                                    <h6><a href="/">Nguyễn Thị Dung</a></h6>
-                                                    <div class="ykkh_ngaydang">9/27/2017 7:56:35 AM</div>
-                                                    <div class="ykkh_ndtt">
-                                                        <p>
-                                                        <p>Tôi là phụ huynh cháu Thúy Diễm, con tôi được sinh viên dạy kèm và hiện đang học rất tốt.</p>
-                                                        <p><strong>Nguyễn Thị Dung</strong> phụ huynh Trần Thị Thúy Diễm</p>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="swiper-slide" style="text-align:center">
-                                            <div>
-                                                <div class="ykienkh">
-                                                    <h6><a href="/">Chị Trang</a></h6>
-                                                    <div class="ykkh_ngaydang">9/27/2017 8:05:49 AM</div>
-                                                    <div class="ykkh_ndtt">
-                                                        <p>
-                                                        <p>
-                                                            Trước có nhờ trung tâm khác, khi chuyển qua bên Thế Giới Gia Sư thấy các thầy cô tư vấn tốt hơn nhiều,
-                                                            con mình đã học được 1 tháng, sang năm sẽ tiếp tục nhờ các bạn tìm gia sư cho con mình.
-                                                        </p>
-                                                        <p><strong>Thu Trang</strong>, chợ Tân Bình</p>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="swiper-slide" style="text-align:center">
-                                            <div>
-                                                <div class="ykienkh">
-                                                    <h6><a href="/">Trần Văn Thể</a></h6>
-                                                    <div class="ykkh_ngaydang">9/27/2017 8:02:44 AM</div>
-                                                    <div class="ykkh_ndtt">
-                                                        <p>
-                                                        <p>Gia sư tốt, con tôi tiến bộ nhiều.</p>
-                                                        <p><strong>Trần Văn Thế</strong>, Quận 7, TPHCM</p>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Thêm nhiều slide khác nếu cần -->
+                                        <div class="swiper-button-next"></div>
+                                        <div class="swiper-button-prev"></div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                         <div class="container tt-ykienkhachhang"></div>
@@ -443,60 +426,61 @@
                 break;
         }
     }
-    <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Chọn theo khu vực tỉnh, thành phố</h5>
-                    <button onclick="InsertNameMap()" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body  modal-body-khuvuc">
-                    <div class="modal-input-tt"><input class="form-control" type="text" placeholder="Tìm theo tỉnh thành" value=""></div>
-                    <select id="selected-state" class="form-select" size="8" aria-label="size 3 select example">
-                    </select>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" data-bs-dismiss="modal">Đóng</button>
-                </div>
+
+<div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Chọn theo khu vực tỉnh, thành phố</h5>
+                <button onclick="InsertNameMap()" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body  modal-body-khuvuc">
+                <div class="modal-input-tt"><input class="form-control" type="text" placeholder="Tìm theo tỉnh thành" value=""></div>
+                <select id="selected-state" class="form-select" size="8" aria-label="size 3 select example">
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-bs-dismiss="modal">Đóng</button>
             </div>
         </div>
     </div>
-    <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalToggleLabel2">Chọn khu vực theo quận huyện</h5>
-                    <button onclick="InsertNameMap()" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="modal-input-tt"><input class="form-control" type="text" placeholder="Tìm theo quận huyện" value=""></div>
-                    <select id="selected-district" class="form-select" size="8" aria-label="size 3 select example">
-                    </select>
-                </div>
-                <div class="modal-footer">
-                    <button onclick="RemoveValueState()" class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal">Trở về</button>
-                </div>
+</div>
+<div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalToggleLabel2">Chọn khu vực theo quận huyện</h5>
+                <button onclick="InsertNameMap()" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-input-tt"><input class="form-control" type="text" placeholder="Tìm theo quận huyện" value=""></div>
+                <select id="selected-district" class="form-select" size="8" aria-label="size 3 select example">
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button onclick="RemoveValueState()" class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal">Trở về</button>
             </div>
         </div>
     </div>
-    <div class="modal fade" id="exampleModalToggle3" aria-hidden="true" aria-labelledby="exampleModalToggleLabel3" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalToggleLabel2">Chọn theo phường xã</h5>
-                    <button onclick="InsertNameMap()" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="modal-input-tt"><input class="form-control" type="text" placeholder="Tìm theo phường xã" value=""></div>
-                    <select id="selected-wards" class="form-select" size="8" aria-label="size 3 select example">
-                    </select>
-                </div>
-                <div class="modal-footer">
-                    <button onclick="RemoveValueDistrict()" class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Trở về</button>
-                </div>
+</div>
+<div class="modal fade" id="exampleModalToggle3" aria-hidden="true" aria-labelledby="exampleModalToggleLabel3" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalToggleLabel2">Chọn theo phường xã</h5>
+                <button onclick="InsertNameMap()" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-input-tt"><input class="form-control" type="text" placeholder="Tìm theo phường xã" value=""></div>
+                <select id="selected-wards" class="form-select" size="8" aria-label="size 3 select example">
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button onclick="RemoveValueDistrict()" class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Trở về</button>
             </div>
         </div>
     </div>
+</div>
     <input id="input-state" type="hidden" />
     <input id="input-district" type="hidden" />
     <input id="input-wards" type="hidden" />
@@ -505,11 +489,57 @@
     <input id="input-IdDistrict" type="hidden" />
     <input id="input-IdWards" type="hidden" />
 
-    <div id="loading-container">
-        <div id="loading-spinner"></div>
-        <p id="loading-text">Đang tải...</p>
-    </div>
-
-
 </div>
 
+<script>
+    function AddToCart(idNew){
+        let eUser = `@cookieUserValue`;
+        let ePass = `@cookiePassValue`;
+        let eTypeAccount = `@cookieTypeAccountValue`;
+        let urlApi = @MyConstanst.SiteName1+"save.addcart.asp?userid=" + eUser
+            + "&pass=" + ePass
+            + "&id=" + idNew
+            + "&id1=&id2=";
+        $.ajax({
+            type: 'POST',
+            url: urlApi,
+            success: (response) => {
+                if (response[0].maloi == 1) {
+                    if (eTypeAccount == 1) {
+                        Swal.fire({
+                            title: 'Thông báo!',
+                            text: response[0].ThongBao,
+                            icon: 'success',
+                            confirmButtonText: 'Đóng'
+                        });
+                        let actionUrl = '@Url.Action("InfoCvUser", "User")';
+                        window.location.href = actionUrl;
+                    }
+                    else {
+                        let actionUrl = '@Url.Action("Login", "Account")';
+                        window.location.href = actionUrl;
+                    }
+                } else {
+                    Swal.fire({
+                        title: 'Thông báo!',
+                        text: response[0].ThongBao,
+                        icon: 'warning',
+                        confirmButtonText: 'Đóng'
+                    });
+                }
+            },
+            error: (e) => {
+                Swal.fire({
+                    title: 'Thông báo!',
+                    text: 'Không thể ứng tuyển!',
+                    icon: 'error',
+                    confirmButtonText: 'Đóng'
+                });
+            }
+        })
+
+
+    }
+</script>
+
+                        

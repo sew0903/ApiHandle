@@ -103,7 +103,7 @@ function RemoveValueWards() {
 var swiper = new Swiper('.swiper-container', {
     // Cấu hình Swiper ở đây
     slidesPerView: 3,
-    spaceBetween: 50,
+    spaceBetween: 30,
     navigation: {
         nextEl: '.swiper-button-next',
         prevEl: '.swiper-button-prev'
@@ -123,3 +123,28 @@ function showLoading() {
 function hideLoading() {
     document.getElementById("loading-container").style.display = "none";
 }
+function ShowGroupBl() {
+    var e = document.getElementById("group-bl");
+    e.style.display = "flex";
+}
+document.addEventListener("DOMContentLoaded", function () {
+    const backToTopButton = document.getElementById("backToTopButton");
+
+    // Lắng nghe sự kiện cuộn trang
+    window.addEventListener("scroll", function () {
+        // Hiển thị hoặc ẩn nút khi người dùng cuộn trang
+        if (window.scrollY > 300) {
+            backToTopButton.style.display = "block";
+        } else {
+            backToTopButton.style.display = "none";
+        }
+    });
+
+    // Xử lý khi nút được nhấp
+    backToTopButton.addEventListener("click", function () {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth" // Tạo hiệu ứng trượt mượt
+        });
+    });
+});

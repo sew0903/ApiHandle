@@ -1,14 +1,22 @@
 ﻿@model List<ApiModel>
 @{
-    ViewData["Title"] = "Tin tức nhân sự ";
+    ViewData["Title"] = Model[0].tieude;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="id35001">
-    <nav aria-label="breadcrumb">
+    <nav aria-label="breadcrumb" style="    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    list-style: none;
+    background-color: #e9ecef;
+    border-radius: 0.25rem;">
         <ol class="breadcrumb">
             @foreach (var breadcrum in ViewBag.BreadCrumb)
             {
-                <li class="breadcrumb-item"><a href="@breadcrum.url">@breadcrum.tieude</a></li>
+                <li class="breadcrumb-item"><a href="/@breadcrum.url">@breadcrum.tieude</a></li>
             }
         </ol>
     </nav>
@@ -21,7 +29,6 @@
                         @foreach (var item in Model[0].data)
                         {
                             <div class="tintuc">
-                                <div class="wrap-ndct">
                                     @if (item.url != null)
                                     {
                                         <div class="hinh">
@@ -40,7 +47,7 @@
                                         @if (item.tieude != null)
                                         {
                                             <h3>
-                                                <a href="/quy-tac-trang-phuc-trong-dam-cuoi-hoang-gia-anh">
+                                                <a href="@item.url">
                                                     @item.tieude
                                                 </a>
                                             </h3>
@@ -53,7 +60,6 @@
                                         }
                                     </div>
                                 </div>
-                            </div>
                         }
                     </div>
                 </div>

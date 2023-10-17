@@ -21,17 +21,34 @@
         public string? emailND { get; set; }
         public string? emailxxxND { get; set; }
         public string? thoihan { get; set; }
+        public string? xemthem { get; set; }
         public int? recordsTotal { get; set; }
         public int? recordsFiltered { get; set; }
 
         public List<DataDetail>? data { get;set; }
         public List<NoiDungFormDetail>? noidungform { get;set; } 
+        public List<BaiVietDetail>? baiviet { get; set; }
+        public class BaiVietDetail
+        {
+            public string? id { get; set; }
+            public string? ngaydang { get; set; }
+            public string? hinhdaidien { get; set; }
+            public string? tieude { get; set; }
+            public string? url { get; set; }
+            public string? noidungtomtat { get; set; }
+
+        }
         public class ChucDanhDetail
         {
             public string? tengoi { get; set; }
             public string? url { get; set; }
         }
         public class NganhDetail
+        {
+            public string? tengoi { get; set; }
+            public string? url { get; set; }
+        }
+        public class NganhHocDetaill
         {
             public string? tengoi { get; set; }
             public string? url { get; set; }
@@ -84,6 +101,8 @@
         public class DataDetail
         {
             public string? id { get; set; }
+            public string? idquanly { get; set; }
+            public string? mota { get; set; }
             public string? loaitin { get; set; }
             public string? url { get; set; }
             public string? tieude { get; set; }
@@ -96,6 +115,8 @@
             public string? ngaydang { get; set; }
             public string? hinhdaidien { get; set; }
             public string? noidungtomtat { get; set; }
+            public string? nguoidung { get; set; }
+            public string? noidungbinhluan { get; set; }
             public string? luotxem { get; set; } 
             public List<LoaiDetai>? loai { get; set; }
             public List<ChucDanhDetail>? chucdanh { get; set; }
@@ -109,6 +130,7 @@
             public List<KinhNghiemDetail>? kinhnghiem { get; set; } 
             public List<ThuViecDetail>? thuviec { get; set; }
             public List<PhucLoiDetail>? phucloi { get; set; } 
+            public List<NganhHocDetaill>? nganhhoc { get; set; }
         }
         public class PhucLoiDetail
         {
@@ -156,10 +178,12 @@
         }
         public class BoLoc
         {
+            public string? id { get; set; }
             public string? ten { get; set; }
             public string? ma { get; set; }
+            public string? url { get; set; }
             public List<ThamSoDetail>? thamso { get; set; }
-        }
-
+            public List<NoiDungFormDetail>? noidungform { get; set; }
+        }      
     }
 }
