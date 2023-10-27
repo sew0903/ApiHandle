@@ -7,6 +7,6 @@
         public const string KeyUserNameCookies = "YAMATO1120";
         public const string KeyPasswordCookies = "SDH456DILD";
         public const string KeyTypeLAccountCookies = "VQSHFULDWXX";
-
+        public const string KeyMemberIdCookies = "RUNDH43843NSEED";
     }
 }

@@ -426,7 +426,7 @@
                 break;
         }
     }
-
+</div>
 <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -489,17 +489,13 @@
     <input id="input-IdDistrict" type="hidden" />
     <input id="input-IdWards" type="hidden" />
 
-</div>
-
 <script>
-    function AddToCart(idNew){
+    function AddToCart(idNew) {
         let eUser = `@cookieUserValue`;
         let ePass = `@cookiePassValue`;
+        let siteName = `@MyConstanst.SiteName1`;
         let eTypeAccount = `@cookieTypeAccountValue`;
-        let urlApi = @MyConstanst.SiteName1+"save.addcart.asp?userid=" + eUser
-            + "&pass=" + ePass
-            + "&id=" + idNew
-            + "&id1=&id2=";
+        let urlApi = siteName + "save.addcart.asp?userid=" + eUser + "&pass=" + ePass + "&id=" + idNew + "&id1=&id2="
         $.ajax({
             type: 'POST',
             url: urlApi,
@@ -512,12 +508,9 @@
                             icon: 'success',
                             confirmButtonText: 'Đóng'
                         });
-                        let actionUrl = '@Url.Action("InfoCvUser", "User")';
-                        window.location.href = actionUrl;
+
                     }
                     else {
-                        let actionUrl = '@Url.Action("Login", "Account")';
-                        window.location.href = actionUrl;
                     }
                 } else {
                     Swal.fire({

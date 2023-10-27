@@ -36,7 +36,7 @@ namespace ProjectTestApi.Controllers
 
                         if (int.Parse(result[0].maloi) != 0)
                         {
-                            SaveCoookie(loginViewModel, int.Parse(result[0].chucnang));
+                            SaveCoookie(loginViewModel, int.Parse(result[0].chucnang), result[0].memberid);
                             TempData["SuccessLogin"] = "Tài khoản " + result[0].user +" đăng nhập thành công!";
                             return RedirectToAction("Index", "Home");
                         }
@@ -81,7 +81,7 @@ namespace ProjectTestApi.Controllers
             return null;
         }
 
-        private async Task SaveCoookie(LoginViewModel loginViewModel, int? typeAccount)
+        private async Task SaveCoookie(LoginViewModel loginViewModel, int? typeAccount,string? memberId)
         {
             List<Claim> lst = new List<Claim>()
             {
@@ -105,9 +105,11 @@ namespace ProjectTestApi.Controllers
                 Path = "/",
                 Expires = DateTime.Now.AddMonths(1)
             };
+
             HttpContext.Response.Cookies.Append(MyConstanst.KeyUserNameCookies, loginViewModel.email, option);
             HttpContext.Response.Cookies.Append(MyConstanst.KeyPasswordCookies, loginViewModel.password, option);
             HttpContext.Response.Cookies.Append(MyConstanst.KeyTypeLAccountCookies, typeAccount.ToString(), option);
+            HttpContext.Response.Cookies.Append(MyConstanst.KeyMemberIdCookies, memberId, option);
 
             HttpContext.SignInAsync(cp);
         }
