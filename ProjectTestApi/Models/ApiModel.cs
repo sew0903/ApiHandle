@@ -131,6 +131,12 @@
             public List<ThuViecDetail>? thuviec { get; set; }
             public List<PhucLoiDetail>? phucloi { get; set; } 
             public List<NganhHocDetaill>? nganhhoc { get; set; }
+            public List<YeuCauKyNang>? yeucaukynang { get; set; }
+        }
+        public class YeuCauKyNang
+        {
+            public string? tengoi { get; set; }
+            public string? url { get; set; }
         }
         public class PhucLoiDetail
         {

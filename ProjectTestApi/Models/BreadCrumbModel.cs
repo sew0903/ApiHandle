@@ -1,8 +1,11 @@
-﻿namespace ProjectTestApi.Models
+﻿using Newtonsoft.Json;
+using System.Net;
+
+namespace ProjectTestApi.Models
 {
     public class BreadCrumbModel
     {
         public string? tieude { get; set; }
-        public string? url { get; set; }
+        public string? url { get; set; }        
     }
 }

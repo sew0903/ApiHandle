@@ -1,0 +1,193 @@
+﻿@using System.Net;
+@using Newtonsoft.Json;
+@using ProjectTestApi.Models.Const;
+@using System.Text.Json;
+@model List<WebAllModel>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    List<ApiModel> result = new List<ApiModel>();
+    string idDivMain = "id" + Model[0].id;
+}
+<div id="id35001 md-tintuc">
+    @{
+        string apiBreadCrumb = MyConstanst.SiteName + "web.breadcrumb.asp?id=" + Model[0].id;
+        string contentApi = await (new WebClient()).DownloadStringTaskAsync(apiBreadCrumb);
+        if (!string.IsNullOrEmpty(contentApi))
+        {
+            List<BreadCrumbModel>
+            breadCrumbResult = JsonConvert
+            .DeserializeObject<List<BreadCrumbModel>>(contentApi);
+
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    @foreach (var breadcrumb in breadCrumbResult)
+                    {
+                        if (!string.IsNullOrEmpty(breadcrumb.url) || !string.IsNullOrEmpty(breadcrumb.tieude))
+                        {
+                            <li class="breadcrumb-item"><a href="/@breadcrumb.url">@breadcrumb.tieude</a></li>
+                        }
+                    }
+                    <span class="translate">
+                        <a id="vi" href="http://www.nhipcautamgiao.net" title="vi">
+                            <img height="13" src="http://nhipcautamgiao.net/images/flag/vi.gif" alt="">
+                        </a>
+                        <a id="en" href="http://en.nhipcautamgiao.net" title="en">
+                            <img height="13" src="http://nhipcautamgiao.net/images/flag/en.gif" alt="en">
+                        </a>
+                    </span>
+                </ol>
+            </nav>
+            <h2><a href="/@Model[0].url">@Model[0].tieude </a></h2>
+        }
+
+        if (Model[0].noidungtab.Count == 0)
+        {
+            string className = "id" + Model[0].id + " " + "md" + Model[0].tenham.ToLower();
+            string api = MyConstanst.SiteName + "module."
+            + Model[0].module
+            + ".asp?id=" + Model[0].id;
+            contentApi = await (new WebClient()).DownloadStringTaskAsync(api);
+            using (JsonDocument.Parse(contentApi))
+            {
+                try
+                {
+                    <div class="id35001 md-tintuc ">
+                        <div class="container">
+                            <div class="th-tintuc">
+                                <div class="container">
+                                    <h2><a href="/tin-tuc">Tin tức </a></h2>
+                                    <div id="phantrang" class="row">
+                                        @{
+                                            if (!string.IsNullOrEmpty(contentApi))
+                                            {
+                                                result = JsonConvert.DeserializeObject<List<ApiModel>>(contentApi);
+                                                foreach (var item in result[0].data)
+                                                {
+                                                    <div class="tintuc">
+                                                        <div class="wrap-ndct">
+                                                            <div class="ct">
+                                                                @if (!string.IsNullOrEmpty(item.ngaydang))
+                                                                {
+                                                                    <div class="ngdang">@item.ngaydang</div>
+                                                                }
+                                                                @if (!string.IsNullOrEmpty(item.tieude))
+                                                                {
+                                                                    <h3>
+                                                                        <a href="@Url.Action("ChiTietTinTuc","Home",new{keyword = item.url})">
+                                                                            @item.tieude
+                                                                        </a>
+                                                                    </h3>
+                                                                }
+                                                                @if (!string.IsNullOrEmpty(item.noidungtomtat))
+                                                                {
+                                                                    <div class="ttct">
+                                                                        @Html.Raw(@item.noidungtomtat)
+                                                                    </div>
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container">
+                            <ul class="pagination phantrang">
+                                <li class="previous">
+                                    <div><span class="trangtruoc"></span></div>
+                                </li>
+                                <li>
+                                    <div onclick="ChangePageTC(@result[0].recordsTotal,@result[0].recordsFiltered,'btnPage1','@Model[0].tenham',@Model[0].id)" id="btnPage1" class="page-active">1</div>
+                                </li>
+                                <li>
+                                    <div onclick="ChangePageTC(@result[0].recordsTotal,@result[0].recordsFiltered,'btnPage2','@Model[0].tenham',@Model[0].id)" id="btnPage2" class="">2</div>
+                                </li>
+                                <li>
+                                    <div onclick="ChangePageTC(@result[0].recordsTotal,@result[0].recordsFiltered,'btnPage3','@Model[0].tenham',@Model[0].id)" id="btnPage3">3</div>
+                                </li>
+                                <li class="next">
+                                    <div><span class="trangsau"></span></div>
+                                </li>
+                                <input type="hidden" id="input-PageValue">
+                            </ul>
+                        </div>
+                    </div>
+                }
+                catch
+                {
+
+                }
+            }
+        }
+        else
+        {
+            <div class="th-tintuc">
+                <div class="container">
+                    <div class="row">
+                        @foreach (var option in Model[0].noidungtab)
+                        {
+                            string apiWebAll = MyConstanst.SiteName + "web.all.url.asp?id1=" + option.url;
+                            List<WebAllModel> models = JsonConvert.DeserializeObject<List<WebAllModel>>(
+                            await (new WebClient()).DownloadStringTaskAsync(apiWebAll)
+                            );
+                            string className = "id" + Model[0].id + " " + "md" + Model[0].tenham.ToLower();
+                            string api = MyConstanst.SiteName + "module." + Model[0].tenham + ".trangchu.asp?url=" + option.url;
+                            contentApi = await (new WebClient()).DownloadStringTaskAsync(api);
+                            using (JsonDocument.Parse(contentApi))
+                            {
+                                List<ApiModel> modelNews = JsonConvert.DeserializeObject<List<ApiModel>>(contentApi);
+                                <div class="col-md-5 item">
+                                    <div class="content-new-menu">
+                                        <div class="title">
+                                            <a href="@Url.Action("NoiDungTinTuc","Home",new {key = option.url})"><h3>@option.tieude</h3></a>
+                                        </div>
+                                        <div class="list-option-menu">                    
+                                                @foreach (var item in modelNews[0].data)
+                                                {
+                                                string rootUrlImage = MyConstanst.SiteNameImage + item.hinhdaidien;
+                                                <div class="chi-tiet-tintuc">
+                                                    <div class="wrap-ndct">
+                                                        <div class="hinh">
+                                                            <a href="@Url.Action("ChiTietTinTuc","Home",new {keyword = item.url})">
+                                                                <img class="border" src="@rootUrlImage" alt="">
+                                                            </a>
+                                                        </div>
+                                                        <div class="ct">
+                                                            <div class="ngdang">@item.ngaydang</div>
+                                                            <h3>
+                                                                <a href="@Url.Action("ChiTietTinTuc","Home",new {keyword = item.url})">
+                                                                   @item.tieude
+                                                                </a>
+                                                            </h3>
+                                                            <div class="ttct">
+                                                                @Html.Raw(item.noidungtomtat)
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                }
+                               
+                                        </div>
+                                    </div>
+                                </div>
+
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+
+
+
+
+    }
+</div>
+
+
+

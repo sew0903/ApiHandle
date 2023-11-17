@@ -34,259 +34,259 @@ namespace ProjectTestApi.Controllers
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
         }
 
+        [HttpGet]
+        [Route("trang-chu")]
+        [Route("")]
         public async Task<IActionResult> Index()
         {
-            try {
-                using (HttpClient httpClient = new HttpClient())
-                {
-                    var urlContent = MyConstanst.SiteName + "web.trangchu.module.content.asp";
-                    string jsonContent = await httpClient.GetStringAsync(urlContent);
-                    var listContent = JsonSerializer.Deserialize<List<ApiModel>>(jsonContent);
-                    return View(listContent);
-                }
-            }
-            catch(Exception e)
-            {
-                return Json(e.Message);
-            }
-        }
-
-        [Route("tin-tuc")]
-        public async Task<IActionResult> News()
-        {
-            const int idpart = 35001;
-            var isCheckBreadCrumb = await GetValueBreadCrumb(idpart);
             try
             {
-                var obj = await _listNewsModels(idpart);
-                var title = await GetTitleTopMenu(idpart);
-                if (isCheckBreadCrumb != null) {
-                    ViewBag.BreadCrumb = isCheckBreadCrumb;
-                }
-                return View(obj);
-            }
-            catch(Exception e)
-            {
-                throw;
-            }
-        }
-        public async Task<IActionResult> Recruitment(int? page,string? url)
-        {
-
-            try
-            {
-                using (HttpClient httpClient = new HttpClient())
+                string apiHomeContent = MyConstanst.SiteName + "web.trangchu.module.content.asp";
+                using (HttpClient client = new HttpClient())
                 {
-
-                    string jsonContent = await httpClient.GetStringAsync(
-                        MyConstanst.SiteName 
-                        + "web.all.url.asp?id1=" 
-                        + url.Replace("%2F", "/"));
-                    var options = new JsonSerializerOptions
+                    string jsonContent = await client.GetStringAsync(apiHomeContent);
+                    if (!string.IsNullOrEmpty(jsonContent))
                     {
-                        PropertyNameCaseInsensitive = true
-                    };
-                    List<ApiModel> lstObj = JsonSerializer.Deserialize<List<ApiModel>>(jsonContent, options);
-                    if (lstObj[0].id != null)
-                    {
-                        List<BreadCrumbModel> breadCrumb = JsonSerializer.Deserialize<List<BreadCrumbModel>>
-                            (await httpClient.GetStringAsync(
-                                MyConstanst.SiteName
-                                + "web.breadcrumb.asp?id="
-                                + lstObj[0].id),options);
-
-                        List<ApiModel> result = JsonSerializer.Deserialize<List<ApiModel>>
-                            (await httpClient.GetStringAsync(
-                                MyConstanst.SiteName 
-                                + "module." 
-                                + lstObj[0].module 
-                                + ".asp?id=" + lstObj[0].id),options);                       
-                        if (result.Count > 0)
-                        {
-                            int pageSize = (int)result[0].recordsFiltered;
-                            int pageNumber = page == null || page < 0 ? 1 : page.Value;
-                            ViewBag.BreadCrumb = breadCrumb;
-                            PagedList<ApiModel.DataDetail> lst = new PagedList<ApiModel.DataDetail>(result[0].data, pageNumber, pageSize);
-                            ViewData["Title"] = lstObj[0].tieude;
-                            return View(lst);
-                        }
-                        else
-                        {
-                            return RedirectToAction("Recruitment", "Home");
-                        }
+                        List<ApiHomeContentModel> models = JsonSerializer
+                            .Deserialize<List<ApiHomeContentModel>>(jsonContent);
+                        return View(models);
                     }
                 }
             }
-            catch(Exception e)
+            catch (Exception ex)
             {
                 throw;
             }
-            return RedirectToAction("Index","Home");
-        }
-
-        [Route("tuyen-thuc-tap-sinh")]
-        public async Task<IActionResult> Intern()
-        {
-            const string key = "tuyen-thuc-tap-sinh";
-            try {
-                List<ApiModel> webAllUrl = await GetInfoContent(key);
-                ViewBag.BreadCrumb = await GetValueBreadCrumb(int.Parse(webAllUrl[0].id));
-                ViewBag.Content = await GetContent(webAllUrl[0].id, webAllUrl[0].tenham);
-                return View(webAllUrl);
-            }
-            catch
-            {
-                throw;
-            }
-        }
-
-        [Route("ban-do")]
-        public async Task<IActionResult> Map()
-        {
-            const int idpart = 35014;
-            var isCheckBreadCrumb = await GetValueBreadCrumb(idpart);
-            try
-            {
-                if (isCheckBreadCrumb != null)
-                {
-                    ViewBag.BreadCrumb = isCheckBreadCrumb;
-                }
-            }
-            catch(Exception e)
-            {
-                throw;
-            }
-            return View();
+            return Json("Error");
         }
 
         [HttpGet]
-        public async Task<IActionResult> Search(string? url)
+        [Route("tuyen-thuc-tap-sinh")]
+        public async Task<IActionResult> TuyenThucTapSinh()
         {
             try
             {
-                using(HttpClient httpClient = new HttpClient())
+                string api = MyConstanst.SiteName + "web.all.url.asp?id1=tuyen-thuc-tap-sinh";
+                string contentApi = await new WebClient().DownloadStringTaskAsync(api);
+
+                using(MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(contentApi)))
                 {
-                    if(url != null)
+                    if (!string.IsNullOrEmpty(contentApi))
                     {
-                        string urlApi = MyConstanst.SiteName+"web.all.url.asp?id1=" + url;
-
-                        string jsonContent = await httpClient.GetStringAsync(urlApi);
-
-                        var options = new JsonSerializerOptions
-                        {
-                            PropertyNameCaseInsensitive = true
-                        };
-
-                        var list = JsonSerializer.Deserialize<List<ApiModel>>(jsonContent, options);
-
-                        if (list.Count != 0)
-                        {
-                            int id = int.Parse(list[0].id);
-
-                            string apiWebBoLoc = MyConstanst.SiteName + "web.boloc.asp?id=" + id;
-                            string apiBreadCrumb = MyConstanst.SiteName + "web.breadcrumb.asp?id=" + id;
-                            string apiResultBoLoc = MyConstanst.SiteName + "module." + list[0].module + ".asp?id=" + id;
-
-                            List<ApiModel.BoLoc> boLoc = JsonSerializer
-                                .Deserialize<List<ApiModel
-                                .BoLoc>>(
-                                await httpClient
-                                .GetStringAsync(urlApi)
-                                , options);
-                            List<BreadCrumbModel> breadCrumb = JsonSerializer
-                                .Deserialize<List<BreadCrumbModel>>(
-                                await httpClient
-                                .GetStringAsync(apiBreadCrumb)
-                                , options);
-                            List<ApiModel> result = JsonSerializer
-                                .Deserialize<List<ApiModel>>(
-                                await httpClient
-                                .GetStringAsync(apiResultBoLoc)
-                                , options);
-
-                            ViewBag.BreadCrumb = breadCrumb;
-                            ViewData["Title"] = list[0].tieude;
-                            return View(result[0].data);
-                        }
+                        List<WebAllModel> result = await JsonSerializer.DeserializeAsync<List<WebAllModel>>(stream);
+                        stream.Close();
+                        return View(result);
                     }
-                    return RedirectToAction("Index", "Home");
                 }
+                return RedirectToAction("Index", "Home");
             }
-            catch
+            catch(Exception ex)
+            {
+                throw;
+            }
+        }
+
+
+        [HttpGet]
+        [Route("tin-tuc")]
+        public async Task<IActionResult> TinTuc()
+        {
+            try
+            {
+                string api = MyConstanst.SiteName + "web.all.url.asp?id1=tin-tuc";
+                string contentApi = await new WebClient().DownloadStringTaskAsync(api);
+
+                using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(contentApi)))
+                {
+                    if (!string.IsNullOrEmpty(contentApi))
+                    {
+                        List<WebAllModel> result = await JsonSerializer.DeserializeAsync<List<WebAllModel>>(stream);
+                        stream.Close();
+                        return View(result);
+                    }
+                }
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        [HttpGet]
+        [Route("/{key}")]
+        public async Task<IActionResult> DanhMucTinTuc(string? key)
+        {
+            try
+            {
+                string api = MyConstanst.SiteName + "web.all.url.asp?id1=" + key;
+                string contentApi = await new WebClient().DownloadStringTaskAsync(api);
+
+                using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(contentApi)))
+                {
+                    if (!string.IsNullOrEmpty(contentApi))
+                    {
+                        List<WebAllModel> result = await JsonSerializer.DeserializeAsync<List<WebAllModel>>(stream);
+                        stream.Close();
+                        ViewData["Title"] = result[0].tieude;
+                        return View(result);
+                    }
+                }
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            return Json("Error");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> NoiDungTinTuc(string? key)
+        {
+            try
+            {
+                string api = MyConstanst.SiteName + "web.all.url.asp?id1=" + key;
+                string contentApi = await new WebClient().DownloadStringTaskAsync(api);
+
+                using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(contentApi)))
+                {
+                    if (!string.IsNullOrEmpty(contentApi))
+                    {
+                        List<WebAllModel> result = await JsonSerializer.DeserializeAsync<List<WebAllModel>>(stream);
+                        stream.Close();
+                        ViewData["Title"] = result[0].tieude;
+                        return View(result);
+                    }
+                }
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            return Json("Error");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ChiTietTinTuc(string? keyword)
+        {
+            try
+            {
+                string api = MyConstanst.SiteName + "web.all.url.asp?id1="+keyword;
+                string contentApi = await new WebClient().DownloadStringTaskAsync(api);
+
+                using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(contentApi)))
+                {
+                    if (!string.IsNullOrEmpty(contentApi))
+                    {
+                        List<WebAllModel> result = await JsonSerializer.DeserializeAsync<List<WebAllModel>>(stream);
+                        stream.Close();
+                        ViewData["Title"] = result[0].tieude;
+                        return View(result);
+                    }
+                }
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> NoiDungChiTiet(string? keyword)
+        {
+            try
+            {
+                string api = MyConstanst.SiteName + "web.all.url.asp?id1=" + keyword;
+                string contentApi = await new WebClient().DownloadStringTaskAsync(api);
+
+                using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(contentApi)))
+                {
+                    if (!string.IsNullOrEmpty(contentApi))
+                    {
+                        List<WebAllModel> result = await JsonSerializer.DeserializeAsync<List<WebAllModel>>(stream);
+                        stream.Close();
+                        ViewData["Title"] = result[0].tieude;
+                        return View(result);
+                    }
+                }
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public async Task<IActionResult> Search(string? keyword)
+        {
+            try
+            {
+                string api = MyConstanst.SiteName + "web.all.url.asp?id1=" + keyword;
+                string contentApi = await new WebClient().DownloadStringTaskAsync(api);
+
+                using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(contentApi)))
+                {
+                    if (!string.IsNullOrEmpty(contentApi))
+                    {
+                        List<WebAllModel> result = await JsonSerializer.DeserializeAsync<List<WebAllModel>>(stream);
+                        stream.Close();
+                        ViewData["Title"] = result[0].tieude;
+                        return View(result);
+                    }
+                }
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception ex)
             {
                 throw;
             }
         }
 
         [HttpPost]
-        public async Task<IActionResult> Search(SearchViewModel? searchViewModel)
+        public async Task<IActionResult> TimCongViec(string? id, string? id1, string? id2)
         {
-            var url = MyConstanst.SiteName +"module.timboloc.asp?id=&id1=&id2=";
             try
             {
+                string api = MyConstanst.SiteName + "web.all.url.asp?id1=tim-cong-viec";
+               
                 using (HttpClient httpClient = new HttpClient())
                 {
-
-                    if (searchViewModel.id != null && searchViewModel.id2 == null)
-                    {
-                        var _id = ReplaceSpacesWithPercent20(searchViewModel.id);
-                        url = MyConstanst.SiteName +"module.timboloc.asp?id=" + _id + "&id1=&id2=";
-
-                    }
-                    else if (searchViewModel.id == null && searchViewModel.id2 != null)
-                    {
-                        var _id2 = ReplaceSpacesWithPercent20(searchViewModel.id2);
-                        url = url + _id2;
-                    }
-                    else if (searchViewModel.id != null && searchViewModel.id2 != null)
-                    {
-                        var _id = ReplaceSpacesWithPercent20(searchViewModel.id);
-                        var _id2 = ReplaceSpacesWithPercent20(searchViewModel.id2);
-                        url = MyConstanst.SiteName +"module.timboloc.asp?id=" + _id2 + "&id1=&id2=" + _id;
-                    }
-                    //var json = (new WebClient()).DownloadString(url);
-                    string jsonContent = await httpClient.GetStringAsync(url);
-                    var list = JsonSerializer.Deserialize<List<ApiModel>>(jsonContent);
-                    if (list.Count != 0)
-                    {
-                        return View(list[0].data);
-                    }
-                    return View();
-                }
-            }
-            catch(Exception e)
-            {
-                throw;
-            }
-            return RedirectToAction("Index", "Home");
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> JobDetail(int? id, string key)
-        {
-            var urlResult = MyConstanst.SiteName +"web.all.url.asp?id1="+key;
-            try
-            {
-                using (HttpClient httpClient = new HttpClient())
-                {
-                    string jsonContent = await httpClient.GetStringAsync(urlResult);
+                    string contentApi = await httpClient.GetStringAsync(api);
 
                     var options = new JsonSerializerOptions
                     {
                         PropertyNameCaseInsensitive = true
                     };
 
-                    var list = JsonSerializer.Deserialize<List<ApiModel>>(jsonContent, options);
+                    if (!string.IsNullOrEmpty(contentApi))
+                    {
+                        List<WebAllModel> result = JsonSerializer.Deserialize<List<WebAllModel>>(contentApi, options);
 
-                    return View(list);
+                        string apiBoLoc = MyConstanst.SiteName + "module."+ result[0].module +".asp?id="+id+"&id2="+ ReplaceSpacesWithPercent20(id2)+ "&pageid=1";
+
+                        string contentBoLoc = await httpClient.GetStringAsync(apiBoLoc);
+
+                        if (!string.IsNullOrEmpty(contentBoLoc))
+                        {
+                            using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(contentBoLoc)))
+                            {
+                                List<ApiModel> myObject = await JsonSerializer.DeserializeAsync<List<ApiModel>>(stream);
+
+                                ViewBag.ResultSearch = myObject;
+                                return View(result);
+                            }
+                        }
+                    }                 
                 }
-
+                return RedirectToAction("Index", "Home");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
-            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -329,11 +329,6 @@ namespace ProjectTestApi.Controllers
                 }
             }
             return null;
-        }
-
-        private async Task FilterHandle()
-        {
-
         }
 
         private async Task<List<ApiModel>> _listNewsModels(int key)

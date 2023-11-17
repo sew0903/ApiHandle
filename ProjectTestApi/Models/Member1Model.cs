@@ -17,7 +17,7 @@ namespace ProjectTestApi.Models
         public string? huongdan { get; set; }
         public List<GiaTriDetail>? giatri { get; set; }
         public List<NoiDungFormDetail>? noidungform { get; set; }
-        public CauHinh? cauhinh { get; set; }
+        public dynamic? cauhinh { get; set; }
         public class GiaTriDetail
         {
             public string? tenkh { get; set; }

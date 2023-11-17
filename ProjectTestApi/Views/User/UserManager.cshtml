@@ -91,7 +91,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <ul>
+                                <ul style="padding-left:0px">
                                     @{
                                         foreach (var function in listFunction)
                                         {
@@ -497,9 +497,8 @@
                                                                                         {
                                                                                             var school = JsonConvert
                                                                                             .DeserializeObject<List<BoLocModel>>
-                                                                                            (jsonBoLoc)[0].thamso.
-                                                                                            Where(x => x.ma == i.truongdaotao)
-                                                                                            .FirstOrDefault();
+                                                                                            (jsonBoLoc)[0].thamso
+                                                                                            .FirstOrDefault(x => x.ma == i.truongdaotao);
 
                                                                                             if (school != null)
                                                                                             {
@@ -518,9 +517,8 @@
                                                                                         {
                                                                                             var systemTraining = JsonConvert
                                                                                             .DeserializeObject<List<BoLocModel>>
-                                                                                            (jsonBoLoc)[0].thamso.
-                                                                                            Where(x => x.ma == i.hedaotao)
-                                                                                            .FirstOrDefault();
+                                                                                            (jsonBoLoc)[0].thamso
+                                                                                            .FirstOrDefault(x => x.ma == i.hedaotao);
 
                                                                                             if (systemTraining != null)
                                                                                             {
@@ -539,9 +537,8 @@
                                                                                         {
                                                                                             var majorsName = JsonConvert
                                                                                             .DeserializeObject<List<BoLocModel>>
-                                                                                            (jsonBoLoc)[0].thamso.
-                                                                                            Where(x => x.ma == i.nganhhoc)
-                                                                                            .FirstOrDefault();
+                                                                                            (jsonBoLoc)[0].thamso
+                                                                                            .FirstOrDefault(x => x.ma == i.nganhhoc);
 
                                                                                             if (majorsName != null)
                                                                                             {
@@ -708,8 +705,7 @@
                                                                             foreach (var gt in stringArray)
                                                                             {
                                                                                 var skill = arrBoLoc[0].thamso
-                                                                                .Where(x => x.ma == gt)
-                                                                                .FirstOrDefault();
+                                                                                .FirstOrDefault(x => x.ma == gt);
 
                                                                                 if (skill != null)
                                                                                 {

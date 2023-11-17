@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Scripting;
@@ -7,6 +9,7 @@ using ProjectTestApi.Models.Const;
 using ProjectTestApi.Models.ViewModel;
 using System.Security.Claims;
 using System.Text.Json;
+using System.Web;
 
 namespace ProjectTestApi.Controllers
 {
@@ -37,7 +40,7 @@ namespace ProjectTestApi.Controllers
                         if (int.Parse(result[0].maloi) != 0)
                         {
                             SaveCoookie(loginViewModel, int.Parse(result[0].chucnang), result[0].memberid);
-                            TempData["SuccessLogin"] = "Tài khoản " + result[0].user +" đăng nhập thành công!";
+                            TempData["SuccessLogin"] = "Tài khoản " + result[0].user + " đăng nhập thành công!";
                             return RedirectToAction("Index", "Home");
                         }
                     }
@@ -55,6 +58,7 @@ namespace ProjectTestApi.Controllers
         public async Task<IActionResult> Logout()
         {
             LogoutHandle();
+            TempData["SuccessLogin"] = "Đăng xuất thành công!";
             return RedirectToAction("Index", "Home");
         }
         private async Task<List<ApiLoginModel>> HandleLogin(string url)
@@ -122,5 +126,30 @@ namespace ProjectTestApi.Controllers
 
 			HttpContext.SignOutAsync();
         }
+        //public async Task<IActionResult> LoginWithGoogle()
+        //{
+        //    var authenticationProperties = new AuthenticationProperties
+        //    {
+        //        RedirectUri = Url.Action("GoogleLoginCallback", "Account"),
+        //    };
+
+        //    await HttpContext.ChallengeAsync("Google", authenticationProperties);
+
+        //    return new EmptyResult();
+        //}
+        //public async Task<IActionResult> GoogleLoginCallback()
+        //{
+        //    var authenticateResult = await HttpContext.AuthenticateAsync("Google");
+
+        //    if (!authenticateResult.Succeeded)
+        //    {
+        //        // Xử lý lỗi xác thực, nếu có
+        //        return RedirectToAction("Login"); // Chuyển hướng đến trang đăng nhập
+        //    }
+
+        //    // Xử lý sau khi đăng nhập thành công, ví dụ: đăng ký tài khoản hoặc đưa người dùng đến trang chính của ứng dụng
+        //    return RedirectToAction("Index", "Home");
+        //}
+
     }
 }

@@ -1,494 +1,610 @@
-﻿@model List<ApiModel>
-@{  
-    @using System.Net;
-    @using Newtonsoft.Json;
-    @using ProjectTestApi.Controllers;
-    @using ProjectTestApi.Models;
-    @using ProjectTestApi.Models.Const;
-
-    ServicePointManager.Expect100Continue = true;
-    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-
-    var jsonState = (new WebClient()).DownloadString(MyConstanst.SiteName+"dialy.tinhthanh.asp");
-    var arrStates = JsonConvert.DeserializeObject<List<ApiModel>>(jsonState);
-    string idState = "";
-
+﻿@using System.Net;
+@using Newtonsoft.Json;
+@using ProjectTestApi.Models.Const;
+@using System.Text.Json;
+@model List<ApiHomeContentModel>
+@{
+    ViewData["Title"] = "Trang chủ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
     string cookieUserValue = Context.Request.Cookies[MyConstanst.KeyUserNameCookies];
     string cookiePassValue = Context.Request.Cookies[MyConstanst.KeyPasswordCookies];
     string cookieTypeAccountValue = Context.Request.Cookies[MyConstanst.KeyTypeLAccountCookies];
 }
 @{
-    ViewData["Title"] = "Trang chủ";
-}
-@{
-    if(User.Identity.IsAuthenticated){
-        if (TempData.ContainsKey("SuccessLogin"))
+    string classNameLeft = "";
+    string classNameMid = "col-12";
+    string classNameRight = "";
+
+    string url = MyConstanst.SiteName + "web.cautruc.asp?id=";
+    string jsonStructure = await (new WebClient()).DownloadStringTaskAsync(url);
+    List<ApiStructurePageModel> structureModels = JsonConvert.DeserializeObject<List<ApiStructurePageModel>>(jsonStructure);
+    if (structureModels != null)
+    {
+        if (structureModels[0].ViTriTrai == true && structureModels[0].ViTriPhai == false)
         {
-            <input type="hidden" id="NotifiSuccess" value="@TempData["SuccessLogin"]"/>
-            <script>
-                var notifi = document.getElementById("NotifiSuccess");
-                Swal.fire({
-                    title: 'Thông báo!',
-                    text: notifi.value,
-                    icon: 'success',
-                    confirmButtonText: 'Đóng'
-                });
-                notifi.parentElement.removeChild(notifi);
-            </script>
+            classNameLeft = "col-3";
+            classNameMid = "col-9";
+        }
+        if (structureModels[0].ViTriTrai == false && structureModels[0].ViTriPhai == true)
+        {
+            classNameRight = "col-3";
+            classNameMid = "col-9";
+        }
+        if (structureModels[0].ViTriTrai == true && structureModels[0].ViTriPhai == true)
+        {
+            classNameRight = "col-3";
+            classNameLeft = "col-3";
+            classNameMid = "col-6";
         }
     }
 }
-<div id="idtrangchu">
-    @foreach (var item in Model.Select((value, i) => new { i, value }))
-    {
-        var url = MyConstanst.SiteName + "module." + item.value.module + ".trangchu.asp?id=" + item.value.idpart;
-        switch (int.Parse(item.value.idpart))
-        {
-            case 35019:
-                try
-                {
-                    var _className = "id" + item.value.idpart + " md-" + item.value.module.ToLower();
-                    var json = (new WebClient()).DownloadString(url);
-                    var list = JsonConvert.DeserializeObject<List<ApiModel>>(json);
-                    <div class="@_className">
-                        <div class="th-tuyendung">
-                            <div class="container">
-                                @if(item.value.url != null && item.value.tieude != null){
-                                    <h2><a href="/@item.value.url">@item.value.tieude</a></h2>                                    
+<div class="container">
+    <div class="row">
+        @{
+            if (!string.IsNullOrEmpty(classNameLeft))
+            {
+                string apiContentLeft = MyConstanst.SiteName + "web.vitritrai.asp?id=";
+                string jsonContentLeft = await (new WebClient()).DownloadStringTaskAsync(apiContentLeft);
+                List<ApiStructurePageModel> leftModels = JsonConvert.DeserializeObject<List<ApiStructurePageModel>>(jsonContentLeft);
+                <div class="@classNameLeft">
+                    @foreach (var content in leftModels)
+                    {
+                        if (content.danhmucmenu != null)
+                        {
+                            <div class="ddsmoothmenu-v">
+                                @foreach (var item in content.danhmucmenu)
+                                {
+                                    <li class="liparent thutu1 kieutintuc">
+
+                                        <span class="txt txtparent"><a class="nhomcha" href="/@item.url/" title="@item.tieude">@item.tieude</a></span>
+                                    </li>
                                 }
-                                <div class="row">
-                                    @foreach (var data in list[0].data.Select((value, i) => new { i, value }))
-                                    {
-                                        @if(data.value.loai != null)
+                            </div>
+                        }
+                        else
+                        {
+                            switch (content.module)
+                            {
+                                case "Tintuc":
+                                    <div class="section primary-section khungchinh  tintuc lien-ket kieutintuc0 loaitomtat0 nhomtin103" style=""
+                                         id="lien-ket">
+                                        <div class="triangle"></div>
+                                        <div class="top">
+
+                                            <h2 class="tenp">
+                                                <a href="/@content.url/">@content.tieude</a>
+                                            </h2>
+
+                                        </div>
+                                        @if (content.tomtat != "")
                                         {
-                                            <div class="tuyendung">
-                                                <div class="wrap-ndct">
-                                                    <div class="@data.value.loaitin 37506 111">
-                                                        <div class="ct">
-                                                            @if (data.value.url != null && data.value.tieude != null)
-                                                            {
-                                                                <h3><a href="@Url.Action("JobDetail","Home",new {key= data.value.url})">@data.value.tieude</a></h3>
-                                                            }
-                                                            @if (data.value.tenND != null)
-                                                            {
-                                                                <span class="tenND">
-                                                                    @data.value.tenND
-                                                                </span>
-                                                            }
-                                                            @if (data.value.gia != null)
-                                                            {
-                                                                <div class="gia">
-                                                                    <span class="st">@data.value.gia[0].viet</span>
-                                                                    <span class="dv">@data.value.gia[0].donvi</span>
-                                                                </div>
-                                                            }
-                                                            @if (data.value.diachiND != null)
-                                                            {
-                                                                <span class="diachiND">@data.value.diachiND</span>
-                                                            }
-                                                            @if (data.value.chucdanh != null)
-                                                            {
-                                                                foreach (var cd in data.value.chucdanh)
-                                                                {
-                                                                    <span class="chucdanh"><a href="@Url.Action("Search","Home", new {url = cd.url})">@cd.tengoi</a></span>
-                                                                }
-                                                            }
-                                                            @if (data.value.loai != null)
-                                                            {
-                                                                <span class="loai">
-                                                                    <a href="@data.value.loai[0].url">
-                                                                        @data.value.loai[0].tengoi
-                                                                    </a>
-                                                                </span>
-                                                            }
-                                                            @if (data.value.thoihan != null)
-                                                            {
-                                                                <span class="thoihan">@data.value.thoihan</span>
-                                                            }
-                                                            @if (data.value.ngoaingu != null)
-                                                            {
-                                                                <span class="ngoaingu">
-                                                                    @foreach (var language in data.value.ngoaingu)
-                                                                    {
-                                                                        <a href="@Url.Action("Search","Home",new {url = language.url})">@language.tengoi</a>
-                                                                    }
-                                                                </span>
-                                                            }
-                                                            @if (data.value.nganh != null)
-                                                            {
-                                                                <div class="vttd">
-                                                                    @foreach (var career in data.value.nganh)
-                                                                    {
-                                                                        <a href="@Url.Action("Search","Home",new {url = career.url})">@career.tengoi</a>
-                                                                    }
-                                                                </div>
-                                                            }
-                                                            <div class="group-wishlist">
-                                                                <div class="wish_list "></div>
-                                                                <div id="add_to_cart da-ung-tuyen" class="add_to_cart da-ung-tuyen"></div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                            <div class="container noidungcontent">
+                                                <div class="nhomtomtat">
+                                                    @Html.Raw(content.tomtat)
                                                 </div>
                                             </div>
                                         }
-                                    }
-                                    <div class="xemthem"><span><a href="/nhung-noi-thuc-tap-phu-hop-voi-ban"></a></span></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="container tt-tuyendung"></div>
-                    </div>
-                }
-                catch
-                {
-                    break;
-                }
-                break;
-            case 35001:
-                try
-                {
-                    var _className = "id" + item.value.idpart + " md-" + item.value.module.ToLower();
-                    var json = (new WebClient()).DownloadString(url);
-                    var list = JsonConvert.DeserializeObject<List<ApiModel>>(json);
-                    <div class="@_className">
-                        <div class="th-tintuc">
-                            <div class="container">
-                                @if(item.value.url != null && item.value.tieude != null)
-                                {
-                                    <h2><a href="@item.value.url">@item.value.tieude</a></h2>
-                                }
-                                <div class="row">
-                                    @foreach (var data in list[0].data.Select((value, i) => new { i, value }))
-                                    {
-                                        <div class="tintuc">
-                                            <div class="wrap-ndct">
-                                                <div class="hinh">
-                                                    @if(data.value.url != null)
+                                        else
+                                        {
+                                            <div class="container noidungcontent">
+                                                @{
+                                                    string apiImage = MyConstanst.SiteName + "module." + content.tenham + ".trangchu.asp?url=" + content.url;
+                                                    string strJson = await (new WebClient()).DownloadStringTaskAsync(apiImage);
+                                                    List<ApiNewsModel> models = JsonConvert.DeserializeObject<List<ApiNewsModel>>(strJson);
+                                                    if (models != null)
                                                     {
-                                                        <a href="@data.value.url">
-                                                            @if(data.value.hinhdaidien != null)
-                                                            {
-                                                                <img class="border"
-                                                                     src="@data.value.hinhdaidien"
-                                                                     alt="">
-                                                            }
-                                                        </a>
-                                                    }
-                                                </div>
-                                                <div class="ct">
-                                                    @if(data.value.ngaydang != null)
-                                                    {
-                                                        <div class="ngdang">@data.value.ngaydang</div>
-                                                    }
-                                                    @if(data.value.url != null && data.value.tieude != null)
-                                                    {
-                                                        <h3>
-                                                            <a href="@data.value.url">
-                                                                @data.value.tieude
-                                                            </a>
-                                                        </h3>
-                                                    }
-                                                    @if(data.value.noidungtomtat != null)
-                                                    {
-                                                        <div class="ttct">
-                                                            <p>@Html.Raw(data.value.noidungtomtat)</p>
-                                                        </div>
-                                                    }
-                                                </div>
-                                            </div>
-                                        </div>
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                        <div class="container tt-tintuc"></div>
-                    </div>
-                }
-                catch (Exception)
-                {
-
-                    throw;
-                }
-                break;
-            case 35031:
-                break;
-            case 35008:
-                break;
-            case 35004:
-                try
-                {
-                    var _className = "id" + item.value.idpart + " md-" + item.value.module.ToLower();
-                    var json = (new WebClient()).DownloadString(url);
-                    var list = JsonConvert.DeserializeObject<List<ApiModel>>(json);
-                    <div class="@_className">
-                        <div class="th-tuyendung">
-                            <div class="container">
-                                @if(item.value.url != null && item.value.tieude != null)
-                                {
-                                    <h2><a href="@item.value.url">@item.value.tieude</a></h2>
-                                }
-                                <div class="row">
-                                    @foreach (var data in list[0].data.Select((value, i) => new { i, value }))
-                                    {
-                                        <div class="tuyendung">
-                                            <div class="wrap-ndct">
-                                                <div class="@data.value.loaitin 37499 111">
-                                                    <div class="ct">
-                                                        @if (data.value.url != null && data.value.tieude != null)
-                                                        {
-                                                            <h3><a href="@Url.Action("JobDetail","Home", new {key =data.value.url})">@data.value.tieude</a></h3>
-                                                        }
-                                                        @if (data.value.tenND != null)
-                                                        {
-                                                            <span class="tenND">
-                                                                @data.value.tenND
-                                                            </span>
-                                                        }
-                                                        @if(data.value.gia != null)
-                                                        {
-                                                            <div class="gia"><span class="dv">@data.value.gia[0].donvi</span></div>
-                                                        }
-                                                        @if (data.value.diachiND != null)
-                                                        {
-                                                            <span class="diachiND">
-                                                                @data.value.diachiND
-                                                            </span>
-                                                        }
-                                                        <span class="chucdanh">
-                                                            @if (data.value.chucdanh != null)
-                                                            {
-                                                                foreach(var cd in data.value.chucdanh)
+                                                        <div class="slideshow-container slideshow-left">
+                                                            <div class="slideshow">
+                                                                @foreach (var image in models[0].data)
                                                                 {
-                                                                    <a href="@Url.Action("Recruitment","Home", new {url = cd.url})">
-                                                                    @cd.tengoi
-                                                                </a>
+                                                                    string rootUrlImage = MyConstanst.SiteNameImage + image.hinhdaidien;
+                                                                    <div class="slideshow-image-leftt">
+                                                                        <a href="@Url.Action("ChiTietTinTuc","Home",new {keyword = image.url})"><img src="@rootUrlImage"></a>
+                                                                        <p>@image.tieude</p>
+                                                                    </div>
                                                                 }
-                                                            }                                                         
-                                                        </span>
-                                                        @if(data.value.loai != null){
-                                                            <span class="loai">
-                                                                @foreach(var type in data.value.loai)
-                                                                {
-                                                                    <a href="@Url.Action("Recruitment","Home",new {url = type.url})">
-                                                                        @type.tengoi
-                                                                    </a>
-                                                                }
-                                                            </span>
-                                                        }
-                                                       @if(data.value.thoihan != null){
-                                                            <span class="thoihan">@data.value.thoihan</span>
-                                                        }
-                                                        @if(data.value.ngoaingu != null){
-                                                            <span class="ngoaingu">
-                                                                @foreach(var languege in data.value.ngoaingu)
-                                                                {
-                                                                    <a href="@Url.Action("Recruitment","Home",new {url = languege.url})">@languege.url</a>
-                                                                }
-                                                            </span>
-                                                        }
-                                                        @if(data.value.nganh != null)
-                                                        {
-                                                            <div class="vttd">
-                                                                @foreach(var career in data.value.nganh)
-                                                                {
-                                                                    <a href="@Url.Action("Recruitment","Home",new {url = career.url})">@career.tengoi</a>
-                                                                }
+                                                                
                                                             </div>
-                                                        }
-                                                        <div class="group-wishlist">
-                                                            <div class="wish_list "></div>
-                                                            <div onclick="AddToCart(@data.value.id)" class="add_to_cart da-ung-tuyen"></div>
                                                         </div>
+                                                    }
+                                                }
+                                            </div>
+                                        }
+                                    </div>
+                                    break;
+                                case "QuangCao":
+                                    break;
+                            }
+                        }
+                    }
+                </div>
+            }
+            <div class="@classNameMid">
+                @foreach (var content in Model)
+                {
+                    string jsonApi = MyConstanst.SiteName + "module." + content.tenham + ".trangchu.asp?id=" + content.idpart;
+                    string jsonContent = await (new WebClient()).DownloadStringTaskAsync(jsonApi);
+                    string _className = "id" + content.idpart + " md-" + content.module.ToLower();
+
+                    switch (content.tenham)
+                    {
+                        case "Raovat":
+                            break;
+                        case "LayTimKiem":
+                            <div class="@_className">
+                                <div class="th-laytimkiem">
+                                    <div class="container">
+                                        @using (Html.BeginForm("Search", "Home", FormMethod.Post, new { @style = "display:flex", @class = "search-congviec" }))
+                                        {
+                                            <form class="search-congviec">
+                                                <div class="item item-search">
+                                                    <input name="id2" type="text" class="input-timcongviec" value="">
+                                                </div>
+                                                <div class="item item-city">
+                                                    <input type="text" id="input-str-address" onclick="GetState()" class="input-timcongviec" value=" " data-bs-target="#stateModalToggle" data-bs-toggle="modal">
+                                                    <input name="id" type="hidden" id="input-arr-id-address" value="">
+                                                    <span class="clear-tinhthanh "></span>
+                                                </div>
+                                                <button class="btn-tk" type="submit"></button>
+                                            </form>
+                                        }
+                                    </div>
+                                </div>
+                                <div class="container tt-laytimkiem"></div>
+                            </div>
+                            break;
+                        case "Tuyendung":
+                            if (!string.IsNullOrEmpty(jsonContent))
+                            {
+                                List<ApiRecruitmentModel> models = JsonConvert.DeserializeObject<List<ApiRecruitmentModel>>(jsonContent);
+
+                                <div class="@_className">
+                                    <div class="th-tuyendung">
+                                        <div class="container">
+                                            @if (content.url != null && content.tieude != null && models[0].data.Count != 0)
+                                            {
+                                                <h2><a href="@content.url">@content.tieude</a></h2>
+                                                <div class="row">
+                                                    @foreach (var data in models[0].data.Select((value, i) => new { i, value }))
+                                                    {
+                                                        <div class="tuyendung">
+                                                            <div class="wrap-ndct">
+                                                                <div class="@data.value.loaitin 37499 111">
+                                                                    <div class="ct">
+                                                                        <h3><a href="@Url.Action("NoiDungChiTiet","Home", new {keyword =data.value.url})">@data.value.tieude</a></h3>
+                                                                        <span class="tenND">
+                                                                            @data.value.tenND
+                                                                        </span>
+                                                                        @if (data.value.gia != null)
+                                                                        {
+                                                                            <div class="gia"><span class="dv">@data.value.gia[0].donvi</span></div>
+                                                                        }
+                                                                        <span class="diachiND">
+                                                                            @data.value.diachiND
+                                                                        </span>
+                                                                        <span class="chucdanh">
+                                                                            @if (data.value.chucdanh != null)
+                                                                            {
+                                                                                foreach (var cd in data.value.chucdanh)
+                                                                                {
+                                                                                    <a href="@Url.Action("Search","Home", new {keyword = cd.url})">
+                                                                                        @cd.tengoi
+                                                                                    </a>
+                                                                                }
+                                                                            }
+                                                                        </span>
+                                                                        @if (data.value.loai != null)
+                                                                        {
+                                                                            <span class="loai">
+                                                                                @foreach (var type in data.value.loai)
+                                                                                {
+                                                                                    <a href="@Url.Action("Search","Home",new {keyword = type.url})">
+                                                                                        @type.tengoi
+                                                                                    </a>
+                                                                                }
+                                                                            </span>
+                                                                        }
+                                                                        <span class="thoihan">@data.value.thoihan</span>
+                                                                        @if (data.value.ngoaingu != null)
+                                                                        {
+                                                                            <span class="ngoaingu">
+                                                                                @foreach (var languege in data.value.ngoaingu)
+                                                                                {
+                                                                                    <a href="@Url.Action("Search","Home",new {keyword = languege.url})">@languege.url</a>
+                                                                                }
+                                                                            </span>
+                                                                        }
+                                                                        @if (data.value.nganh != null)
+                                                                        {
+                                                                            <div class="vttd">
+                                                                                @foreach (var career in data.value.nganh)
+                                                                                {
+                                                                                    <a href="@Url.Action("Search","Home",new {keyword = career.url})">@career.tengoi</a>
+                                                                                }
+                                                                            </div>
+                                                                        }
+                                                                        <div class="group-wishlist">
+                                                                            <div class="wish_list "></div>
+                                                                            <div onclick="AddToCart(@data.value.id)" class="add_to_cart da-ung-tuyen"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                    <div class="xemthem"><span><a href="/tuyen-nhan-vien"></a></span></div>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="container tt-tuyendung"></div>
+                                </div>
+                            }
+                            break;
+                        case "Quangcao":
+                            <div class="@_className">
+                                <div class="th-quangcao"></div>
+                                <div class="container tt-quangcao">
+                                    <p><span style="color: rgb(255, 0, 0);"><strong>028 3974 3179</strong></span></p>
+                                </div>
+                            </div>
+                            break;
+                        case "Ykienkhachhang":
+                            if (!string.IsNullOrEmpty(jsonContent))
+                            {
+                                List<ApiCustomerReviewModel> models = JsonConvert.DeserializeObject<List<ApiCustomerReviewModel>>(jsonContent);
+                                <div class="@_className">
+                                    <div class="th-ykienkhachhang">
+                                        <div class="container ">
+                                            @if (content.url != null && content.tieude != null)
+                                            {
+                                                <h2><a href="/@content.url">@content.tieude</a></h2>
+                                            }
+                                            <div class="swiper swiper-initialized swiper-horizontal mySwiper swiper-backface-hidden">
+                                                <div class="swiper-container">
+                                                    <div class="swiper-wrapper">
+                                                        @if (models.Count != null)
+                                                        {
+                                                            @foreach (var Review in models)
+                                                            {
+                                                                <div class="swiper-slide">
+                                                                    <div>
+                                                                        <div class="ykienkh">
+                                                                            <h6><a href="@Review.url">@Review.tieude</a></h6>
+                                                                            <div class="ykkh_ngaydang">@Review.ngaydang</div>
+                                                                            <div class="ykkh_ndtt">
+                                                                                <span>
+                                                                                    <p>
+                                                                                        @Html.Raw(Review.noidungtomtat)
+                                                                                    </p>
+                                                                                </span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            }
+                                                        }
                                                     </div>
+                                                    <div class="swiper-button-next"></div>
+                                                    <div class="swiper-button-prev"></div>
                                                 </div>
                                             </div>
                                         </div>
-                                    }
-                                    <div class="xemthem"><span><a href="/tuyen-nhan-vien"></a></span></div>
+                                    </div>
+                                    <div class="container tt-ykienkhachhang"></div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="container tt-tuyendung"></div>
-                    </div>
-                }
-                catch (Exception)
-                {
-
-                    throw;
-                }
-                break;
-            case 35028:
-                try
-                {
-                    var _className = "id" + item.value.idpart + " md-" + item.value.module.ToLower();
-                    var json = (new WebClient()).DownloadString(url);
-                    var list = JsonConvert.DeserializeObject<List<ApiModel>>(json);
-                    <div class="@_className">
-                        <div class="th-ykienkhachhang">
-                            <div class="container ">
-                                <div class="swiper swiper-initialized swiper-horizontal mySwiper swiper-backface-hidden">
-                                    <div class="swiper-container">
-                                        <div class="swiper-wrapper">
-                                            @if(list.Count != null)
-                                            {
-                                                @foreach(var Review in list)
-                                                {
-                                                    <div class="swiper-slide">
-                                                        <div>
-                                                            <div class="ykienkh">
-                                                                @if(Review.tieude != null && Review.url != null)
+                            }
+                            break;
+                        case "Tintuc":
+                            if (!string.IsNullOrEmpty(jsonContent))
+                            {
+                                try
+                                {
+                                    using (JsonDocument.Parse(jsonContent))
+                                    {
+                                        List<ApiNewsModel> models = JsonConvert.DeserializeObject<List<ApiNewsModel>>(jsonContent);
+                                        if(content.noidungtab.Count !=0  && content.noidungtab != null)
+                                        {
+                                            <div class="id35001 md-tintuc ">
+                                                <div class="th-tintuc">
+                                                    <div class="container">
+                                                        @if (content.noidungtab == null)
+                                                        {
+                                                            <h2><a href="@content.url">@content.tieude</a></h2>
+                                                            <div class="row">
+                                                                @foreach (var data in models[0].data.Select((value, i) => new { i, value }))
                                                                 {
-                                                                    <h6><a href="@Review.url">@Review.tieude</a></h6>
-                                                                }
-                                                                @if(Review.ngaydang != null)
-                                                                {
-                                                                    <div class="ykkh_ngaydang">@Review.ngaydang</div>
-                                                                }
-                                                                @if(Review.noidungtomtat != null)
-                                                                {
-                                                                    <div class="ykkh_ndtt">
-                                                                        <span>
-                                                                            <p>
-                                                                                @Html.Raw(Review.noidungtomtat)
-                                                                            </p>
-                                                                        </span>
+                                                                    string srcImage = MyConstanst.SiteNameImage + data.value.hinhdaidien;
+                                                                    <div class="tintuc">
+                                                                        <div class="wrap-ndct">
+                                                                            <div class="hinh">
+                                                                                <a href="@Url.Action("ChiTietTinTuc","Home",new {keyword = data.value.url})">
+                                                                                    <img class="border"
+                                                                                         src="@srcImage"
+                                                                                         alt="">
+                                                                                </a>
+                                                                            </div>
+                                                                            <div class="ct">
+                                                                                <div class="ngdang">@data.value.ngaydang</div>
+                                                                                <h3>
+                                                                                    <a href="@Url.Action("ChiTietTinTuc","Home",new {keyword = data.value.url})">
+                                                                                        @data.value.tieude
+                                                                                    </a>
+                                                                                </h3>
+                                                                                <div class="ttct">
+                                                                                    <p>@Html.Raw(data.value.noidungtomtat)</p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
                                                                 }
                                                             </div>
-                                                        </div>
+                                                        }
+                                                        @if (content.noidungtab != null && content.noidungtab.Count != 0)
+                                                        {
+                                                            <h2><a href="@content.url">@content.tieude</a></h2>
+                                                            <div class="row">
+                                                                <div class="list-group">
+                                                                    <div class="container">
+                                                                        <div class="col">
+                                                                            @foreach (var dataSc in content.noidungtab)
+                                                                            {
+                                                                                jsonApi = MyConstanst.SiteName + "module." + content.tenham + ".trangchu.asp?id=" + dataSc.idpart;
+                                                                                jsonContent = await (new WebClient()).DownloadStringTaskAsync(jsonApi);
+                                                                                List<ApiNewsModel> models2 = JsonConvert.DeserializeObject<List<ApiNewsModel>>(jsonContent);
+                                                                                if (dataSc.idpart.Contains("#"))
+                                                                                {
+                                                                                    <button onclick="InsertDataSlider('@content.tenham','@content.module','@content.idpart','@dataSc.idpart')" type="button" class="btn btn-primary ">@dataSc.tieude</button>
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <button onclick="InsertDataContentTab('@content.module','@content.idpart','@dataSc.idpart')" type="button" class="btn btn-primary ">@dataSc.tieude</button>
+                                                                                }
+                                                                            }
+                                                                        </div>
+                                                                        <div class="col">
+                                                                            @{
+                                                                                @foreach (var dataSc in content.noidungtab)
+                                                                                {
+                                                                                    jsonApi = MyConstanst.SiteName + "module." + content.module + ".trangchu.asp?id=" + dataSc.idpart;
+                                                                                    if (dataSc.idpart.Contains("#"))
+                                                                                    {
+                                                                                        jsonApi = MyConstanst.SiteName + "module." + content.tenham + ".trangchu.asp?id=" + dataSc.idpart;
+                                                                                        List<ApiNewsModel> contentTab = JsonConvert.DeserializeObject<List<ApiNewsModel>>(jsonContent);
+                                                                                        <div class="noidungtab" id="@content.module-@content.idpart">
+                                                                                            <div class="noidungtab-right">
+                                                                                                <select class="form-select noidungtab @content.module-@content.idpart" onchange="redirectToSelectedPage()" size="7" aria-label="Size 3 select example" style="border-radius:5px">
+                                                                                                    @foreach (var firstItem in contentTab[0].data.Select((value, i) => new { i, value }))
+                                                                                                    {
+                                                                                                        <option value="@Url.Action("ChiTietTinTuc","Home",new {keyword = firstItem.value.url})" selected>@firstItem.value.tieude</option>
+                                                                                                    }
+                                                                                                </select>
+                                                                                            </div>
+                                                                                            <div class="noidungtab-left">
+                                                                                                <div class="swiper-container image">
+                                                                                                    <div class="swiper-wrapper @content.module-@content.idpart">
+                                                                                                        @foreach (var firstItem in contentTab[0].data.Select((value, i) => new { i, value }))
+                                                                                                        {
+                                                                                                            string srcImage = MyConstanst.SiteNameImage + firstItem.value.hinhdaidien;
+                                                                                                            <div class="swiper-slide image">
+                                                                                                                <img src="@srcImage" alt="@firstItem.value.tieude">
+                                                                                                                <div class="content">
+                                                                                                                    <p>@firstItem.value.tieude</p>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        }
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        jsonContent = await (new WebClient()).DownloadStringTaskAsync(jsonApi);
+                                                                                        List<ApiNewsModel> contentTab = JsonConvert.DeserializeObject<List<ApiNewsModel>>(jsonContent);
+                                                                                        <div style="display:flex;flex-wrap:wrap; justify-content:space-between" id="@content.module-@content.idpart">
+                                                                                            @foreach (var firstItem in contentTab[0].data)
+                                                                                            {
+                                                                                                string srcImage = MyConstanst.SiteNameImage + firstItem.hinhdaidien;
+                                                                                                <div style="width:calc(30% - 2px);margin:5px" class="tintuc">
+                                                                                                    <div class="wrap-ndct">
+                                                                                                        <div class="hinh">
+                                                                                                            <a href="@Url.Action("ChiTietTinTuc","Home",new {keyword = firstItem.url})">
+                                                                                                                <img class="border"
+                                                                                                                     src="@srcImage"
+                                                                                                                     alt="">
+                                                                                                            </a>
+                                                                                                        </div>
+                                                                                                        <div class="ct">
+                                                                                                            <div class="ngdang">@firstItem.ngaydang</div>
+                                                                                                            <h3>
+                                                                                                                <a href="@Url.Action("ChiTietTinTuc","Home",new {keyword = firstItem.url})">
+                                                                                                                    @firstItem.tieude
+                                                                                                                </a>
+                                                                                                            </h3>
+                                                                                                            <div class="ttct">
+                                                                                                                <p>@Html.Raw(firstItem.noidungtomtat)</p>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            }
+                                                                                        </div>
+                                                                                    }
+                                                                                    break;
+                                                                                }
+                                                                            }
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        }
                                                     </div>
-                                                }
-                                            }
+                                                </div>
+                                                <div class="container tt-tintuc"></div>
+                                            </div>
+                                        }
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+
+                                }
+                            }
+                            break;
+                        case "Video":
+                            List<ApiNewsModel> modelsVideo = JsonConvert.DeserializeObject<List<ApiNewsModel>>(jsonContent);
+                            <div class="id35001 md-tintuc">
+                                <div class="th-tintuc">
+                                    <div class="container">
+                                        <h2><a href="@content.url">@content.tieude</a></h2>
+                                        <div class="row">
+                                            <div class="list-group">
+                                                <div class="container">
+                                                    <div class="row">
+                                                        @foreach(var item in modelsVideo[0].data)
+                                                        {
+                                                            string urlImage = MyConstanst.SiteNameImage + item.hinhdaidien;
+                                                            <div class="col-md-3" id="Tintuc1001-100">
+                                                                <div class="tintuc">
+                                                                    <div class="wrap-ndct">
+                                                                        <div class="hinh">
+                                                                            <a href="@Url.Action("ChiTietTinTuc","Home",new {keyword = item.url})">
+                                                                                <img class="border"
+                                                                                     src="@urlImage"
+                                                                                     alt="">
+                                                                            </a>
+                                                                        </div>
+                                                                        <div class="ct">
+                                                                            <div class="ngdang">@item.ngaydang</div>
+                                                                            <h3>
+                                                                                <a href="@Url.Action("ChiTietTinTuc","Home",new {keyword = item.url})">
+                                                                                    @item.tieude
+                                                                                </a>
+                                                                            </h3>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="swiper-button-next"></div>
-                                        <div class="swiper-button-prev"></div>
                                     </div>
                                 </div>
+                                <div class="container tt-tintuc"></div>
+                            </div>
+                            break;
+                        case"Music":
+                            List<ApiNewsModel> modelsAudio = JsonConvert.DeserializeObject<List<ApiNewsModel>>(jsonContent);
+                            <div class="id35001 md-tintuc">
+                                <div class="th-tintuc">
+                                    <div class="container">
+                                        <h2><a href="@content.url">@content.tieude</a></h2>
+                                        <div class="row">
+                                            <div class="list-group">
+                                                <div class="container">
+                                                    <div class="row">
+                                                        @foreach (var item in modelsAudio[0].data)
+                                                        {
+                                                            string urlImage = MyConstanst.SiteNameImage + item.hinhdaidien;
+                                                            <div class="col-md-3" id="Tintuc1001-100">
+                                                                <div class="tintuc">
+                                                                    <div class="wrap-ndct">
+                                                                        <div class="hinh">
+                                                                            <a href="@Url.Action("ChiTietTinTuc","Home",new {keyword = item.url})">
+                                                                                <img class="border"
+                                                                                     src="@urlImage"
+                                                                                     alt="">
+                                                                            </a>
+                                                                        </div>
+                                                                        <div class="ct">
+                                                                            <div class="ngdang">@item.ngaydang</div>
+                                                                            <h3>
+                                                                                <a href="@Url.Action("ChiTietTinTuc","Home",new {keyword = item.url})">
+                                                                                    @item.tieude
+                                                                                </a>
+                                                                            </h3>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="container tt-tintuc"></div>
+                            </div>
+                            break;
+                    }
+                }
+                <div class="modal fade" id="stateModalToggle" aria-hidden="true" aria-labelledby="stateModalToggleLabel" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Chọn theo khu vực tỉnh, thành phố</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body state">
+                                <div class="modal-input-tt"><input type="text" onkeydown="FilterOption()" placeholder="Tìm theo tỉnh thành" value=""></div>
+                                <select id="selected-state" class="form-select state" size="10" aria-label="Size 3 select example">
+                                </select>
+                            </div>
+                            <div class="modal-footer">
+                                <button onclick="RemoveState()" class="btn btn-primary" data-bs-dismiss="modal">Đóng</button>
                             </div>
                         </div>
-                        <div class="container tt-ykienkhachhang"></div>
                     </div>
-                }
-                catch (Exception)
-                {
-
-                    throw;
-                }
-                break;
-            case 35030:
-                try
-                {
-                    var _className = "id" + item.value.idpart + " md-" + item.value.module.ToLower();
-                    <div class="@_className">
-                        <div class="th-laytimkiem">
-                            <div class="container">
-                                @using (Html.BeginForm("Search", "Home", FormMethod.Post, new { @style = "display:flex", @class = "search-congviec" }))
-                                    {
-                                    <form class="search-congviec">
-                                        <div class="item item-search">
-                                            <input name="id2" type="text" class="input-timcongviec" value="">
-                                        </div>
-                                        <div class="item item-city">
-                                            <input onclick="SearchClick()" id="input-searchJob" type="text" class="input-timcongviec" value="" data-bs-toggle="modal" data-bs-target="#exampleModalToggle">
-                                            <input name="id" type="hidden" id="input-ArrayIdMap" value="">
-                                            <span class="clear-tinhthanh "></span>
-                                        </div>
-                                        <button class="btn-tk" type="submit"></button>
-                                    </form>
-                                }
+                </div>
+                <div class="modal fade" id="districtModalToggle" aria-hidden="true" aria-labelledby="districtModalToggleLabel" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Chọn theo khu vực quận huyện</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="modal-input-tt"><input type="text" placeholder="Tìm theo quận huyện" value=""></div>
+                                <select id="selected-district" class="form-select district" size="10" aria-label="Size 3 select example">
+                                </select>
+                            </div>
+                            <div class="modal-footer">
+                                <button onclick="RemoveDistrict()" class="btn btn-primary" data-bs-target="#stateModalToggle" data-bs-toggle="modal">Trở về</button>
                             </div>
                         </div>
-                        <div class="container tt-laytimkiem"></div>
                     </div>
-                }
-                catch (Exception)
-                {
-
-                    throw;
-                }
-                break;
-            case 35011:
-                try
-                {
-                    <div class="id35011 md-quangcao">
-                        <div class="th-quangcao"></div>
-                        <div class="container tt-quangcao">
-                            <p><span style="color: rgb(255, 0, 0);"><strong>028 3974 3179</strong></span></p>
+                </div>
+                <div class="modal fade" id="wardModalToggle" aria-hidden="true" aria-labelledby="wardModalToggleLabel" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Chọn theo phường xã</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="modal-input-tt"><input type="text" placeholder="Tìm theo phường xã" value=""></div>
+                                <select id="selected-ward" class="form-select ward" size="10" aria-label="Size 3 select example">
+                                </select>
+                            </div>
+                            <div class="modal-footer">
+                                <button onclick="RemoveWard()" class="btn btn-primary" data-bs-target="#districtModalToggle" data-bs-toggle="modal">Trở về</button>
+                            </div>
                         </div>
                     </div>
-                }
-                catch (Exception)
-                {
-
-                    throw;
-                }
-                break;
+                </div>
+            </div>
+            if (!string.IsNullOrEmpty(classNameRight))
+            {
+                <div class="@classNameRight">
+                </div>
+            }
         }
-    }
-</div>
-<div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Chọn theo khu vực tỉnh, thành phố</h5>
-                <button onclick="InsertNameMap()" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body  modal-body-khuvuc">
-                <div class="modal-input-tt"><input class="form-control" type="text" placeholder="Tìm theo tỉnh thành" value=""></div>
-                <select id="selected-state" class="form-select" size="8" aria-label="size 3 select example">
-                </select>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-primary" data-bs-dismiss="modal">Đóng</button>
-            </div>
-        </div>
     </div>
 </div>
-<div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalToggleLabel2">Chọn khu vực theo quận huyện</h5>
-                <button onclick="InsertNameMap()" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="modal-input-tt"><input class="form-control" type="text" placeholder="Tìm theo quận huyện" value=""></div>
-                <select id="selected-district" class="form-select" size="8" aria-label="size 3 select example">
-                </select>
-            </div>
-            <div class="modal-footer">
-                <button onclick="RemoveValueState()" class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" data-bs-dismiss="modal">Trở về</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="exampleModalToggle3" aria-hidden="true" aria-labelledby="exampleModalToggleLabel3" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalToggleLabel2">Chọn theo phường xã</h5>
-                <button onclick="InsertNameMap()" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="modal-input-tt"><input class="form-control" type="text" placeholder="Tìm theo phường xã" value=""></div>
-                <select id="selected-wards" class="form-select" size="8" aria-label="size 3 select example">
-                </select>
-            </div>
-            <div class="modal-footer">
-                <button onclick="RemoveValueDistrict()" class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Trở về</button>
-            </div>
-        </div>
-    </div>
-</div>
-    <input id="input-state" type="hidden" />
-    <input id="input-district" type="hidden" />
-    <input id="input-wards" type="hidden" />
-
-    <input id="input-IdState" type="hidden" />
-    <input id="input-IdDistrict" type="hidden" />
-    <input id="input-IdWards" type="hidden" />
-
 <script>
     function AddToCart(idNew) {
         let eUser = `@cookieUserValue`;
@@ -530,9 +646,12 @@
                 });
             }
         })
-
-
+    }
+    function redirectToSelectedPage() {
+        var selectedValue = document.querySelector(".form-select.noidungtab").value;
+        if (selectedValue !== "") {
+            window.location.href = selectedValue;
+        }
     }
 </script>
 
-                        

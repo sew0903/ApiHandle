@@ -1,101 +1,135 @@
-﻿var strNameMap = "";
-var strIdMap = "";
-function SearchClick() {
-    var str = '';;
-    RemoveValueState();
-    RemoveValueDistrict();
-    RemoveValueWards();
-    document.getElementById("input-searchJob").setAttribute("value", "");
-    $.ajax({
-        type: 'GET',
-        dataType: 'json',
-        url: `http://thegioitainang.com/ww2/dialy.tinhthanh.asp`,
-        success: (response) => {
-            for (var i = 0; i < response.length; i++) {
-                str += '<option onclick="GetState()" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal" value="'
-                    + response[i].id
-                    + '">' + response[i].ten
-                    + '</option>';
-            }
-            document.getElementById('selected-state').innerHTML = str;
-        },
-        error: (e) => { }
-    })
-}
+﻿var nameState = '';
+var nameDistrict = '';
+var nameWard = '';
+
+var idState = '';
+var idDistrict = '';
+var idWard = '';
 function GetState() {
-    var str = '';
-    let e = document.getElementById("selected-state");
-    let text = e.options[e.selectedIndex].text;
-    document.getElementById("input-state").setAttribute("value", text);
-    document.getElementById("input-IdState").setAttribute("value", e.value);
-    InsertNameMap();
+    let str = '';
+    ClearDataInput();
     $.ajax({
         type: 'GET',
         dataType: 'json',
-        url: `http://thegioitainang.com/ww2/dialy.quanhuyen.asp?id=` + e.value,
+        url: 'http://thegioitainang.com/ww2/dialy.tinhthanh.asp',
         success: (response) => {
             for (var i = 0; i < response.length; i++) {
-                str += '<option onclick="GetDistrict()" data-bs-target="#exampleModalToggle3" data-bs-toggle="modal" data-bs-dismiss="modal" value="'
-                    + response[i].id
-                    + '">' + response[i].ten
-                    + '</option>';
+                str += `<option onclick="GetDistrict(${response[i].id})" data-bs-target="#districtModalToggle" data-bs-toggle="modal" value="${response[i].id}">${response[i].ten} </option>`;
             }
-            document.getElementById('selected-district').innerHTML = str;
+            document.querySelector(".form-select.state").innerHTML = str;
         },
         error: (e) => { }
     })
 }
-function GetDistrict() {
-    var str = '';
-    let e = document.getElementById("selected-district");
-    let text = "," + e.options[e.selectedIndex].text;
-    document.getElementById("input-district").setAttribute("value", text);
-    document.getElementById("input-IdDistrict").setAttribute("value", "," + e.value);
-    InsertNameMap();
+function GetDistrict(id) {
+    InsertValueState();
+    let str = '';
     $.ajax({
         type: 'GET',
         dataType: 'json',
-        url: `http://thegioitainang.com/ww2/dialy.phuongxa.asp?id=` + e.value,
+        url: 'http://thegioitainang.com/ww2/dialy.quanhuyen.asp?id='+id,
         success: (response) => {
             for (var i = 0; i < response.length; i++) {
-                str += '<option onclick="GetWards()" data-bs-target="#exampleModalToggle3" data-bs-toggle="modal" data-bs-dismiss="modal" value="'
-                    + response[i].id
-                    + '">' + response[i].ten
-                    + '</option>';
+                str += `<option onclick="GetWard(${response[i].id})" data-bs-target="#wardModalToggle" data-bs-toggle="modal" value="${response[i].id}">${response[i].ten} </option>`;
             }
-            document.getElementById('selected-wards').innerHTML = str;
+            document.querySelector(".form-select.district").innerHTML = str;
         },
         error: (e) => { }
     })
 }
-function GetWards() {
-    let e = document.getElementById("selected-wards");
-    let text = "," + e.options[e.selectedIndex].text;
-    document.getElementById("input-wards").setAttribute("value", text);
-    document.getElementById("input-IdWards").setAttribute("value", "," + e.value);
-    InsertNameMap();
+function GetWard(id) {
+    InsertValueDistrict();
+    let str = '';
+    $.ajax({
+        type: 'GET',
+        dataType: 'json',
+        url: 'http://thegioitainang.com/ww2/dialy.phuongxa.asp?id=' + id,
+        success: (response) => {
+            for (var i = 0; i < response.length; i++) {
+                str += `<option onclick="InsertValueWard()" data-bs-dismiss="modal" value="${response[i].id}">${response[i].ten} </option>`;
+            }
+            document.querySelector(".form-select.ward").innerHTML = str;
+        },
+        error: (e) => { }
+    })
 }
-function InsertNameMap() {
-    strNameMap = document.getElementById("input-state").value
-        + document.getElementById("input-district").value
-        + document.getElementById("input-wards").value;
-    strIdMap = document.getElementById("input-IdState").value
-        + document.getElementById("input-IdDistrict").value
-        + document.getElementById("input-IdWards").value;
-    document.getElementById("input-searchJob").setAttribute("value", strNameMap);
-    document.getElementById("input-ArrayIdMap").setAttribute("value", strIdMap);
-}
+function InsertDataToInput() {
+    let e = document.querySelector(".item.item-city input");
+    let eId = document.getElementById("input-arr-id-address");
+    let stringResult = nameState + nameDistrict + nameWard;
+    let arrIdResult = idState + idDistrict + idWard;
 
-function RemoveValueState() {
-    document.getElementById("input-state").setAttribute("value", "");
-    document.getElementById("input-IdState").setAttribute("value", "");
+    eId.setAttribute("value", arrIdResult);
+    e.setAttribute("value", stringResult);
 }
+function InsertValueState() {
+    let state = document.getElementById("selected-state");
+    let stateName = state.options[state.selectedIndex].text;
+    nameState = stateName;
+    idState = state.value;
+    InsertDataToInput();
+}
+function InsertValueDistrict() {
+    let district = document.getElementById("selected-district");
+    let districtName = "," + district.options[district.selectedIndex].text;
+    nameDistrict = districtName;
+    idDistrict = "," + district.value;
+    InsertDataToInput();
+}
+function InsertValueWard() {
+    let ward = document.getElementById("selected-ward");
+    let wardName = "," + ward.options[ward.selectedIndex].text;
+    nameWard = wardName;
+    idWard = "," + ward.value;
+    InsertDataToInput();
+}
+function ClearDataInput() {
+    let eId = document.getElementById("input-arr-id-address");
+    let e = document.getElementById("input-str-address");
+    eId.setAttribute("value", "");   
+    e.setAttribute("value", "");
 
-function RemoveValueDistrict() {
-    document.getElementById("input-district").setAttribute("value", "");
-    document.getElementById("input-IdDistrict").setAttribute("value", "");
+    nameState = '';
+    nameDistrict = '';
+    nameWard = '';
+
+    idState = '';
+    idDistrict = '';
+    idWard = '';
 }
-function RemoveValueWards() {
-    document.getElementById("input-wards").setAttribute("value", "");
-    document.getElementById("input-IdWards").setAttribute("value", "");
+function RemoveState() {
+    let e = document.getElementById("input-str-address");
+    let eId = document.getElementById("input-arr-id-address");
+    e.setAttribute("value", "");
+    eId.setAttribute("value", "");
+
+    nameState = '';
+    nameDistrict = '';
+    nameWard = '';
+    idState = '';
+    idDistrict = '';
+    idWard = '';
+}
+function RemoveDistrict() {
+    let e = document.getElementById("input-str-address");
+    let eId = document.getElementById("input-arr-id-address");
+
+    nameDistrict = '';
+    nameWard = '';
+    e.setAttribute("value", nameState);
+    eId.setAttribute("value", idState);
+}
+function RemoveWard() {
+    let e = document.getElementById("input-str-address");
+    let eId = document.getElementById("input-arr-id-address");
+
+    let stringResult = nameState + nameDistrict;
+    let stringId = idState + idDistrict;
+
+    nameDistrict = '';
+    nameWard = '';
+    idDistrict = '';
+    idWard = '';
+
+    e.setAttribute("value", stringResult);
 }

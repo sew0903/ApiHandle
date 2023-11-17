@@ -16,47 +16,95 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
 
+    <meta name="robots" content="INDEX,FOLLOW">
+    <meta name="keywords" content="thiet ke web, thiết kế web, hosting giá rẻ, the gioi thiet ke web">
+    <meta name="description" content="Chồi Xanh Media tiền thân là trung tâm cung ứng các giải pháp công nghệ thông tin Tầm Nhìn. Được thành lập từ năm 2008. Hotline: 090540 9299">
+
+    <meta property="og:url" content="https://choixanh.net/">
+    <meta property="og:title" content="Thiết kế web choixanh.net">
+    <meta property="og:image" content="/mediaroot/media/userfiles/useruploads/6/image/he-thong/logo-10.png">
+    <meta property="og:description" content="Chồi Xanh Media tiền thân là trung tâm cung ứng các giải pháp công nghệ thông tin Tầm Nhìn. Được thành lập từ năm 2008. Hotline: 090540 9299">
+
+    <meta itemprop="name" content="Thiết kế web choixanh.net">
+    <meta itemprop="description" content="Chồi Xanh Media tiền thân là trung tâm cung ứng các giải pháp công nghệ thông tin Tầm Nhìn. Được thành lập từ năm 2008. Hotline: 090540 9299">
+    <meta itemprop="image" content="/mediaroot/media/userfiles/useruploads/6/image/he-thong/logo-10.png">
+    <meta property=:twitter:card content="summary">
+    <meta name="twitter:url" content="https://choixanh.net/">
+    <meta name="twitter:title" content="Thiết kế web choixanh.net">
+    <meta name="twitter:description" content="Chồi Xanh Media tiền thân là trung tâm cung ứng các giải pháp công nghệ thông tin Tầm Nhìn. Được thành lập từ năm 2008. Hotline: 090540 9299">
+    <meta name="twitter:image" content="/mediaroot/media/userfiles/useruploads/6/image/he-thong/logo-10.png">
+    <link rel="canonical" href="https://choixanh.net/">
+
+    <meta name="Country" content="Vietnam" />
+    <meta name="Geography" content="Vietnam" />
+    <meta name="DC.Creator" content="https://choixanh.net" />
+    <meta name="DC.Publisher" content="https://choixanh.net" />
+    <meta name="geo.region" content="VN" />
+    <meta name="geo.placename" content="Thành phố Hồ Chí Minh" />
+    <meta name="geo.position" content="10.771551;106.69838" />
+    <meta name="ICBM" content="10.771551, 106.69838" />
+
+
     <link href="~/css/site.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="http://media.thegioitainang.com/css/templete.css" />
     <link rel="stylesheet" href="http://media.thegioitainang.com/css/plugins.css" />
     <link rel="stylesheet" href="http://media.thegioitainang.com/css/style.css" />
     <link rel="stylesheet" href="http://media.thegioitainang.com/css/tuyendungcss.css" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"/>
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.5.2/dist/sweetalert2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.5.2/dist/sweetalert2.min.css" rel="stylesheet" />
-
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" href="@Url.Action("Index","Home")">
-                    <img src="http://media.nhansuoutsource.com/logo.png" style="width:150px; height40px" />
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                <div>
+                    <a class="navbar-brand" href="@Url.Action("Index","Home")">
+                        <img src="http://media.nhansuoutsource.com/logo.png" style="width:150px; height40px" />
+                    </a>
+                </div>
+@*                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between" style="margin-left:23%">
+                </button> *@
+                <div style="margin-left:14%" class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         @{
                             foreach(var content in list)
                             {
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" href="/@content.url">@content.tieude</a>
-                                </li>
+                                if(content.menucap1 == null)
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" href="/@content.url">@content.tieude</a>
+                                    </li>
+                                }
+                                else{
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            @content.tieude
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">                                           
+                                            @foreach(var item in content.menucap1)
+                                            {
+                                                <a class="dropdown-item" href="/@item.url">@item.tieude</a>
+                                            }
+                                        </div>
+                                    </li>
+                                }
                             }
                         }
-                    </ul>
+                    </ul>                                  
+                </div>
+                <div >
                     @{
-                        if (User.Identity.IsAuthenticated)
+                        if (User.Identity.IsAuthenticated || !string.IsNullOrEmpty(Context.Request.Cookies[MyConstanst.KeyUserNameCookies]))
                         {
                             <button style="margin-right:5%" class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                @User.Identity.Name
+                                @Context.Request.Cookies[MyConstanst.KeyUserNameCookies]
                             </button>
                             <div style="margin-top:-2%;margin-right:1%" class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                                 @{
@@ -71,15 +119,15 @@
                                         + cookiePassValue;
 
                                         var options = new JsonSerializerOptions
-                                        {
-                                            PropertyNameCaseInsensitive = true
-                                        };
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
                                         string jsonContent = await httpClient.GetStringAsync(apiFunction);
                                         List<FunctionsUserModel.FunctionDetail> lstObj = JsonSerializer.Deserialize<
                                         List<FunctionsUserModel.FunctionDetail>>
                                         (jsonContent, options);
 
-                                        if(lstObj.Count != 0)
+                                        if (lstObj.Count != 0)
                                         {
                                             foreach (var item in lstObj)
                                             {
@@ -87,15 +135,15 @@
                                             }
                                         }
                                     }
-                            }
+                                }
                                 <a style="border-top:1px solid #3333" class="dropdown-item" href="@Url.Action("Logout","Account")">Đăng xuất</a>
                             </div>
                         }
                         else
                         {
-                          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalLogin">Đăng nhập</button>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalLogin">Đăng nhập</button>
                         }
-                    }                  
+                    }
                 </div>
             </div>
         </nav>
@@ -105,82 +153,77 @@
     <div class="mainheading"></div>
     <div id="root">
         @RenderBody()
-        <footer class="site-footer">
-            <div class="container ">
-                <div class="row menu-ct"></div>
-                <div class="row cuoitrang">
-                    <div class="footer-col">
-                        <h6>Về chúng tôi</h6>
-                        <div class="ct-content">
-                            <a class="noidung-ct" href="/dieu-khoan-su-dung">
-                                <p>Điều khoản sử dụng</p>
-                            </a><a class="noidung-ct" href="/chinh-sach-bao-mat">
-                                <p>Chính sách bảo mật</p>
-                            </a><a class="noidung-ct" href="/ban-quyen-thuong-hieu">
-                                <p>Bản quyền thương hiệu</p>
-                            </a><a class="noidung-ct" href="/thu-ngo">
-                                <p>Thư ngỏ</p>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="footer-col">
-                        <h6>Hỗ trợ</h6>
-                        <div class="ct-content">
-                            <div class="tomtat">
-                                <p style="text-align: center;">Tổng đài hỗ trợ</p>
-                                <p style="text-align: center;"><strong>028 3974 3179​</strong></p>
-                                <p style="text-align: center;"> </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="footer-col">
-                        <h6>Tải ứng dụng ngay thôi</h6>
-                        <div class="ct-content">
-                            <div class="tomtat">
-                                <div class="ct-content">
-                                    <p>
-                                        <a class="noidung-ct" href="/">
-                                            Android <img alt=""
-                                                         src="http://media.tuyennhansu.vn/mediaroot/android.png">
-                                        </a>
-                                    </p>
-                                    <p>
-                                        <a class="noidung-ct" href="/">
-                                            IOS <img alt=""
-                                                     src="http://media.tuyennhansu.vn/mediaroot/ios.png">
-                                        </a>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="footer-col">
-                        <h6>Đăng ký nhận bản tin</h6>
-                        <div class="ct-content">
-                            <div class="tomtat">
-                                <p>
-                                    Đăng ký email vào hệ thống nhận thư, chúng tôi sẽ gửi cho bạn thông tin sớm nhất và mới nhất
-                                    về các sản phẩm dịch vụ mà bạn quan tâm.
-                                </p>
-                            </div>
-                        </div>
-                        <form>
-                            <div class="group-dknbt">
-                                <input type="text" placeholder="Nhập email" name="email"><button>
-                                    Đăng
-                                    ký
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                <div class="feedback">FeedBack</div>
-            </div>
-        </footer>
         <button id="backToTopButton" class="back-to-top-button">
             <i class="fa fa-arrow-up"></i>
         </button>
     </div>
+    @{
+        List<ApiFooterModel> apiFooterModels = new List<ApiFooterModel>();
+        json = await (new WebClient()).DownloadStringTaskAsync(MyConstanst.SiteName+"web.cuoitrang.asp");
+        if (!string.IsNullOrEmpty(json))
+        {
+            apiFooterModels = JsonSerializer.Deserialize<List<ApiFooterModel>>(json);
+
+        }
+        <footer class="site-footer">
+            <div class="container ">
+                <div class="row menu-ct"></div>
+                <div class="row cuoitrang">
+                    @foreach (var item in apiFooterModels)
+                    {
+                        switch (item.kieuhienthi)
+                        {
+                            case "Tintuc":
+                                <div class="footer-col">
+                                    <h6>@item.tieude</h6>
+                                    @if(item.noidung != null)
+                                    {
+                                        <div class="ct-content">
+                                            @foreach(var x in item.noidung)
+                                            {
+                                                <a class="noidung-ct" href="/@x.url">
+                                                    <p>@x.tieude</p>
+                                                </a>
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                                break;
+                            case "Quangcao":
+                                <div class="footer-col">
+                                    <h6>@item.tieude</h6>
+                                    <div class="ct-content">
+                                        <div class="tomtat">
+                                            @Html.Raw(item.tomtat)
+                                        </div>
+                                    </div>
+                                </div>
+                                break;
+                            case "LayNewsletter":
+                                <div class="footer-col">
+                                    <h6>@item.tieude</h6>
+                                    <div class="ct-content">
+                                        <div class="tomtat">
+                                           @Html.Raw(item.tomtat)
+                                        </div>
+                                    </div>
+                                    <form>
+                                        <div class="group-dknbt">
+                                            <input type="text" placeholder="Nhập email" name="email"><button>
+                                                Đăng
+                                                ký
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                                break;
+                        }
+                    }                                  
+                </div>
+                <div class="feedback">FeedBack</div>
+            </div>
+        </footer>
+    }
     <div class="modal fade" id="ModalLogin" aria-hidden="true" aria-labelledby="ModalToggleLogin" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -243,12 +286,12 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.5.2/dist/sweetalert2.min.js"></script>
+    <script src="~/js/home.js"></script>
     <script src="~/js/site.js"></script>
-    <script src="~/js/site.js"></script>
+    <script src="~/js/handlesearchmap.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.1.0/js/swiper.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.5.2/dist/sweetalert2.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

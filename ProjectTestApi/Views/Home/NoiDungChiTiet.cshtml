@@ -1,0 +1,656 @@
+﻿@using System.Net;
+@using Newtonsoft.Json;
+@using ProjectTestApi.Models.Const;
+@model List<WebAllModel>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string cookieUserValue = Context.Request.Cookies[MyConstanst.KeyUserNameCookies];
+    string cookiePassValue = Context.Request.Cookies[MyConstanst.KeyPasswordCookies];
+    string cookieTypeAccountValue = Context.Request.Cookies[MyConstanst.KeyTypeLAccountCookies];
+}
+@{
+    string apiBreadCrumb = MyConstanst.SiteName + "web.breadcrumb.asp?id=" + Model[0].id;
+    string contentApi = await (new WebClient()).DownloadStringTaskAsync(apiBreadCrumb);
+    if (!string.IsNullOrEmpty(contentApi))
+    {
+        List<BreadCrumbModel> breadCrumbResult = JsonConvert
+        .DeserializeObject<List<BreadCrumbModel>>(contentApi);
+
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                @foreach (var breadcrumb in breadCrumbResult)
+                {
+                    if (!string.IsNullOrEmpty(breadcrumb.url) || !string.IsNullOrEmpty(breadcrumb.tieude))
+                    {
+                        <li class="breadcrumb-item"><a href="@Url.Action("Search","Home", new {keyword = breadcrumb.url})">@breadcrumb.tieude</a></li>
+                    }
+                }
+            </ol>
+        </nav>
+    }
+    string apiContent = MyConstanst.SiteName + "module." + Model[0].module + ".asp?id1=" + Model[0].url;
+    contentApi = await (new WebClient()).DownloadStringTaskAsync(apiContent);
+
+    <div class="container">
+        @{
+            string apiFilter = MyConstanst.SiteName + "web.boloc.chitiet.asp?id=" + Model[0].id;
+            string jsonFilter = await (new WebClient()).DownloadStringTaskAsync(apiFilter);
+            string idFilterCareer = null;
+            string idState = null;
+            string idDistrict = null;
+            string idWard = null;
+            string idCareer = null;
+
+            if (!string.IsNullOrEmpty(jsonFilter))
+            {
+                List<BoLocModel> filters = JsonConvert
+                .DeserializeObject<List<BoLocModel>>(jsonFilter);
+
+                if (filters[0].noidungform.Count != 0)
+                {
+                    foreach (var x in filters[0].noidungform)
+                    {
+                        if (x.tennhom == "nganh")
+                        {
+                            idFilterCareer = x.id;
+                            break;
+                        }
+                    }
+                }
+                <form action="/Home/TimCongViec" method="post">
+                    <div class="boloc-danhmuc">
+                        <input name="id2" type="text" class="form-control tukhoatimkiem" value="">
+                        <div class="boloc32004 select-boloc">
+                            @{
+                                if (!string.IsNullOrEmpty(contentApi))
+                                {
+                                    List<ApiDetailModel> content = JsonConvert
+                                    .DeserializeObject<List<ApiDetailModel>>(contentApi);
+                                    if (content[0].maloc.Count != 0)
+                                    {
+                                        foreach (var item in content[0].maloc)
+                                        {
+                                            switch (item.tennhom)
+                                            {
+                                                case "nganh":
+                                                    idCareer = item.giatri;
+                                                    break;
+                                            }
+                                        }
+                                    }
+                                }
+                                string arrCareer = (new BoLocModel()).FilterCareer(
+                                (new BoLocModel()).GetCareers(idFilterCareer), idCareer
+                                );
+                                <input type="text" class="form-control" value="@arrCareer">
+                            }
+                        </div>
+                        <div class="boloc32003 select-boloc">
+                            <div class="item item-city item-city2">
+                                @{
+                                    if (!string.IsNullOrEmpty(contentApi))
+                                    {
+                                        List<ApiDetailModel> content = JsonConvert
+                                        .DeserializeObject<List<ApiDetailModel>>(contentApi);
+
+                                        if (content[0].maloc.Count != 0)
+                                        {
+                                            foreach (var item in content[0].maloc)
+                                            {
+                                                switch (item.tennhom)
+                                                {
+                                                    case "tinh":
+                                                        idState = item.giatri;
+                                                        break;
+                                                    case "huyen":
+                                                         idDistrict = item.giatri;
+                                                        break;
+                                                    case "xa":
+                                                        idWard = item.giatri;
+                                                        break;
+                                                }
+                                            }
+                                        }
+                                        string strAddress = (new BoLocModel())
+                                        .GetStringAddress(idState, idDistrict, idWard);
+                                        <input type="text" id="input-str-address" onclick="GetState()" class="input-timcongviec" value="@strAddress" data-bs-target="#stateModalToggle" data-bs-toggle="modal">
+                                    }
+                                }
+                                <input name="id" type="hidden" id="input-arr-id-address" value="">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-tk"></button>
+                    </div>
+                    <input name="__RequestVerificationToken" type="hidden" value="CfDJ8DWtHnpaaWhKv0Lxy-gUjkNwLRC9qMiNxT9zzOSzyVRvAS-1mSBaSPMYA3BdgT15q81E9GoXhvwgOJd7_Xx2qyZ7aC6HKh09NjEPpd1svMljTJOnTrVo8RXT4RneYn2F7vzDPZY3f_JQ0W9ebwllRZo">
+                </form>
+            }
+        }
+    </div>
+    if (!string.IsNullOrEmpty(contentApi))
+    {
+        List<ApiDetailModel> content = JsonConvert
+        .DeserializeObject<List<ApiDetailModel>>(contentApi);
+        string className = "id" + content[0].id + "md-tuyendung chitiet";
+        <div class="@className">
+            @foreach (var miniContent in content)
+            {
+                <div class="container">
+                    <div class="tuyendung ">
+                        <div class="wrap">
+                            @if (!string.IsNullOrEmpty(miniContent.tieude))
+                            {
+                                <h1>@miniContent.tieude</h1>
+                            }
+                            @if (!string.IsNullOrEmpty(miniContent.ngaydang))
+                            {
+                                <div class="row thoigian">
+                                    <span class="ngaydang">@miniContent.ngaydang</span><span class="matin">37497</span><span class="luotxem">19</span><span class="thoihan">12/31/2024</span>
+                                </div>
+                            }
+                            @if (!string.IsNullOrEmpty(miniContent.mota))
+                            {
+                                <div class="row ndct">
+                                    <div class="mota">
+                                        @Html.Raw(miniContent.mota)
+                                    </div>
+                                </div>
+                            }
+                            <div class="row ttnd">
+                                @if (!string.IsNullOrEmpty(miniContent.tenND))
+                                {
+                                    <div class="tenND">@miniContent.tenND</div>
+                                }
+                                @if (!string.IsNullOrEmpty(miniContent.diachiND))
+                                {
+                                    <div class="diachiND">@miniContent.diachiND</div>
+                                }
+                                @if (!string.IsNullOrEmpty(miniContent.dienthoaiND))
+                                {
+                                    <div class="dienthoaiND"><span class="cursorPointer">@miniContent.dienthoaiND</span></div>
+                                }
+                                @if (!string.IsNullOrEmpty(miniContent.emailND))
+                                {
+                                    <div class="emailND"><span class="cursorPointer">@miniContent.emailND</span></div>
+                                }
+                            </div>
+                        </div>
+                        <div class="group-wishlist-ct">
+                            <div class="wish_list "></div>
+                            <div onclick="AddToCart(@miniContent.id)" class="add_to_cart da-ung-tuyen"></div>
+                        </div>
+                    </div>
+                    <div class="bando-cvct">
+                        <div id="map2"
+                             class="leaflet-container leaflet-touch leaflet-retina leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
+                             tabindex="0" style="position: relative;">
+                            <div class="leaflet-pane leaflet-map-pane" style="transform: translate3d(0px, 0px, 0px);">
+                                <div class="leaflet-pane leaflet-tile-pane">
+                                    <div class="leaflet-layer " style="z-index: 1; opacity: 1;">
+                                        <div class="leaflet-tile-container leaflet-zoom-animated"
+                                             style="z-index: 18; transform: translate3d(0px, 0px, 0px) scale(1);">
+                                            <img alt=""
+                                                 src="https://c.tile.openstreetmap.org/13/6522/3848.png"
+                                                 class="leaflet-tile leaflet-tile-loaded"
+                                                 style="width: 256px; height: 256px; transform: translate3d(459px, 6px, 0px); opacity: 1;"><img alt="" src="https://b.tile.openstreetmap.org/13/6522/3847.png"
+                                                                                                                                                class="leaflet-tile leaflet-tile-loaded"
+                                                                                                                                                style="width: 256px; height: 256px; transform: translate3d(459px, -250px, 0px); opacity: 1;"><img alt="" src="https://b.tile.openstreetmap.org/13/6521/3848.png"
+                                                                                                                                                                                                                                                  class="leaflet-tile leaflet-tile-loaded"
+                                                                                                                                                                                                                                                  style="width: 256px; height: 256px; transform: translate3d(203px, 6px, 0px); opacity: 1;"><img alt="" src="https://a.tile.openstreetmap.org/13/6523/3848.png"
+                                                                                                                                                                                                                                                                                                                                                 class="leaflet-tile leaflet-tile-loaded"
+                                                                                                                                                                                                                                                                                                                                                 style="width: 256px; height: 256px; transform: translate3d(715px, 6px, 0px); opacity: 1;"><img alt="" src="https://a.tile.openstreetmap.org/13/6522/3849.png"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                class="leaflet-tile leaflet-tile-loaded"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                style="width: 256px; height: 256px; transform: translate3d(459px, 262px, 0px); opacity: 1;"><img alt="" src="https://a.tile.openstreetmap.org/13/6521/3847.png"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 class="leaflet-tile leaflet-tile-loaded"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 style="width: 256px; height: 256px; transform: translate3d(203px, -250px, 0px); opacity: 1;"><img alt="" src="https://c.tile.openstreetmap.org/13/6523/3847.png"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   class="leaflet-tile leaflet-tile-loaded"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   style="width: 256px; height: 256px; transform: translate3d(715px, -250px, 0px); opacity: 1;"><img alt="" src="https://c.tile.openstreetmap.org/13/6521/3849.png"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     class="leaflet-tile leaflet-tile-loaded"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     style="width: 256px; height: 256px; transform: translate3d(203px, 262px, 0px); opacity: 1;"><img alt="" src="https://b.tile.openstreetmap.org/13/6523/3849.png"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      class="leaflet-tile leaflet-tile-loaded"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      style="width: 256px; height: 256px; transform: translate3d(715px, 262px, 0px); opacity: 1;"><img alt="" src="https://a.tile.openstreetmap.org/13/6520/3848.png"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       class="leaflet-tile leaflet-tile-loaded"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       style="width: 256px; height: 256px; transform: translate3d(-53px, 6px, 0px); opacity: 1;"><img alt="" src="https://b.tile.openstreetmap.org/13/6524/3848.png"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      class="leaflet-tile leaflet-tile-loaded"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      style="width: 256px; height: 256px; transform: translate3d(971px, 6px, 0px); opacity: 1;"><img alt="" src="https://c.tile.openstreetmap.org/13/6520/3847.png"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     class="leaflet-tile leaflet-tile-loaded"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     style="width: 256px; height: 256px; transform: translate3d(-53px, -250px, 0px); opacity: 1;"><img alt="" src="https://a.tile.openstreetmap.org/13/6524/3847.png"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       class="leaflet-tile leaflet-tile-loaded"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       style="width: 256px; height: 256px; transform: translate3d(971px, -250px, 0px); opacity: 1;"><img alt="" src="https://b.tile.openstreetmap.org/13/6520/3849.png"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         class="leaflet-tile leaflet-tile-loaded"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         style="width: 256px; height: 256px; transform: translate3d(-53px, 262px, 0px); opacity: 1;"><img alt="" src="https://c.tile.openstreetmap.org/13/6524/3849.png"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          class="leaflet-tile leaflet-tile-loaded"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          style="width: 256px; height: 256px; transform: translate3d(971px, 262px, 0px); opacity: 1;">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="leaflet-pane leaflet-overlay-pane"></div>
+                                <div class="leaflet-pane leaflet-shadow-pane">
+                                    <img src="https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png"
+                                         class="leaflet-marker-shadow leaflet-zoom-animated" alt=""
+                                         style="margin-left: -12px; margin-top: -41px; width: 41px; height: 41px; transform: translate3d(569px, 225px, 0px);">
+                                </div>
+                                <div class="leaflet-pane leaflet-marker-pane">
+                                    <img src="https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png"
+                                         class="leaflet-marker-icon leaflet-zoom-animated leaflet-interactive" alt="Marker"
+                                         tabindex="0" role="button"
+                                         style="margin-left: -12px; margin-top: -41px; width: 25px; height: 41px; transform: translate3d(569px, 225px, 0px); z-index: 225;">
+                                </div>
+                                <div class="leaflet-pane leaflet-tooltip-pane"></div>
+                                <div class="leaflet-pane leaflet-popup-pane"></div>
+                                <div class="leaflet-proxy leaflet-zoom-animated"
+                                     style="transform: translate3d(1.66974e+06px, 985307px, 0px) scale(4096);"></div>
+                            </div>
+                            <div class="leaflet-control-container">
+                                <div class="leaflet-top leaflet-left">
+                                    <div class="leaflet-control-zoom leaflet-bar leaflet-control">
+                                        <a class="leaflet-control-zoom-in"
+                                           href="#" title="Zoom in" role="button" aria-label="Zoom in" aria-disabled="false">
+                                            <span aria-hidden="true">+</span>
+                                        </a><a class="leaflet-control-zoom-out" href="#"
+                                               title="Zoom out" role="button" aria-label="Zoom out" aria-disabled="false">
+                                            <span aria-hidden="true">−</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="leaflet-top leaflet-right"></div>
+                                <div class="leaflet-bottom leaflet-left"></div>
+                                <div class="leaflet-bottom leaflet-right">
+                                    <div class="leaflet-control-attribution leaflet-control">
+                                        <a href="https://leafletjs.com"
+                                           title="A JavaScript library for interactive maps">
+                                            <svg aria-hidden="true"
+                                                 xmlns="http://www.w3.org/2000/svg" width="12" height="8" viewBox="0 0 12 8"
+                                                 class="leaflet-attribution-flag">
+                                                <path fill="#4C7BE1" d="M0 0h12v4H0z"></path>
+                                                <path fill="#FFD500" d="M0 4h12v3H0z"></path>
+                                                <path fill="#E0BC00" d="M0 7h12v1H0z"></path>
+                                            </svg> Leaflet
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @{
+                        apiContent = MyConstanst.SiteName + "binhluan.asp?id=" + Model[0].id + "&pageid=1";
+                        contentApi = await (new WebClient()).DownloadStringTaskAsync(apiContent);
+                        if (!string.IsNullOrEmpty(contentApi))
+                        {
+                            if(content[0].chophepbinhluan == true)
+                            {
+                                <div class="formbinhluan">
+                                    <form>
+                                        <h3 class="tieude"> </h3>
+                                        <div class="form-group">
+                                            <textarea id="input-comment" onclick="ShowGroupBl()"
+                                                      class="form-bl form-control" name="noidungtxt"
+                                                      placeholder="Nhập bình luận"></textarea>
+                                        </div>
+                                        <div id="group-bl" class="group-bl" style="display:none">
+                                            <div class="form-group">
+                                                <input id="input-nameComment" type="text"
+                                                       class="form-control input-hoten" name="tenkh" placeholder="Họ tên"
+                                                       value="">
+                                            </div>
+                                            <div class="form-group">
+                                                <input id="input-numberPhoneComment" type="text"
+                                                       class="form-control input-sdth" name="txtdienthoai"
+                                                       placeholder="Số điện thoại" value="">
+                                            </div>
+                                            <div class="form-group">
+                                                <input id="input-emailComment" type="email"
+                                                       class="form-control input-email" name="txtemail" placeholder="Email"
+                                                       value="">
+                                            </div>
+                                            <div class="btn-bl">
+                                                <button onclick="PostComment()"
+                                                        type="button">
+                                                    Gửi
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <div id="dsbl" class="dsbl">
+                                        @{
+                                            apiContent = "http://thegioitainang.com/ww2/binhluan.asp?id=" + Model[0].id;
+                                            contentApi = await (new WebClient()).DownloadStringTaskAsync(apiContent);
+                                            if (!string.IsNullOrEmpty(contentApi))
+                                            {
+                                                List<ApiCommentModel> contentComment = JsonConvert
+                                                .DeserializeObject<List<ApiCommentModel>>(contentApi);
+                                                if (contentComment.Count != 0)
+                                                {
+                                                    foreach (var cmt in contentComment[0].data.OrderBy(date =>
+                                                    date.ngaydang).ToList())
+                                                    {
+                                                        <div class="binhluan">
+                                                            <div class="hinhdaidien"><img src="http://media.tuyennhansu.vn/mediaroot/images/user.jpg"></div>
+                                                            <div class="comment-right-part">
+                                                                <div class="nguoidung"></div>
+                                                                <div class="ngaydang">@cmt.ngaydang</div>
+                                                                <div class="ndbl">@cmt.noidungbinhluan</div>
+                                                                <div class="cmt-comment">
+                                                                    <div class="traloi">Trả lời</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        }
+                    }
+                    @{
+                        apiContent = MyConstanst.SiteName + "module." + Model[0].module + ".asp?id1=" + Model[0].url;
+                        contentApi = await (new WebClient()).DownloadStringTaskAsync(apiContent);
+                        List<ApiDetailModel> contentParamTinLq = JsonConvert
+                        .DeserializeObject<List<ApiDetailModel>>(contentApi);
+                        if (contentParamTinLq.Count != 0)
+                        {
+                            string title = null;
+                            string major = null;
+                            string state = null;
+                            string district = null;
+                            string ward = null;
+
+                            foreach (var type in contentParamTinLq[0].maloc)
+                            {
+                                switch (type.tennhom)
+                                {
+                                    case "chucdanh":
+                                        title = type.giatri;
+                                        break;
+                                    case "nganh":
+                                        major = type.giatri;
+                                        break;
+                                    case "tinh":
+                                        district = type.giatri;
+                                        break;
+                                    case "huyen":
+                                        district = type.giatri;
+                                        break;
+                                    case "xa":
+                                        ward = type.giatri;
+                                        break;
+                                }
+                            }
+                            string apiRelatedNews = MyConstanst.SiteName + "module.Tuyendung.chitiet.tinlienquan.asp?chucdanh=" + title + "&nganh=" + major + "+&tinh=" + state + "&huyen=" + district + "+&xa=" + ward + "&id=" + Model[0].id;
+                            apiContent = await (new WebClient()).DownloadStringTaskAsync(apiRelatedNews);
+                            List<ApiRelatedNewModel> contentRelatedNews = JsonConvert
+                            .DeserializeObject<List<ApiRelatedNewModel>>(apiContent);
+                            foreach (var x in contentRelatedNews)
+                            {
+                                if (x.baiviet != null && content[0].hienthibinhluan == true)
+                                {
+                                    <div class="tinlienquan">
+                                        <div class="tlq-0">
+                                            <div class="ctcv_title">
+                                                <h3><a href="/@x.url">@x.tieude</a></h3><span><a href="/@x.url">@x.xemthem</a></span>
+                                            </div>
+                                            <div class="swiper swiper-initialized swiper-horizontal mySwiper swiper-backface-hidden">
+                                                <div class="swiper-container">
+                                                    <div class="swiper-wrapper">
+                                                        @foreach (var item in x.baiviet)
+                                                        {
+                                                            <div class="swiper-slide">
+                                                                <div>
+                                                                    <div class="tinlienquan @item.loaitin">
+                                                                        <h6>
+                                                                            <a href="/@item.url">
+                                                                                @item.tieude
+                                                                            </a>
+                                                                        </h6>
+                                                                        <div class="ctcv_thoihan"></div>
+                                                                        <div class="ctcv_gia"></div>
+                                                                        <div class="ctcv_diachi">
+                                                                            <p>@item.diachiND</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                    <div class="swiper-button-next"></div>
+                                                    <div class="swiper-button-prev"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tlq-1">
+                                            <div class="ctcv_title">
+                                                <h3><a href="/undefined"></a></h3><span><a href="/undefined"></a></span>
+                                            </div>
+                                            <div class="swiper swiper-initialized swiper-horizontal mySwiper">
+                                                <div class="swiper-wrapper"></div>
+                                                <div class="swiper-button-prev swiper-button-lock"></div>
+                                                <div class="swiper-button-next swiper-button-lock"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        }
+                    }
+                </div>
+            }
+        </div>
+    }
+}
+<div class="modal fade" id="stateModalToggle" aria-hidden="true" aria-labelledby="stateModalToggleLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Chọn theo khu vực tỉnh, thành phố</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body state">
+                <div class="modal-input-tt"><input type="text" onkeydown="FilterOption()" placeholder="Tìm theo tỉnh thành" value=""></div>
+                <select id="selected-state" class="form-select state" size="10" aria-label="Size 3 select example">
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button onclick="RemoveState()" class="btn btn-primary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="districtModalToggle" aria-hidden="true" aria-labelledby="districtModalToggleLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Chọn theo khu vực quận huyện</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-input-tt"><input type="text" placeholder="Tìm theo quận huyện" value=""></div>
+                <select id="selected-district" class="form-select district" size="10" aria-label="Size 3 select example">
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button onclick="RemoveDistrict()" class="btn btn-primary" data-bs-target="#stateModalToggle" data-bs-toggle="modal">Trở về</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="wardModalToggle" aria-hidden="true" aria-labelledby="wardModalToggleLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Chọn theo phường xã</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-input-tt"><input type="text" placeholder="Tìm theo phường xã" value=""></div>
+                <select id="selected-ward" class="form-select ward" size="10" aria-label="Size 3 select example">
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button onclick="RemoveWard()" class="btn btn-primary" data-bs-target="#districtModalToggle" data-bs-toggle="modal">Trở về</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function GetComment() {
+        let str = '';
+        let id = @Model[0].id;
+        $.ajax({
+            type: 'GET',
+            dataType: 'json',
+            url: `http://thegioitainang.com/ww2/binhluan.asp?id=` + id,
+            success: (response) => {
+                for (var i = response[0].data.length - 1; i >= 0; i--) {
+                    str += '<div class="binhluan"><div class="hinhdaidien"><img src="http://media.tuyennhansu.vn/mediaroot/images/user.jpg"></div><div class="comment-right-part"><div class="nguoidung">'
+                        + response[0].data[i].nguoidung
+                        + '</div><div class="ngaydang">'
+                        + response[0].data[i].ngaydang
+                        + '</div><div class="ndbl">'
+                        + response[0].data[i].noidungbinhluan
+                        + '</div><div class="cmt-comment"><div class="traloi">Trả lời</div></div></div></div>'
+                }
+                document.getElementById('dsbl').innerHTML = "";
+                document.getElementById('dsbl').innerHTML = str;
+            },
+            error: (id) => { }
+        })
+    }
+
+    function GetValueComment() {
+        let comment = document.getElementById("input-comment");
+        let name = document.getElementById("input-nameComment");
+        let numberphone = document.getElementById("input-numberPhoneComment");
+        let email = document.getElementById("input-emailComment");
+    }
+
+    function PostComment() {
+        let comment = document.getElementById("input-comment");
+        let name = document.getElementById("input-nameComment");
+        let numberphone = document.getElementById("input-numberPhoneComment");
+        let email = document.getElementById("input-emailComment");
+
+        let urlApi = `@MyConstanst.SiteName1` + "save.binhluan.asp?id=" + `@Model[0].id`
+            + "&noidungtxt=" + comment.value
+            + "&userid="
+            + "&pass="
+            + "&idquanly=0"
+            + "&txtemail=" + email.value
+            + "&tenkh=" + name.value
+            + "&txtdienthoai=" + numberphone.value;
+        if (IsFillValueInput("input-comment"
+            , "input-nameComment"
+            , "input-numberPhoneComment"
+            , "input-emailComment")) {
+            $.ajax({
+                type: 'POST',
+                url: urlApi,
+                // data:dataToSend,
+                success: (response) => {
+                    GetComment();
+                    Swal.fire({
+                        title: 'Thông báo!',
+                        text: 'Gửi bình luận thành công.',
+                        icon: 'success',
+                        confirmButtonText: 'Đóng'
+                    });
+                    ClearValueInputComment();
+                },
+                error: (e) => {
+                    Swal.fire({
+                        title: 'Thông báo!',
+                        text: 'Không thể gửi bình luận!',
+                        icon: 'error',
+                        confirmButtonText: 'Đóng'
+                    });
+                    ClearValueInputComment();
+                }
+            })
+        } else {
+            Swal.fire({
+                title: 'Thông báo!',
+                text: 'Vui lòng điền đầy đủ thông tin',
+                icon: 'warning',
+                confirmButtonText: 'Đóng'
+            });
+        }
+    }
+
+    function ClearValueInputComment() {
+        let comment = document.getElementById("input-comment");
+        let name = document.getElementById("input-nameComment");
+        let numberphone = document.getElementById("input-numberPhoneComment");
+        let email = document.getElementById("input-emailComment");
+
+        comment.value = "";
+        name.value = "";
+        numberphone.value = "";
+        email.value = "";
+    }
+
+    function IsFillValueInput(idInput, nameInput, numberPhoneInput, emailInput) {
+        let inputIdElement = document.getElementById(idInput);
+        let inputNameElement = document.getElementById(nameInput);
+        let inputNumberPhoneElement = document.getElementById(numberPhoneInput);
+        let inputEmailElement = document.getElementById(emailInput);
+
+        let inputIdValue = inputIdElement.value;
+        let inputNameValue = inputNameElement.value;
+        let inputNumberPhoneValue = inputNumberPhoneElement.value;
+        let inputEmailValue = inputEmailElement.value;
+
+        if (inputIdValue.trim() === ""
+            || inputNameValue.trim() === ""
+            || inputNumberPhoneValue.trim() === ""
+            || inputEmailValue.trim() === "") {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    function AddToCart(idNew) {
+        let eUser = `@cookieUserValue`;
+        let ePass = `@cookiePassValue`;
+        let siteName = `@MyConstanst.SiteName1`;
+        let eTypeAccount = `@cookieTypeAccountValue`;
+        let urlApi = siteName + "save.addcart.asp?userid=" + eUser + "&pass=" + ePass + "&id=" + idNew + "&id1=&id2="
+        $.ajax({
+            type: 'POST',
+            url: urlApi,
+            success: (response) => {
+                if (response[0].maloi == 1) {
+                    if (eTypeAccount == 1) {
+                        Swal.fire({
+                            title: 'Thông báo!',
+                            text: response[0].ThongBao,
+                            icon: 'success',
+                            confirmButtonText: 'Đóng'
+                        });
+
+                    }
+                    else {
+                    }
+                } else {
+                    Swal.fire({
+                        title: 'Thông báo!',
+                        text: response[0].ThongBao,
+                        icon: 'warning',
+                        confirmButtonText: 'Đóng'
+                    });
+                }
+            },
+            error: (e) => {
+                Swal.fire({
+                    title: 'Thông báo!',
+                    text: 'Không thể ứng tuyển!',
+                    icon: 'error',
+                    confirmButtonText: 'Đóng'
+                });
+            }
+        })
+
+
+    }
+</script>
+

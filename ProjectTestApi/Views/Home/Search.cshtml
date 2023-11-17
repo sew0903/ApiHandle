@@ -1,113 +1,111 @@
-﻿@model List<ApiModel.DataDetail>
+﻿@using Newtonsoft.Json;
+@using ProjectTestApi.Models.Const;
+@using System.Text;
+@using System.Net;
+@model List<WebAllModel>
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<nav aria-label="breadcrumb" style="    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-    padding: 0.75rem 1rem;
-    margin-bottom: 1rem;
-    list-style: none;
-    background-color: #e9ecef;
-    border-radius: 0.25rem;">
-@*     <ol class="breadcrumb">
-        @{
-            foreach (var breadcrum in ViewBag.BreadCrumb)
-            {
-                <li class="breadcrumb-item"><a href="@Url.Action("Search","Home",new {url = breadcrum.url})">@breadcrum.tieude</a></li>
-            }
-        }
-    </ol> *@
-</nav>
-<div class="id35030 md-timboloc ">
-    <div class="container">
-        <div class="th-tuyendung">
-            <div class="container">
-                <h2><a href="/tim-cong-viec">Kết quả tìm kiếm theo yêu cầu </a></h2>
-                <div class="row">
-                    @if (Model != null)
+@{
+    string idDivMain = "id" + Model[0].id + " md-" + Model[0].module;
+}
+@{
+    string apiBreadCrumb = MyConstanst.SiteName + "web.breadcrumb.asp?id=" + Model[0].id;
+    string contentApi = await (new WebClient()).DownloadStringTaskAsync(apiBreadCrumb);
+    if (!string.IsNullOrEmpty(contentApi))
+    {
+        List<BreadCrumbModel> breadCrumbResult = JsonConvert
+        .DeserializeObject<List<BreadCrumbModel>>(contentApi);
+
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                @foreach (var breadcrumb in breadCrumbResult)
+                {
+                    if (!string.IsNullOrEmpty(breadcrumb.url) || !string.IsNullOrEmpty(breadcrumb.tieude))
                     {
-                        @foreach (var item in Model)
-                        {
-                            <div class="tuyendung">
-                                <div class="wrap-ndct">
-                                    <div class="thuong 37424 111">
-                                        <div class="ct">
-                                            <h3>
-                                                <a href="@Url.Action("JobDetail","Home",new {key = item.url})">
-                                                    @item.tieude
-                                                </a>
-                                            </h3>
-                                            @if(item.tenND != null)
-                                            {
-                                                <span class="tenND">@item.tenND</span>
-                                            }
-                                            @if(item.gia != null)
-                                            {
-                                                <div class="gia"><span class="dv">@item.gia[0].donvi</span></div>
-                                            }                                       
-                                            @if(item.diachimap != null)
-                                            {
-                                                <span class="diachiND">
-                                                    @item.diachimap[0].tengoi
-                                                </span>
-                                            }
-                                            @if(item.chucdanh != null)
-                                            {
-                                                <span class="chucdanh">
-                                                    @foreach(var cd in item.chucdanh)
-                                                    {
-                                                        <a href="@Url.Action("Search","Home", new {url = cd.url})">
-                                                            @cd.tengoi
-                                                        </a>
-                                                    }
-                                                </span>
-                                            }
-                                            @if(item.loai != null)
-                                            {
-                                                <span class="loai">
-                                                    @foreach(var type in item.loai)
-                                                    {
-                                                        <a href="@Url.Action("Search","Home",new {url = type.url})">
-                                                            @type.tengoi
-                                                        </a>
-                                                    }
-                                                </span>
-                                            }
-                                            @if(item.thoihan != null){
-                                                <span class="thoihan">@item.thoihan</span>
-                                            }
-                                            @if(item.ngoaingu != null){
-                                                  <span class="ngoaingu">
-                                                    @foreach(var language in item.ngoaingu)
-                                                    {
-                                                        <a href="@Url.Action("Search","Home",new {url = language.url})">@language.tengoi</a>
-                                                    }
-                                                </span>                                                
-                                            }
-                                            @if(item.nganh != null)
-                                            {
-                                                <div class="vttd">
-                                                    @foreach(var career in item.nganh)
-                                                    {
-                                                        <a href="@Url.Action("Search","Home",new {url = career.url})">@career.tengoi</a>
-                                                }
+                        <li class="breadcrumb-item"><a href="/@breadcrumb.url">@breadcrumb.tieude</a></li>
+                    }
+                }
+            </ol>
+        </nav>
+    }
+}
+@{
+    string apiContent = MyConstanst.SiteName + "module." + Model[0].module + ".asp?id=" + Model[0].id + "&pageid=1";
+    string stringJson = await (new WebClient()).DownloadStringTaskAsync(apiContent);
+    if (!String.IsNullOrEmpty(stringJson))
+    {
+        List<ApiModel> models = JsonConvert.DeserializeObject<List<ApiModel>>(stringJson);
+
+        if(models.Count != 0)
+        {
+            <div class="@idDivMain">
+                <div class="container">
+                    <div class="th-tuyendung">
+                        <div class="container">
+                            <h2><a href="@Url.Action("Search","Home",new {keyword = Model[0].url})">@Model[0].tieude</a></h2>
+                            <div class="row">
+                                @if (models[0].data.Count != 0)
+                                {
+                                    foreach (var item in models[0].data)
+                                    {
+                                        <div class="tuyendung">
+                                            <div class="wrap-ndct">
+                                                <div class="@item.loaitin @item.id ">
+                                                    <div class="ct">
+                                                        @if (!string.IsNullOrEmpty(item.tieude))
+                                                        {
+                                                            <h3>
+                                                                <a href="@Url.Action("Search","Home",new {keyword = item.url})">
+                                                                    @item.tieude
+                                                                </a>
+                                                            </h3>
+                                                        }
+                                                        @if (!string.IsNullOrEmpty(item.tenND))
+                                                        {
+                                                            <span class="tenND">@item.tenND</span>
+                                                        }
+                                                        @if (item.nganhhoc != null)
+                                                        {
+                                                            <span class="nganhhoc">
+                                                                @foreach (var major in item.nganhhoc)
+                                                                {
+                                                                    <a href="@Url.Action("Search","Home", new {keyword = major.url })">
+                                                                        @major.tengoi
+                                                                    </a>
+                                                                }
+                                                            </span>
+                                                        }
+                                                        @if (item.yeucaukynang != null)
+                                                        {
+                                                            <span class="yeucaukynang">
+                                                                @foreach (var skill in item.yeucaukynang)
+                                                                {
+                                                                    <a href="@Url.Action("Search","Home",new {keyword = skill.url})">@skill.tengoi</a>
+                                                                }
+                                                            </span>
+                                                        }
+                                                        <div class="group-wishlist">
+                                                            <div class="wish_list "></div>
+                                                            <div class="add_to_cart da-ung-tuyen"></div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            }
-                                            <div class="group-wishlist">
-                                                <div class="wish_list "></div>
-                                                <div class="add_to_cart da-ung-tuyen"></div>
                                             </div>
                                         </div>
-                                    </div>
+                                    }
+                                }
+                                <div class="xemthem">
+                                    <span>
+                                        <div to="/undefined"></div>
+                                    </span>
                                 </div>
                             </div>
-                        }
-                    }
-                    <div class="xemthem"><span><a href="/undefined"></a></span></div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
+        }
+    }
+}
+

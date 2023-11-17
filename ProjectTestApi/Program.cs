@@ -13,9 +13,17 @@ builder.Services.AddAuthentication(Microsoft
     .AuthenticationScheme)
        .AddCookie(options =>
        {
-           options.LoginPath = "/Account/Login";
+           options.LoginPath = "/Home/Index";
            options.AccessDeniedPath = "/Account/AccessDenied";
        });
+
+//builder.Services.AddAuthentication().AddGoogle(googleOptions =>
+//{
+//    googleOptions.ClientId = builder.Configuration.GetSection("GoogleAuthSettings")
+//.GetValue<string>("ClientId");
+//    googleOptions.ClientSecret = builder.Configuration.GetSection("GoogleAuthSettings")
+//.GetValue<string>("ClientSecret");
+//});
 
 var app = builder.Build();
 
@@ -34,6 +42,10 @@ app.UseStatusCodePages(async context =>
         await context.HttpContext.Response.WriteAsync("<html><body><h1>Page Not Found</h1></body></html>");
     }
 });
+//app.UseExceptionHandler("/Home/Error");
+//app.UseStatusCodePagesWithReExecute("/Home/Error/{0}");
+//app.UseHsts();
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 

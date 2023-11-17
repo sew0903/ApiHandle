@@ -1,29 +1,30 @@
 ﻿html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
 }
 
-.form-select option{
-    padding:6px;
+.form-select option {
+    padding: 6px;
 }
+
 .gradient-custom {
     /* fallback for old browsers */
     background: #6a11cb;
@@ -34,13 +35,13 @@ body {
 }
 
 #loading-container {
-    display: none; /* Ẩn hiệu ứng ban đầu */
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Màu nền semi-transparent */
+    background-color: rgba(0, 0, 0, 0.5);
     z-index: 9999;
 }
 
@@ -50,7 +51,7 @@ body {
     border-radius: 50%;
     width: 50px;
     height: 50px;
-    animation: spin 2s linear infinite; /* Tạo hiệu ứng xoay xoay */
+    animation: spin 2s linear infinite;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -68,8 +69,8 @@ body {
 }
 
 #danh-sach {
-    max-height: 200px; /* Đặt chiều cao tối đa cho danh sách */
-    overflow-y: scroll; /* Bật cuộn dọc */
+    max-height: 200px; 
+    overflow-y: scroll;
 }
 
 .breadcrumb {
@@ -84,33 +85,36 @@ body {
     border-radius: 0.25rem;
 }
 
-/* Định dạng của swiper-container */
+    .breadcrumb span {
+        margin-left: auto;
+    }
+
 .swiper-container {
-    padding-top:30px;
-    width: 100%; /* Chiều rộng của swiper-container, có thể thay đổi tùy ý */
-    height: 350px; /* Chiều cao của swiper-container, có thể thay đổi tùy ý */
-    margin: 0 auto; /* Căn giữa swiper-container trong trang */
-    border-radius:20px;
-    overflow: hidden; /* Ẩn nội dung tràn ra ngoài swiper-container */
+    padding-top: 30px;
+    width: 100%;
+    height: 350px;
+    margin: 0 auto;
+    border-radius: 20px;
+    overflow: hidden;
 }
 
-/* Định dạng của các slide bên trong swiper-container */
+
 .swiper-slide {
-    width: 300px; /* Chiều rộng của slide, có thể thay đổi tùy ý */
-    height: 100%; /* Chiều cao của slide, giữ slide cao bằng swiper-container */
-    display: flex; /* Cho phép nội dung bên trong căn giữa slide */
-    justify-content: center; /* Căn giữa theo chiều ngang */
-    align-items: center; /* Căn giữa theo chiều dọc */
-    background-color: #fff; /* Màu nền của slide */
-    border: 1px solid #ccc; /* Viền của slide */
-    border-radius:20px;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3); /* Đổ bóng slide */
-    transition: transform 0.3s ease; /* Hiệu ứng chuyển đổi khi trượt slide */
+    width: 300px;
+    height: 100%;
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    background-color: #fff; 
+    border: 1px solid #ccc; 
+    border-radius: 20px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease;
 }
 
-/* Định dạng của slide đang được chọn */
+
 .swiper-slide-active {
-    transform: scale(1.1); /* Phóng to slide đang được chọn */
+    transform: scale(1.1);
 }
 
 .css-9jq23d {
@@ -123,12 +127,13 @@ body {
     padding: 3px 3px 3px 6px;
     box-sizing: border-box;
 }
-#root{
-    padding-bottom:8%;
+
+#root {
+    padding-bottom: 8%;
 }
 
 
-/* CSS cho nút đăng nhập Google */
+
 #googleLoginBtn {
     background-color: #4285f4;
     color: white;
@@ -141,6 +146,7 @@ body {
     #googleLoginBtn:hover {
         background-color: #357ae8;
     }
+
 .back-to-top-button {
     position: fixed;
     bottom: 30px;
@@ -166,11 +172,12 @@ body {
     .back-to-top-button:hover {
         background-color: #0056b3;
     }
+
 .navbar {
-    background-color: #333; /* Màu nền của navbar */
-    color: #fff; /* Màu chữ trên navbar */
-    padding: 10px; /* Khoảng cách giữa các phần tử trong navbar */
-    transition: background-color 0.3s; /* Hiệu ứng màu nền khi scroll */
+    background-color: #333; 
+    color: #fff; 
+    padding: 10px; 
+    transition: background-color 0.3s
 }
 
     .navbar.fixed {
@@ -178,29 +185,210 @@ body {
         top: 0;
         left: 0;
         width: 100%;
-        z-index: 1000; /* Đảm bảo navbar ở trên cùng */
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Hiệu ứng bóng đổ */
+        z-index: 1000; 
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     }
 
 .scrollable-list {
-    max-height: 200px; /* Đặt chiều cao tối đa của danh sách */
-    overflow-y: auto; /* Cho phép cuộn theo trục Y nếu nội dung vượt quá chiều cao */
-    border: 1px solid #ccc; /* Tùy chỉnh theo nhu cầu của bạn */
+    max-height: 200px; 
+    overflow-y: auto;
+    border: 1px solid #ccc; 
 }
 
 ul {
-    list-style-type: none; /* Loại bỏ dấu hiệu danh sách mặc định */
-    padding: 0; /* Loại bỏ khoảng cách lề trong danh sách */
+    list-style-type: none; 
+    padding: 0; 
 }
 
 li {
-    padding: 5px 10px; /* Tùy chỉnh theo nhu cầu của bạn */
-    border-bottom: 1px solid #eee; /* Tạo đường kẻ phân tách giữa các mục */
+    padding: 5px 10px; 
+    border-bottom: 1px solid #eee; 
 }
+
 body .modal-header {
     background: #0d6efd !important;
     padding: 15px 25px
 }
-.btn.btn-link.btn-floating.mx-1{
-    border:1px solid #3333
+
+.btn.btn-link.btn-floating.mx-1 {
+    border: 1px solid #3333
 }
+
+p.truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+}
+
+.slideshow-container.slideshow-left {
+    overflow: hidden;
+    width: 300px;
+    height: 500px;
+    position: relative;
+}
+
+    .slideshow-container.slideshow-left .slideshow {
+        display: flex;
+        flex-direction: column;
+        animation: scroll 90s linear infinite;
+    }
+
+        .slideshow-container.slideshow-left .slideshow img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .slideshow-container.slideshow-left .slideshow p {
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+        }
+
+@keyframes scroll {
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(-100%);
+    }
+}
+
+
+.noidungtab {
+    display: flex;
+    padding-bottom: 10px;
+}
+
+.noidungtab-right {
+    flex: 0 0 50%;
+    padding-right: 10px;
+    padding-top: 9px;
+    overflow: hidden;
+}
+
+.noidungtab-left {
+    flex: 0 0 50%;
+    overflow: hidden;
+}
+
+.form-select.noidungtab {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    appearance: none;
+    background-color: #fff;
+}
+
+.form-select:hover {
+    border-color: $#999;
+}
+
+.form-select.noidungtab option {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 11px;
+    font-size: 14px;
+    background-color: #f7f7f7;
+    color: #333;
+}
+
+    .form-select.noidungtab option:hover {
+        background-color: #ddd;
+    }
+
+.swiper-slide.image {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+    .swiper-slide.image img {
+        width: 100%;
+        height: auto;
+        max-width: 100%;
+    }
+
+    .swiper-slide.image .content {
+        width: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+.post-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+
+.post-list li {
+    position: relative;
+    padding-left: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-bottom: 10px;
+}
+
+    .post-list li a {
+        color: #0000CC;
+    }
+
+
+    .post-list li:hover {
+        background-color: #e0e0e0;
+    }
+
+    .post-list li::before {
+        content: '\27a2'; 
+        position: absolute;
+        left: 0;
+        color: #333;
+        font-weight: bold;
+    }
+/*.ttct span {
+    display: inline-block;
+    max-width: 500px; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}*/
+/*.ct h3 {
+    display: inline-block;
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}*/
+.list-option-menu {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between
+}
+.chi-tiet-tintuc {
+    width: calc(30% - 2px);
+    margin: 5px
+}
+/* Style cho thẻ div chứa video */
+.video-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio (chiều rộng:chiều cao) */
+    overflow: hidden;
+}
+
+    /* Style cho thẻ iframe chứa video */
+    .video-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }

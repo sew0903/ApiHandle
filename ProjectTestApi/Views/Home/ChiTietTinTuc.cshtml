@@ -1,0 +1,349 @@
+﻿@using System.Net;
+@using Newtonsoft.Json;
+@using ProjectTestApi.Models.Const;
+@model List<WebAllModel>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    string apiBreadCrumb = MyConstanst.SiteName + "web.breadcrumb.asp?id=" + Model[0].id;
+    string apiContent = MyConstanst.SiteName+"module."+Model[0].module+".asp?id1="+Model[0].url;
+    string contentApi = await (new WebClient()).DownloadStringTaskAsync(apiBreadCrumb);
+    if (!string.IsNullOrEmpty(contentApi))
+    {
+        List<BreadCrumbModel> breadCrumbResult = JsonConvert
+        .DeserializeObject<List<BreadCrumbModel>>(contentApi);
+
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                @foreach (var breadcrumb in breadCrumbResult)
+                {
+                    if (!string.IsNullOrEmpty(breadcrumb.url) || !string.IsNullOrEmpty(breadcrumb.tieude))
+                    {
+                        <li class="breadcrumb-item"><a href="/@breadcrumb.url">@breadcrumb.tieude</a></li>
+                    }
+                }
+            </ol>
+        </nav>
+    }
+    contentApi = await (new WebClient()).DownloadStringTaskAsync(apiContent);
+
+    <div class="id37734 md-tintuc chitiet ">
+        <div class="container">
+            @if (!string.IsNullOrEmpty(contentApi))
+            {
+                List<ApiNewDetailModel> content = JsonConvert
+                .DeserializeObject<List<ApiNewDetailModel>>(contentApi);
+                <div class="tintuc">
+                    <div class="wrap">
+                        <h1 class="tieude">@content[0].tieude</h1>
+                        <div class="row thoigian">
+                            <span class="ngaydang">@content[0].ngaydang</span><span class="luotxem">@content[0].luotxem</span>
+                        </div>
+                        <div class="row ndct">
+                            @if(content[0].noidungtomtat != null)
+                            {
+                                @Html.Raw(content[0].noidungtomtat)
+                            }
+                            @if(content[0].noidungchitiet != null)
+                            {
+                                @Html.Raw(content[0].noidungchitiet)
+                            }
+                            @if(!string.IsNullOrEmpty(content[0].videocode))
+                            {
+                                string srcVideo = "https://www.youtube.com/embed/" + ApiNewDetailModel.GetVideoId(content[0].videocode);
+                                <div class="video-container">
+                                    <iframe width="560"
+                                            height="315"
+                                            src="@srcVideo"
+                                            frameborder="0"
+                                            allowfullscreen></iframe>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                apiContent = MyConstanst.SiteName + "binhluan.asp?id=" + Model[0].id + "&pageid=1";
+                contentApi = await (new WebClient()).DownloadStringTaskAsync(apiContent);
+                if (!string.IsNullOrEmpty(contentApi))
+                {
+                    <div class="formbinhluan">
+                        @if(content[0].chophepbinhluan == true)
+                        {
+                            <form>
+                                <h3 class="tieude"> </h3>
+                                <div class="form-group">
+                                    <textarea id="input-comment" onclick="ShowGroupBl()"
+                                              class="form-bl form-control" name="noidungtxt"
+                                              placeholder="Nhập bình luận"></textarea>
+                                </div>
+                                <div id="group-bl" class="group-bl" style="display:none">
+                                    <div class="form-group">
+                                        <input id="input-nameComment" type="text"
+                                               class="form-control input-hoten" name="tenkh" placeholder="Họ tên"
+                                               value="">
+                                    </div>
+                                    <div class="form-group">
+                                        <input id="input-numberPhoneComment" type="text"
+                                               class="form-control input-sdth" name="txtdienthoai"
+                                               placeholder="Số điện thoại" value="">
+                                    </div>
+                                    <div class="form-group">
+                                        <input id="input-emailComment" type="email"
+                                               class="form-control input-email" name="txtemail" placeholder="Email"
+                                               value="">
+                                    </div>
+                                    <div class="btn-bl">
+                                        <button onclick="PostComment()"
+                                                type="button">
+                                            Gửi
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        }
+                        @if(content[0].hienthibinhluan == true)
+                        {
+                            <div id="dsbl" class="dsbl">
+                                @{
+                                    apiContent = "http://thegioitainang.com/ww2/binhluan.asp?id=" + Model[0].id;
+                                    contentApi = await (new WebClient()).DownloadStringTaskAsync(apiContent);
+                                    if (!string.IsNullOrEmpty(contentApi))
+                                    {
+                                        List<ApiCommentModel> modelsComment = JsonConvert
+                                        .DeserializeObject<List<ApiCommentModel>>(contentApi);
+                                        if (modelsComment.Count != 0 && modelsComment[0].data.Count != 0)
+                                        {
+                                            foreach (var cmt in modelsComment[0].data.OrderBy(date =>
+                                            date.ngaydang).ToList())
+                                            {
+                                                <div class="binhluan">
+                                                    <div class="hinhdaidien"><img src="http://media.tuyennhansu.vn/mediaroot/images/user.jpg"></div>
+                                                    <div class="comment-right-part">
+                                                        <div class="nguoidung"></div>
+                                                        <div class="ngaydang">@cmt.ngaydang</div>
+                                                        <div class="ndbl">@cmt.noidungbinhluan</div>
+                                                        <div class="cmt-comment">
+                                                            <div class="traloi">Trả lời</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
+                                    }
+                                }
+                            </div>
+                        }
+                    </div>
+                }
+            }
+            @{
+               
+            }   
+            @{
+
+                apiContent = @MyConstanst.SiteName + "module.Tintuc.chitiet.tinlienquan.asp?id=37734";
+                contentApi = await (new WebClient()).DownloadStringTaskAsync(apiContent);
+                <div class="tinlienquan">
+                @{
+                        if (!string.IsNullOrEmpty(contentApi))
+                        {
+                            List<ApiRelatedNewsModel> content = JsonConvert
+                            .DeserializeObject<List<ApiRelatedNewsModel>>(contentApi);
+
+                            foreach (var type in content)
+                            {
+                                switch (type.tieude)
+                                {
+                                    case "TIN CŨ HƠN":
+                                        <div class="tlq-0">
+                                            <div class="ctcv_title">
+                                                <h3><a href="/@type.url">@type.tieude</a></h3><span><a href="/"></a></span>
+                                            </div>
+                                            <div class="swiper swiper-initialized swiper-horizontal mySwiper swiper-backface-hidden">
+                                                <div class="swiper-container">
+                                                    <div class="swiper-wrapper">
+                                                        @if (type.baiviet.Count != null)
+                                                        {
+                                                            @foreach (var item in type.baiviet)
+                                                            {
+                                                                <div class="swiper-slide">
+                                                                    <div>
+                                                                        <div class="tintuclienquan">
+                                                                            <h6><a href="/@item.url">@item.tieude</a></h6>
+                                                                            <div class="tlq_ngaydang">@item.ngaydang</div>
+                                                                            <div class="tlq_ndtt">
+                                                                                @Html.Raw(item.noidungtomtat)
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            }
+                                                        }
+                                                    </div>
+                                                    <div class="swiper-button-next"></div>
+                                                    <div class="swiper-button-prev"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        break;
+                                    case "TIN LIÊN QUAN":
+                                        <div class="tlq-1">
+                                            <div class="ctcv_title">
+                                                <h3><a href="/@type.url">@type.tieude</a></h3><span><a href="/"></a></span>
+                                            </div>
+                                            <div class="swiper swiper-initialized swiper-horizontal mySwiper swiper-backface-hidden">
+                                                <div class="swiper-container">
+                                                    <div class="swiper-wrapper">
+                                                        @if (type.baiviet.Count != null)
+                                                        {
+                                                            @foreach (var item in type.baiviet)
+                                                            {
+                                                                <div class="swiper-slide">
+                                                                    <div>
+                                                                        <div class="tintuclienquan">
+                                                                            <h6><a href="/@item.url">@item.tieude</a></h6>
+                                                                            <div class="tlq_ngaydang">@item.ngaydang</div>
+                                                                            <div class="tlq_ndtt">
+                                                                                @Html.Raw(item.noidungtomtat)
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            }
+                                                        }
+                                                    </div>
+                                                    <div class="swiper-button-next"></div>
+                                                    <div class="swiper-button-prev"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        break;
+                                }
+                            }
+                        }
+                }
+                </div>
+            }
+        </div>
+    </div>
+}
+<script>
+    function GetComment() {
+        let str = '';
+        let id = @Model[0].id;
+        $.ajax({
+            type: 'GET',
+            dataType: 'json',
+            url: `http://thegioitainang.com/ww2/binhluan.asp?id=` + id,
+            success: (response) => {
+                for (var i = response[0].data.length - 1; i >= 0; i--) {
+                    str += '<div class="binhluan"><div class="hinhdaidien"><img src="http://media.tuyennhansu.vn/mediaroot/images/user.jpg"></div><div class="comment-right-part"><div class="nguoidung">'
+                        + response[0].data[i].nguoidung
+                        + '</div><div class="ngaydang">'
+                        + response[0].data[i].ngaydang
+                        + '</div><div class="ndbl">'
+                        + response[0].data[i].noidungbinhluan
+                        + '</div><div class="cmt-comment"><div class="traloi">Trả lời</div></div></div></div>'
+                }
+                document.getElementById('dsbl').innerHTML = "";
+                document.getElementById('dsbl').innerHTML = str;
+            },
+            error: (id) => { }
+        })
+    }
+
+    function GetValueComment() {
+        let comment = document.getElementById("input-comment");
+        let name = document.getElementById("input-nameComment");
+        let numberphone = document.getElementById("input-numberPhoneComment");
+        let email = document.getElementById("input-emailComment");
+    }
+
+    function PostComment() {
+        let comment = document.getElementById("input-comment");
+        let name = document.getElementById("input-nameComment");
+        let numberphone = document.getElementById("input-numberPhoneComment");
+        let email = document.getElementById("input-emailComment");
+
+        let urlApi = `@MyConstanst.SiteName1`+"save.binhluan.asp?id=" + `@Model[0].id`
+            + "&noidungtxt=" + comment.value
+            + "&userid="
+            + "&pass="
+            + "&idquanly=0"
+            + "&txtemail=" + email.value
+            + "&tenkh=" + name.value
+            + "&txtdienthoai=" + numberphone.value;
+        if (IsFillValueInput("input-comment"
+            , "input-nameComment"
+            , "input-numberPhoneComment"
+            , "input-emailComment")) {
+            $.ajax({
+                type: 'POST',
+                url: urlApi,
+                // data:dataToSend,
+                success: (response) => {
+                    GetComment();
+                    Swal.fire({
+                        title: 'Thông báo!',
+                        text: 'Gửi bình luận thành công.',
+                        icon: 'success',
+                        confirmButtonText: 'Đóng'
+                    });
+                    ClearValueInputComment();
+                },
+                error: (e) => {
+                    Swal.fire({
+                        title: 'Thông báo!',
+                        text: 'Không thể gửi bình luận!',
+                        icon: 'error',
+                        confirmButtonText: 'Đóng'
+                    });
+                    ClearValueInputComment();
+                }
+            })
+        } else {
+            Swal.fire({
+                title: 'Thông báo!',
+                text: 'Vui lòng điền đầy đủ thông tin',
+                icon: 'warning',
+                confirmButtonText: 'Đóng'
+            });
+        }
+    }
+
+    function ClearValueInputComment() {
+        let comment = document.getElementById("input-comment");
+        let name = document.getElementById("input-nameComment");
+        let numberphone = document.getElementById("input-numberPhoneComment");
+        let email = document.getElementById("input-emailComment");
+
+        comment.value = "";
+        name.value = "";
+        numberphone.value = "";
+        email.value = "";
+    }
+
+    function IsFillValueInput(idInput, nameInput, numberPhoneInput, emailInput) {
+        let inputIdElement = document.getElementById(idInput);
+        let inputNameElement = document.getElementById(nameInput);
+        let inputNumberPhoneElement = document.getElementById(numberPhoneInput);
+        let inputEmailElement = document.getElementById(emailInput);
+
+        let inputIdValue = inputIdElement.value;
+        let inputNameValue = inputNameElement.value;
+        let inputNumberPhoneValue = inputNumberPhoneElement.value;
+        let inputEmailValue = inputEmailElement.value;
+
+        if (inputIdValue.trim() === ""
+            || inputNameValue.trim() === ""
+            || inputNumberPhoneValue.trim() === ""
+            || inputEmailValue.trim() === "") {
+            return false;
+        } else {
+            return true;
+        }
+    }
+</script>

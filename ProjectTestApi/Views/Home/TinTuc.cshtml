@@ -1,0 +1,90 @@
+﻿@using System.Net;
+@using Newtonsoft.Json;
+@using ProjectTestApi.Models.Const;
+@model List<WebAllModel>
+@{
+    ViewData["Title"] = "TinTuc";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    string idDivMain = "id" + Model[0].id;
+}
+<div id="@idDivMain">
+    @{
+        string apiBreadCrumb = MyConstanst.SiteName + "web.breadcrumb.asp?id=" + Model[0].id;
+        string contentApi = await (new WebClient()).DownloadStringTaskAsync(apiBreadCrumb);
+        if (!string.IsNullOrEmpty(contentApi))
+        {
+            List<BreadCrumbModel> breadCrumbResult = JsonConvert
+            .DeserializeObject<List<BreadCrumbModel>>(contentApi);
+
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    @foreach (var breadcrumb in breadCrumbResult)
+                    {
+                        if (!string.IsNullOrEmpty(breadcrumb.url) || !string.IsNullOrEmpty(breadcrumb.tieude))
+                        {
+                            <li class="breadcrumb-item"><a href="/@breadcrumb.url">@breadcrumb.tieude</a></li>
+                        }
+                    }
+                </ol>
+            </nav>
+        }
+    }
+    <div class="container"></div>
+    @{
+        string className = "id" + Model[0].id + " " + "md" + Model[0].tenham.ToLower();
+        string api = MyConstanst.SiteName + "module."
+        + Model[0].module
+        + ".asp?id=" + Model[0].id
+        + "+&pageid=1";
+
+        contentApi = await (new WebClient()).DownloadStringTaskAsync(api);
+
+        <div class="id35001 md-tintuc ">
+            <div class="container">
+                <div class="th-tintuc">
+                    <div class="container">
+                        <h2><a href="/tin-tuc">Tin tức nhân sự</a></h2>
+                        <div class="row">
+                            @{
+                                if (!string.IsNullOrEmpty(contentApi))
+                                {
+                                    List<ApiModel> result = JsonConvert.DeserializeObject<List<ApiModel>>(contentApi);
+                                    foreach(var item in result[0].data)
+                                    {
+                                        <div class="tintuc">
+                                            <div class="wrap-ndct">
+                                                <div class="ct">
+                                                    @if (!string.IsNullOrEmpty(item.ngaydang))
+                                                    {
+                                                        <div class="ngdang">@item.ngaydang</div>
+                                                    }
+                                                    @if (!string.IsNullOrEmpty(item.tieude))
+                                                    {
+                                                        <h3>
+                                                            <a href="@Url.Action("ChiTietTinTuc","Home",new{keyword = item.url})">
+                                                                @item.tieude
+                                                            </a>
+                                                        </h3>
+                                                    }
+                                                    @if (!string.IsNullOrEmpty(item.noidungtomtat))
+                                                    {
+                                                        <div class="ttct">
+                                                            @Html.Raw(@item.noidungtomtat)
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+

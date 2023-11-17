@@ -1,0 +1,144 @@
+﻿@using Newtonsoft.Json;
+@using ProjectTestApi.Models.Const;
+@using System.Text;
+@using System.Net;
+@model List<WebAllModel> 
+@{
+    ViewData["Title"] = "TuyenThucTapSinh";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    string idDivMain = "id" + Model[0].id;
+}
+<div id="@idDivMain">
+    @{
+        string apiBreadCrumb = MyConstanst.SiteName+"web.breadcrumb.asp?id="+Model[0].id;
+        string contentApi = await (new WebClient()).DownloadStringTaskAsync(apiBreadCrumb);
+        if (!string.IsNullOrEmpty(contentApi))
+        {
+            List<BreadCrumbModel> breadCrumbResult = JsonConvert
+            .DeserializeObject<List<BreadCrumbModel>>(contentApi);
+
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    @foreach(var breadcrumb in breadCrumbResult)
+                    {
+                        if(!string.IsNullOrEmpty(breadcrumb.url) || !string.IsNullOrEmpty(breadcrumb.tieude))
+                        {
+                            <li class="breadcrumb-item"><a href="/@breadcrumb.url">@breadcrumb.tieude</a></li>
+                        }
+                    }
+                </ol>
+            </nav>
+        }
+    }
+    <div class="container">
+        @using (Html.BeginForm("TimCongViec", "Home"))
+        {
+            <div class="boloc-danhmuc">
+                <input name="id2" type="text" class="form-control tukhoatimkiem" value="">
+                <div class="boloc32004 select-boloc">
+                    <div class="select-32004  ">
+                        <div class="input-size css-b62m3t-container">
+                            <span id="react-select-2-live-region"
+                                  class="css-7pg0cj-a11yText"></span><span aria-live="polite" aria-atomic="false"
+                                                                           aria-relevant="additions text" class="css-7pg0cj-a11yText"></span>
+                            <select class="form-select" aria-label="Default select example">
+                                <option selected>Open this select menu</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="boloc32003 select-boloc">
+                    <div class="item item-city item-city2">
+                        <input name="id" type="text" class="input-timcongviec"
+                               placeholder="Tỉnh thành" value=""><span class="clear-tinhthanh ">×</span>
+                    </div>
+                </div>
+                <button type="submit" class="btn-tk"></button>
+            </div>
+        }
+    </div>
+    @{
+        string api = MyConstanst.SiteName+"module."
+        +Model[0].module
+        +".asp?id="+Model[0].id
+        +"+&pageid=1";
+
+        contentApi = await (new WebClient()).DownloadStringTaskAsync(api);
+
+        if (!string.IsNullOrEmpty(contentApi)){
+            List<ApiModel> result = JsonConvert.DeserializeObject<List<ApiModel>>(contentApi);
+            <div class="id35004 md-tuyendung ">
+                <div class="container">
+                    <div class="th-tuyendung">
+                        <div class="container">
+                            <h2><a href="/tuyen-thuc-tap-sinh">Cổng thông tin thực tập</a></h2>
+                            <div class="row">
+                                @foreach (var item in result[0].data)
+                                {
+                                    <div class="tuyendung">
+                                        <div class="wrap-ndct">
+                                            @if(!string.IsNullOrEmpty(item.loaitin) || !string.IsNullOrEmpty(item.id)){
+                                                <div class="@item.loaitin @item.id">
+                                                    <div class="ct">
+                                                        @if (!string.IsNullOrEmpty(item.tieude))
+                                                        {
+                                                            <h3>
+                                                                <a href="/@item.url">
+                                                                  @item.tieude
+                                                                </a>
+                                                            </h3>
+                                                        }
+                                                        @if (string.IsNullOrEmpty(item.tenND))
+                                                        {
+                                                            <span class="tenND">@item.tenND</span>
+                                                        }
+                                                        @if (string.IsNullOrEmpty(item.diachiND))
+                                                        {
+                                                            <span class="diachiND">@item.diachiND</span>
+                                                        }
+                                                        @if(item.nganhhoc != null){
+                                                            <span class="nganhhoc">
+                                                                @foreach(var nh in item.nganhhoc)
+                                                                {
+                                                                    <a href="/@nh.url">@nh.tengoi</a>
+                                                                }
+                                                            </span>
+                                                        }
+                                                        @if(item.ngoaingu != null)
+                                                        {
+                                                            <span class="ngoaingu">
+                                                                @foreach(var nn in item.ngoaingu)
+                                                                {
+                                                                    <a href="/@nn.url">@nn.tengoi</a>
+                                                                }
+                                                            </span>
+                                                        }
+                                                        <div class="group-wishlist">
+                                                            <div class="wish_list "></div>
+                                                            <div class="add_to_cart da-ung-tuyen"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                                <div class="xemthem">
+                                    <span>
+                                        <div to="/undefined"></div>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+

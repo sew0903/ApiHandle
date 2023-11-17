@@ -1,0 +1,75 @@
+﻿@model List<WebAllModel>
+@{
+    ViewData["Title"] = "TimCongViec";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    string className = "id" + Model[0].id + " md-" + Model[0].tieude.ToLower();
+}
+<div class="@className">
+    <div class="container">
+        <div class="th-tuyendung">
+            <div class="container">
+                <h2><a href="/tuyen-thuc-tap-sinh">@Model[0].tieude</a></h2>
+                <div class="row">
+                    @{
+                        foreach (var item in ViewBag.ResultSearch[0].data)
+                        {
+                            <div class="tuyendung">
+                                <div class="wrap-ndct">
+                                @if(!string.IsNullOrEmpty(item.loaitin) || !string.IsNullOrEmpty(item.id)){
+                                        <div class="@item.loaitin  @item.id">
+                                            <div class="ct">
+                                                @if(!string.IsNullOrEmpty(item.url) || !string.IsNullOrEmpty(item.tieude)){
+                                                    <h3>
+                                                        <a href="/@item.url">
+                                                            @item.tieude
+                                                        </a>
+                                                    </h3>
+                                                }
+                                                @if (!string.IsNullOrEmpty(item.tenND))
+                                                {
+                                                    <span class="tenND">@item.tenND</span>
+                                                }
+                                                @if (!string.IsNullOrEmpty(item.diachiND))
+                                                {
+                                                    <span class="diachiND">@item.diachiND</span>
+                                                }
+                                                @if(item.nganhhoc != null){
+                                                    <span class="nganhhoc">
+                                                        @foreach(var nh in item.nganhhoc)
+                                                        {
+                                                            <a href="/@nh.url">@nh.tengoi</a>
+                                                        }    
+                                                    </span>
+                                                }
+                                                @if(item.ngoaingu != null)
+                                                {
+                                                    <span class="ngoaingu">
+                                                        @foreach(var nn in item.ngoaingu)
+                                                        {
+                                                            <a href="/@nn.url">@nn.tengoi</a>
+                                                        }                                                                                
+                                                    </span>
+                                                }
+                                                <div class="group-wishlist">
+                                                    <div class="wish_list "></div>
+                                                    <div class="add_to_cart da-ung-tuyen"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                }
+                                </div>
+                            </div>
+                        }
+                    }
+                    <div class="xemthem">
+                        <span>
+                            <div to="/undefined"></div>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
